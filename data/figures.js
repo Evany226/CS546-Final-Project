@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { checkString } from "../helpers.js";
-import { teams } from "../config/mongoCollections.js";
+import { collections } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 
 /**
@@ -8,6 +8,9 @@ import { getCollectionById } from "./collections.js";
  */
 
 const createFigure = async (figureName, figureImageUrl) =>{
+    figureName = checkString(figureName);
+    figureImageUrl = checkString(figureImageUrl);
+
 
 
 };
