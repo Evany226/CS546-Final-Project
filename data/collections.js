@@ -10,7 +10,8 @@ import { checkId, checkString } from "../helper.js";
 
 /** 
  * Create Figure Collection
- * inputs are name, image url, and figure list
+ * inputs are name and image url
+ * figures are added after
  */
 const createCollection = async (
     collectionName,
@@ -23,7 +24,7 @@ const createCollection = async (
     let newCollection = {
         collectionName: collectionName,
         collectionImageUrl: collectionImageUrl,
-        figureList: []
+        figures: []
     };
 
     const figureCollections = await collections();
@@ -116,19 +117,18 @@ const updateCollection = async(collectionId, updateObject) =>{
 
 const removeCollection = async(collectionId) =>{
     collectionId = checkString(collectionId);
-	id = id.trim();
     checkId(collectionId);
 
 	const figureCollections = await collections();
 	const deletionInfo = await figureCollections.findOneAndDelete({
-		_id: ObjectId.createFromHexString(id)
+		_id: ObjectId.createFromHexString(collectionId)
 	})
 
 	if (!deletionInfo) {
-		throw `Could not delete collection with id of ${id}`;
+		throw `Could not delete collection with id of ${collectionId}`;
 	}
 
-	return {_id: id, deleted: true};
+	return {_id: collectionId, deleted: true};
 };
 
 export {createCollection, getAllCollections, getCollectionById, updateCollection, removeCollection};

@@ -31,7 +31,7 @@ const createFigureList = async (collectionId, figureList) =>{
     const updateInfo = await figureCol.findOneAndUpdate(
         {_id: ObjectId.createFromHexString(collectionId)},
         {
-            $set: {figureList: figureList}
+            $set: {figures: figureList}
         },
         {returnDocument: 'after'}
     );
@@ -66,7 +66,7 @@ const addFigure = async (collectionId, figureObj) =>{
     const updateInfo = await figureCol.findOneAndUpdate(
         {_id: ObjectId.createFromHexString(collectionId)},
         {
-            $set: {figureList: figureList}
+            $push: {figures: figureObj}
         },
         {returnDocument: 'after'}
     );
@@ -80,7 +80,22 @@ const addFigure = async (collectionId, figureObj) =>{
 };
 
 const getAllFigures = async (collectionId) =>{
+    collectionId = checkString(collectionId);
+	checkId(collectionId);
 
+	const figColl = await collections();
+
+	let coll = await figColl
+		.findOne(
+			{ 'figureList._id': ObjectId.createFromHexString(gameId) },
+			{ projection: { _id: 0, 'games.$': 1 } }
+		);
+
+	if (!game) {
+		throw new Error("Game does not exist");
+	}
+
+	return game.games[0];
 };
 
 const getFigureById = async(figureId) =>{
