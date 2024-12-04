@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { checkId, checkString } from "../helper.js";
 import { collections } from "../config/mongoCollections.js";
-import { getCollectionById } from "./collections.js";
+import { getCollectionById, updateCollection } from "./collections.js";
 
 /**
  * This is the Subdocument of collections
@@ -45,16 +45,14 @@ const createFigureList = async (collectionId, figureList) =>{
 };
 
 const addFigure = async (collectionId, figureObj) =>{
-    if(!Array.isArray(figureList)){
-        throw new Error("figureList is not an array");
-    }
+   
     collectionId = checkString(collectionId);
     checkId(collectionId);
 
     if(typeof figureObj !== "object"){
         throw new Error("figureList contains an element that is not an object");
     }
-    if(Object.keys().length < 2){
+    if(Object.keys(figureObj).length < 2){
         throw new Error("One of the figures is missing data")
     }
     
@@ -83,27 +81,69 @@ const getAllFigures = async (collectionId) =>{
     collectionId = checkString(collectionId);
 	checkId(collectionId);
 
-	const figColl = await collections();
+	const figCollection = await getCollectionById(collectionId);
 
-	let coll = await figColl
-		.findOne(
-			{ 'figureList._id': ObjectId.createFromHexString(gameId) },
-			{ projection: { _id: 0, 'games.$': 1 } }
-		);
-
-	if (!game) {
-		throw new Error("Game does not exist");
+	if (!figCollection) {
+		throw new Error("Team does not exist");
 	}
 
-	return game.games[0];
+	return figCollection.figures;
 };
 
 const getFigureById = async(figureId) =>{
+    figureId = checkString(figureId);
+    checkId(figureId);
 
+    const figCollection = await collections();
+
+    const col = await figCollection.findOne(
+        {'figures._id': ObjectId.createFromHexString(figureId)},
+        { projection: { _id: 0, 'figures.$': 1 }}
+    );
+
+    if(col === null) throw 'Figure does not exist';
+
+    return col.figures[0];
 };
 
 const updateFigure = async (figureId, updateObject) =>{
+    figureId = checkString(figureId);
+    checkId(figureId);
 
+    if (updateObject == undefined) {
+		throw new Error("updateObject is undefined");
+	}
+
+	if (typeof updateObject !== "object") {
+		throw new Error("updateObject is not an object");
+	}
+    
+    let originFig = await getFigureById(figureId);
+
+    if(updateObject.figureName){
+        updateObject.figureName = checkString(updateObject.figureName);
+        originFig.figureName = updateObject.figureName;
+    }
+
+    if(updateObject.figureImageUrl){
+        updateObject.figureImageUrl = checkString(updateObject.figureImageUrl);
+        originFig.figureImageUrl = updateObject.figureImageUrl;
+    }
+
+    
+
+    const figureCollection = await collections();
+    let coll = await figureCollection.findOneAndUpdate(
+        {'figures._id': ObjectId.createFromHexString(figureId)},
+        {$set: {"figures.$": originFig}},
+        {returnDocument: 'after'}
+    );
+
+    if(!coll){
+        throw new Error("could not update collection successfully");
+    }
+
+    return coll;
 };
 
 const removeFigure = async (figureId) =>{
