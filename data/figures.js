@@ -140,13 +140,28 @@ const updateFigure = async (figureId, updateObject) =>{
     );
 
     if(!coll){
-        throw new Error("could not update collection successfully");
+        throw new Error("could not update figure successfully");
     }
 
     return coll;
 };
 
 const removeFigure = async (figureId) =>{
+    figureId = checkString(figureId);
+    checkId(figureId);
+
+    const figureCollection = await collections();
+    let updateInfo = await figureCollection.findOneAndUpdate(
+        {'figures._id': ObjectId.createFromHexString(figureId)},
+        {$pull: {figures: {_id: ObjectId.createFromHexString(figureId)}}},
+        {returnDocument: 'after'}
+    );
+
+    if(!updateInfo){
+        throw new Error("could remove figure successfully");
+    }
+
+    return updateInfo;
 
 };
 
