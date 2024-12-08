@@ -11,7 +11,7 @@ export function checkString(str, varName) {
     throw new Error(`${varName} cannot be an empty string or just spaces`);
   }
 
-  if (!isNaN(strVal)) {
+  if (!isNaN(str)) {
     throw new Error(`${varName} cannot be a number`);
   }
 
@@ -36,6 +36,11 @@ export function checkId(id) {
   return id;
 }
 
+export function parameterExists(param, varName) {
+  if (param == undefined) {
+    throw new Error(`${varName} is required`);
+  }
+}
 export function checkUsername(username) {
   checkString(username, "username");
 
@@ -65,7 +70,7 @@ export function checkPassword(password) {
 export function checkDescription(description) {
   checkString(description, "Description");
 
-  if (descr.length < 20 || description.length > 255) {
+  if (description.length < 20 || description.length > 255) {
     throw `Error: Description must be between 20 and 255 characters long`;
   }
 }
