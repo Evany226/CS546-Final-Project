@@ -1,8 +1,8 @@
 <main class="auth-container">
-  <form id="signup-form">
+  <form id="signup-form" method="POST" action="/sign-up">
     <h1>Create an Account</h1>
     <div class="input-wrapper">
-      <label for="email">Email</label>
+      <label for="email" class="auth-label">Email</label>
       <input
         type="email"
         id="email"
@@ -12,7 +12,7 @@
       />
     </div>
     <div class="input-wrapper">
-      <label for="username">Username</label>
+      <label for="username" class="auth-label">Username</label>
       <input
         type="text"
         id="username"
@@ -22,7 +22,7 @@
       />
     </div>
     <div class="input-wrapper">
-      <label for="password">Password</label>
+      <label for="password" class="auth-label">Password</label>
       <input
         type="password"
         id="password"
@@ -32,7 +32,7 @@
       />
     </div>
     <div class="input-wrapper">
-      <label for="confirmPassword">Re-enter Password</label>
+      <label for="confirmPassword" class="auth-label">Re-enter Password</label>
       <input
         type="password"
         name="confirmPassword"
@@ -42,7 +42,7 @@
       />
     </div>
     <div class="input-wrapper">
-      <label for="description">Profile Description</label>
+      <label for="description" class="auth-label">Profile Description</label>
       <input
         type="text"
         name="description"
@@ -50,6 +50,26 @@
         class="auth-input"
         placeholder="Enter profile description..."
       />
+    </div>
+    <div id="location-wrapper">
+      <div class="city-wrapper">
+        <label for="city" class="auth-label">City</label>
+        <input
+          type="text"
+          name="city"
+          id="city"
+          class="auth-input"
+          placeholder="Enter city..."
+        />
+      </div>
+      <div class="state-wrapper">
+        <label for="state" class="auth-label">State</label>
+        <select name="state" id="state">
+          {{#each states}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
     </div>
     <button type="submit" class="auth-button">
       <p class="auth-button-text">Sign up</p>

@@ -9,8 +9,8 @@ body {
 }
 
 .auth-container {
-  height: 100vh;
-  width: 100vw;
+  width: 100%;
+  margin-top: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,24 +19,48 @@ body {
 #signup-form {
   display: flex;
   flex-direction: column;
-  background-color
-  padding: 1rem 1rem;
-  min-width: 25rem;
+  padding: 2rem 2rem;
+  min-width: 30rem;
+  border: 1px solid black;
 }
 
 #signin-form {
   display: flex;
   flex-direction: column;
-  background-color
-  padding: 1rem 1rem;
-  min-width: 25rem;
+  padding: 2rem 2rem;
+  min-width: 30rem;
+  border: 1px solid black;
 }
-
 
 .input-wrapper {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+}
+
+#location-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.city-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.state-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+#state {
+  padding: 0.5rem 0.3rem;
+  border-radius: 0.25rem;
+  margin-top: 0.25rem;
+  border: 1px solid black;
 }
 
 .auth-button {
@@ -52,7 +76,7 @@ body {
 .auth-button-text {
   font-size: 1rem;
   color: white;
-  font-weight: semi-bold;
+  font-weight: 500;
 }
 
 .auth-input {
@@ -60,5 +84,9 @@ body {
   border-radius: 0.25rem;
   margin-top: 0.25rem;
   border: 1px solid black;
+}
 
+.auth-label {
+  font-weight: 500;
+  font-size: 1rem;
 }
