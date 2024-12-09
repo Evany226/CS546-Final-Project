@@ -41,6 +41,19 @@ export function parameterExists(param, varName) {
     throw new Error(`${varName} is required`);
   }
 }
+
+export function checkEmail(email) {
+  checkString(email, "Email");
+
+  if (!email.includes("@")) {
+    throw new Error("Email must be a valid email address");
+  }
+
+  if (email.length < 5 || email.length > 50) {
+    throw new Error("Email must be between 3 and 64 characters");
+  }
+}
+
 export function checkUsername(username) {
   checkString(username, "username");
 
@@ -63,7 +76,9 @@ export function checkPassword(password) {
   );
 
   if (!hasDigit || !hasUpper || !hasSpecialChar) {
-    throw `Error: password must contain at least one digit, one uppercase letter, and one special character`;
+    throw new Error(
+      "Password must contain at least one digit, one uppercase letter, and one special character"
+    );
   }
 }
 
@@ -71,7 +86,7 @@ export function checkDescription(description) {
   checkString(description, "Description");
 
   if (description.length < 20 || description.length > 255) {
-    throw `Error: Description must be between 20 and 255 characters long`;
+    throw new Error("Description must be between 20 and 255 characters");
   }
 }
 
@@ -79,7 +94,7 @@ export function checkCity(city) {
   checkString(city, "City");
 
   if (city.length < 2 || city.length > 50) {
-    throw `Error: City must be between 2 and 25 characters long`;
+    throw new Error("City must be between 2 and 50 characters");
   }
 }
 
