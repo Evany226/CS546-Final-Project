@@ -10,10 +10,14 @@ const constructorMethod = (app) => {
 
   app.use("/profile", profileRoute);
 
-  app.use("/messages", convRoute);
+  app.use("/conversations", convRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);
+  });
+
+  app.use("/notFound", (req, res) => {
+    return res.status(404).json({ error: "Not found" });
   });
 };
 

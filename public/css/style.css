@@ -136,10 +136,11 @@
 }
 
 .user-panel-header {
-  padding: 0.75rem 1rem;
   border-bottom: solid 1px black;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 0.75rem 1rem;
 }
 
 .user-panel-header-text {
@@ -158,6 +159,46 @@
   width: 100%;
 }
 
+.create-conv-wrapper {
+  padding: 1.1rem;
+  padding-bottom: 0;
+}
+
+.create-conv-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-alert {
+  color: red;
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.create-conv-input {
+  width: 100%;
+  outline: none;
+  border: 1px solid black;
+  padding: 0.5rem;
+}
+
+.create-conv-btn {
+  border: solid 1px black;
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.user-panel-list {
+  margin-top: 1rem;
+}
+
 .user-panel-list-item {
   text-decoration: none;
   list-style: none;
@@ -167,8 +208,15 @@
 }
 
 .user-panel-list-item:hover {
-  background-color: lightskyblue;
+  background-color: #e2e8f0;
   cursor: pointer;
+}
+
+.user-panel-link {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
 }
 
 .user-pfp {
@@ -202,8 +250,10 @@
 }
 
 .chat-panel-header {
-  padding: 0.75rem 1rem;
   border-bottom: solid 1px black;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
 }
 
 .chat-panel-header-text {
@@ -216,18 +266,60 @@
   height: 100%;
 }
 
-.chat-message {
+.chat-pfp {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+
+.chat-pfp-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.chat-message-l {
   text-decoration: none;
   list-style: none;
-  background-color: lightgreen;
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
+  margin-top: 0.25rem;
+}
+
+.chat-message-r {
+  text-decoration: none;
+  list-style: none;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  margin-top: 0.25rem;
+}
+
+.chat-message-content-l,
+.chat-message-content-r {
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  padding: 6px 15px;
+  background-color: #e5e7eb;
+  position: relative;
+  margin-left: 1rem;
+}
+
+.chat-message-content-r {
+  background-color: lightskyblue;
 }
 
 .chat-message-text {
   font-size: 1rem;
-  margin-left: 1rem;
+}
+
+.chat-message-time {
+  font-size: 0.75rem;
+  color: gray;
 }
 
 .chat-form {

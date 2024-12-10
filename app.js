@@ -3,10 +3,6 @@ const app = express();
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
-import {
-  createConversation,
-  getAllConversations,
-} from "./data/conversation.js";
 
 const staticDir = express.static("public");
 
@@ -20,20 +16,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 30000,
+      maxAge: 30 * 60 * 1000,
     },
   })
 );
-
-const testFunc = async () => {
-  console.log("Test function called");
-
-  const allConv = await getAllConversations("6755f6a721ca4bceed279a0c");
-
-  console.log(allConv);
-};
-
-testFunc();
 
 const handlebarsInstance = exphbs.create({
   defaultLayout: "main",

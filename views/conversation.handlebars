@@ -1,5 +1,4 @@
 <div class="temp"></div>
-
 <main class="conv-container">
   <section class="user-panel">
     <div class="user-panel-header">
@@ -13,46 +12,95 @@
         /></svg>
     </div>
     <div class="user-panel-body">
+      <div class="create-conv-wrapper">
+        <form class="create-conv-form" method="POST" action="/conversations">
+          <input
+            class="create-conv-input"
+            name="username"
+            type="text"
+            placeholder="Search for a user"
+          />
+          <button class="create-conv-btn" type="submit">Create</button>
+        </form>
+        {{#if error}}
+          <p class="error-alert">{{error}}</p>
+        {{/if}}
+      </div>
       <ul class="user-panel-list">
-        <li class="user-panel-list-item">
-          <div class="user-pfp">
-            <img
-              class="user-pfp-img"
-              src="https://via.placeholder.com/150"
-              alt="User Profile Picture"
-            />
-          </div>
-          <div class="user-info">
-            <h3 class="user-name">John Doe</h3>
-            <p class="user-message">Hey, how are you?</p>
-          </div>
-        </li>
+        {{#each conversations}}
+          <li class="user-panel-list-item">
+            <a class="user-panel-link" href="/conversations/{{this.id}}">
+              <div class="user-pfp">
+              <img
+                class="user-pfp-img"
+                src="https://via.placeholder.com/150"
+                alt="User Profile Picture"
+              />
+            </div>
+            <div class="user-info">
+              <h3 class="user-name">{{this.otherUsername}}</h3>
+              <p class="user-message">Hey, how are you?</p>
+            </div>
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
 
   </section>
   <section class="chat-panel">
-    <div class="chat-panel-header">
-      <h2 class="chat-panel-header-text">John Doe</h2>
-    </div>
-    <ul class="chat-panel-body">
-      <li class="chat-message">
-        <div class="user-pfp">
-          <img
-            class="user-pfp-img"
-            src="https://via.placeholder.com/150"
-            alt="User Profile Picture"
-          />
-        </div>
-        <p class="chat-message-text">Hello how are you doing today.</p>
-      </li>
-    </ul>
-    <form class="chat-form">
-      <div class="chat-input-wrapper">
-        <input class="chat-input" type="text" placeholder="Message John Doe" />
-        <button class="chat-button" type="submit">Send</button>
+    {{#if isIndividual}}
+      <div class="chat-panel-header">
+        <h2 class="chat-panel-header-text">John Doe</h2>
       </div>
+    {{/if}}
+    <ul class="chat-panel-body">
+      {{#if messages}}
+        {{#each messages}}
+          {{#if sentByCurrUser}}
+            <li class="chat-message-r">
+              <div class="chat-message-content-r">
+                  <p class="chat-message-text">{{this.content}}</p>
+              </div>
+            </li>
+          {{else}}
+            <li class="chat-message-l">
+              <div class="chat-pfp">
+                <img
+                  class="chat-pfp-img"
+                  src="https://via.placeholder.com/150"
+                  alt="User Profile Picture"
+                />
+              </div>
+              <div class="chat-message-content-l">
+                  <p class="chat-message-text">{{this.content}}</p>
+              </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      {{else}}
+        <p class="no-messages">No messages yet</p>
+      {{/if}}
+    </ul>
+    <form
+      class="chat-form"
+      method="POST"
+      action="/conversations/{{this.currConvId}}"
+    >
+      {{#if isIndividual}}
+        <div class="chat-input-wrapper">
+          <input
+            class="chat-input"
+            type="text"
+            placeholder="Message John Doe"
+            name="message"
+          />
+          <button class="chat-button" type="submit">Send</button>
+        </div>
+      {{/if}}
 
     </form>
   </section>
 </main>
+
+{{> (lookup . 'partial') }}
