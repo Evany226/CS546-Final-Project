@@ -4,6 +4,9 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 
+const staticDir = express.static("public");
+
+app.use("/public", staticDir);
 app.use(express.json());
 
 app.use(
@@ -13,19 +16,21 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 30000,
+      maxAge: 30 * 60 * 1000,
     },
   })
 );
 
+const handlebarsInstance = exphbs.create({
+  defaultLayout: "main",
+  helpers: {
+    partialsDir: ["views/partials/"],
+  },
+});
+
 app.use(express.urlencoded({ extended: true }));
-app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
-
-const staticDir = express.static("public");
-
-app.use("/public", staticDir);
-
 configRoutes(app);
 
 app.listen(3000, () => {

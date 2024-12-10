@@ -1,6 +1,12 @@
 <main class="auth-container">
   <form id="signup-form" method="POST" action="/sign-up">
     <h1>Create an Account</h1>
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
     <div class="input-wrapper">
       <label for="email" class="auth-label">Email</label>
       <input
@@ -32,11 +38,11 @@
       />
     </div>
     <div class="input-wrapper">
-      <label for="confirmPassword" class="auth-label">Re-enter Password</label>
+      <label for="confirm-password" class="auth-label">Re-enter Password</label>
       <input
         type="password"
-        name="confirmPassword"
-        id="confirmPassword"
+        name="confirm-password"
+        id="confirm-password"
         class="auth-input"
         placeholder="Re-enter password..."
       />
@@ -75,5 +81,6 @@
       <p class="auth-button-text">Sign up</p>
     </button>
   </form>
-
 </main>
+
+{{> (lookup . 'partial') }}

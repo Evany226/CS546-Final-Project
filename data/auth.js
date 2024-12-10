@@ -53,6 +53,8 @@ const signUpUser = async (
   helper.parameterExists(state, "State");
   helper.parameterExists(description, "Description");
 
+  helper.checkEmail(email);
+
   helper.checkUsername(username);
 
   username = username.toLowerCase();

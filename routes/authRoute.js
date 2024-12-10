@@ -60,12 +60,10 @@ const states = [
 router
   .route("/sign-in")
   .get(async (req, res) => {
-    return res.render("signin");
+    return res.render("signin", { partial: "auth_script" });
   })
   .post(async (req, res) => {
     const body = req.body;
-
-    console.log(body);
 
     try {
       if (!body || Object.keys(body).length === 0) {
@@ -73,8 +71,6 @@ router
       }
 
       let { username, password } = body;
-
-      console.log("username: ", username);
 
       helper.parameterExists(username, "Username");
       helper.parameterExists(password, "Password");
@@ -94,14 +90,17 @@ router
       res.redirect("/");
     } catch (error) {
       console.log(error);
-      return res.status(400).json({ error: error.message });
+      return res.render("signin", {
+        error: error.message,
+        partial: "auth_script",
+      });
     }
   });
 
 router
   .route("/sign-up")
   .get(async (req, res) => {
-    return res.render("signup", { states: states });
+    return res.render("signup", { states: states, partial: "auth_script" });
   })
   .post(async (req, res) => {
     const body = req.body;
@@ -119,6 +118,8 @@ router
       helper.parameterExists(city, "City");
       helper.parameterExists(state, "State");
       helper.parameterExists(description, "Description");
+
+      helper.checkEmail(email);
 
       helper.checkUsername(username);
 
@@ -148,7 +149,11 @@ router
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).json({ error: error.message });
+      return res.render("signup", {
+        error: error.message,
+        states: states,
+        partial: "auth_script",
+      });
     }
   });
 

@@ -1,6 +1,12 @@
 <main class="auth-container">
   <form id="signin-form" method="POST" action="/sign-in">
     <h1>Sign In</h1>
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
     <div class="input-wrapper">
       <label for="username" class="auth-label">Username</label>
       <input
@@ -26,3 +32,5 @@
     </button>
   </form>
 </main>
+
+{{> (lookup . 'partial') }}
