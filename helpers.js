@@ -42,18 +42,6 @@ export function parameterExists(param, varName) {
   }
 }
 
-export function checkEmail(email) {
-  checkString(email, "Email");
-
-  if (!email.includes("@")) {
-    throw new Error("Email must be a valid email address");
-  }
-
-  if (email.length < 5 || email.length > 50) {
-    throw new Error("Email must be between 3 and 64 characters");
-  }
-}
-
 export function checkUsername(username) {
   checkString(username, "username");
 

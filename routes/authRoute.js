@@ -110,16 +110,13 @@ router
         throw new Error("You must provide data to sign up");
       }
 
-      let { username, email, password, city, state, description } = body;
+      let { username, password, city, state, description } = body;
 
       helper.parameterExists(username, "Username");
-      helper.parameterExists(email, "Email");
       helper.parameterExists(password, "Password");
       helper.parameterExists(city, "City");
       helper.parameterExists(state, "State");
       helper.parameterExists(description, "Description");
-
-      helper.checkEmail(email);
 
       helper.checkUsername(username);
 
@@ -135,7 +132,6 @@ router
 
       const newUser = await signUpUser(
         username,
-        email,
         password,
         city,
         state,

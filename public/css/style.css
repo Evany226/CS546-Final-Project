@@ -105,8 +105,15 @@
 }
 
 .alert-text {
-  color: blue;
+  color: red;
   font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.redirect-link {
+  color: #1d4ed8;
+  margin-top: 0.5rem;
+
 }
 
 /* chat & conversations */
@@ -362,3 +369,20 @@
   margin-right: 0.5rem;
   border-radius: 0.75rem;
 }
+
+.no-messages {
+  margin: auto;
+}
+
+.no-messages-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+

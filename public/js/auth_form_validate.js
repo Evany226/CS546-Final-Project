@@ -22,18 +22,6 @@ function checkParameter(param, varName) {
   }
 }
 
-function checkEmail(email) {
-  checkString(email, "Email");
-
-  if (!email.includes("@")) {
-    throw new Error("Email must be a valid email address");
-  }
-
-  if (email.length < 5 || email.length > 50) {
-    throw new Error("Email must be between 3 and 64 characters");
-  }
-}
-
 function checkUsername(username) {
   checkString(username, "Username");
 
@@ -154,7 +142,6 @@ console.log("linked");
 const signUpForm = document.getElementById("signup-form");
 const errorDiv = document.querySelector(".error-div");
 
-const email = document.getElementById("email");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirm-password");
@@ -168,7 +155,6 @@ if (signUpForm) {
   signUpForm.addEventListener("submit", (event) => {
     errorArr = [];
 
-    const emailVal = email.value;
     const usernameVal = username.value;
     const passwordVal = password.value;
     const confirmPasswordVal = confirmPassword.value;
@@ -184,12 +170,6 @@ if (signUpForm) {
     checkParameter(stateVal, "State");
 
     try {
-      checkEmail(emailVal);
-    } catch (error) {
-      errorArr.push(error.message);
-    }
-
-    try {
       checkUsername(usernameVal);
     } catch (error) {
       errorArr.push(error.message);
@@ -197,12 +177,6 @@ if (signUpForm) {
 
     try {
       checkPassword(passwordVal);
-    } catch (error) {
-      errorArr.push(error.message);
-    }
-
-    try {
-      checkPassword(confirmPasswordVal);
     } catch (error) {
       errorArr.push(error.message);
     }

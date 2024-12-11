@@ -86,12 +86,23 @@ router
 
     const messages = await getMessages(id, user._id);
 
+    console.log(conversations);
+
+    const currConv = conversations.find((conversation) => {
+      return conversation._id === id;
+    });
+
+    console.log(currConv);
+
+    const otherUsername = currConv.otherUsername;
+
     return res.render("conversation", {
       conversations: conversations,
       currConvId: id,
       messages: messages,
       isIndividual: true,
       partial: "conv_script",
+      otherUsername: otherUsername,
     });
   })
   .post(checkAuthenticated, async (req, res) => {
