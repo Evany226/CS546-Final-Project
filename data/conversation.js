@@ -133,6 +133,8 @@ const createMessage = async (conversationId, userId, content) => {
   helper.parameterExists(conversationId, "conversationId");
   helper.parameterExists(content, "content");
 
+  helper.checkString(content, "content");
+
   helper.checkId(conversationId);
 
   const convCollection = await conversations();

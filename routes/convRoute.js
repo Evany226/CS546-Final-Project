@@ -33,7 +33,8 @@ router
     const body = req.body;
     const user = req.session.user;
 
-    let conversations;
+    const conversations = await getAllConversations(user._id);
+
     try {
       if (!body || Object.keys(body).length === 0) {
         throw new Error("No body provided");
@@ -51,14 +52,12 @@ router
 
       await createConversation(user._id, otherUsername);
 
-      conversations = await getAllConversations(user._id);
-
-      res.redirect("/conversations");
+      return res.redirect("/conversations");
     } catch (error) {
       console.log(error);
-      res.status(400).render("conversation", {
+      return res.status(400).render("conversation", {
         error: error,
-        conversations,
+        conversations: conversations,
         partial: "conv_script",
       });
     }
@@ -118,6 +117,7 @@ router
 
       helper.parameterExists(conversationId, "conversationId");
       helper.parameterExists(message, "message");
+      helper.checkString(message, "message");
       helper.checkId(conversationId);
 
       const user = req.session.user;
@@ -127,10 +127,7 @@ router
       res.redirect(`/conversations/${conversationId}`);
     } catch (error) {
       console.log(error);
-      res.status(400).render("conversation", {
-        error: error,
-        partial: "conv_script",
-      });
+      res.redirect(`/conversations/${conversationId}`);
     }
   });
 
