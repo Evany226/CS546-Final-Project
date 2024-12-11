@@ -70,13 +70,9 @@ const getAllConversations = async (currentUserId) => {
     })
     .toArray();
 
-  console.log(allConversations);
-
   if (!allConversations || allConversations.length === 0) {
     return [];
   }
-
-  console.log(allConversations);
 
   const conversationResult = await Promise.all(
     allConversations.map(async (conversation) => {
@@ -99,6 +95,8 @@ const getAllConversations = async (currentUserId) => {
       };
     })
   );
+
+  console.log(conversationResult);
 
   return conversationResult;
 };
@@ -128,14 +126,14 @@ const getMessages = async (conversationId, currUserId) => {
     return message;
   });
 
-  console.log(messages);
-
   return messages;
 };
 
 const createMessage = async (conversationId, userId, content) => {
   helper.parameterExists(conversationId, "conversationId");
   helper.parameterExists(content, "content");
+
+  helper.checkString(content, "content");
 
   helper.checkId(conversationId);
 

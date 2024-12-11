@@ -29,7 +29,6 @@ const signInUser = async (username, password) => {
   const userObject = {
     _id: user._id,
     username: user.username,
-    email: user.email,
     city: user.city,
     state: user.state,
     description: user.description,
@@ -38,22 +37,12 @@ const signInUser = async (username, password) => {
   return userObject;
 };
 
-const signUpUser = async (
-  username,
-  email,
-  password,
-  city,
-  state,
-  description
-) => {
+const signUpUser = async (username, password, city, state, description) => {
   helper.parameterExists(username, "Username");
-  helper.parameterExists(email, "Email");
   helper.parameterExists(password, "Password");
   helper.parameterExists(city, "City");
   helper.parameterExists(state, "State");
   helper.parameterExists(description, "Description");
-
-  helper.checkEmail(email);
 
   helper.checkUsername(username);
 
@@ -79,7 +68,6 @@ const signUpUser = async (
 
   const newUser = {
     username: username,
-    email: email,
     password: hashedPassword,
     city: city,
     state: state,
