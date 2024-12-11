@@ -1,3 +1,12 @@
-<div>
+
+<main>
   <h1>Listing Page</h1>
-</div>
+      <ol>
+        <p>Evan Dumb</p>
+        {{#each listing}}
+              <li class = 'listing-item'> 
+                <a class = 'listing-link' href='/listing/{{this._id}}'>{{this.listingName}} <br> 
+              <li>
+        {{/each}}
+    </ol>
+</main>

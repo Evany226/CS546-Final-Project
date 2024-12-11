@@ -18,6 +18,31 @@ export function checkString(str, varName) {
   return str.trim();
 }
 
+export function checkObject(object, varName) {
+  if (!object) throw new Error(`${varName} is undefined`)
+  if (Array.isArray(object) || typeof(object) !== "object")
+    throw new Error(`${varName} is not an object`);
+  return object;
+}
+
+export function checkCondition(condition) {
+  condition = checkString(condition, 'condition');
+  condition =  condition.charAt(0).toUpperCase() + condition.slice(1).toLowerCase();
+  if (condition !== "New" && condition !== "Used" && condition !== "Minimal Wear" && condition !== "Well Worn") 
+      throw new Error("status must either be New, Minimal Wear, Used, or Well Worn");
+
+  return condition
+}
+
+export function checkStatus(status) {
+  status = checkString(status);
+  status =  status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  if (status !== "Open" && status !== "Pending" && status !== "Closed") 
+      throw new Error("status must either be Open, Pending, or Closed");
+  
+  return status;
+}
+
 export function checkId(id) {
   if (!ObjectId.isValid(id)) {
     throw new Error("Id is not a valid object Id");
