@@ -3,6 +3,9 @@ import { Router } from "express";
 const router = Router();
 import { checkString, checkId, checkObject, checkCondition, checkStatus } from "../helpers.js";
 import {createListing, getAllListings, getListingById, updateListing, removeListing} from "../data/listings.js";
+import { getCollectionById } from "../data/collections.js";
+import { getFigureById } from "../data/figures.js";
+import { getUserById } from "../data/users.js";
 
 router
   .route('/')
@@ -32,21 +35,21 @@ router
     let {
       userId,
       collectionId,
-      offerFigureId,
-      requestFigureId,
+      listingFigureId,
+      offeringFigureId,
       description,
       condition,
       commentIds,
-      tradeRequestsId,
+      tradeRequestsIds,
       status
     } = listingData;
 
     try {
       userId = checkId(userId);
       collectionId = checkId(collectionId);
-      offerFigureId = checkId(offerFigureId);
+      listingFigureId = checkId(listingFigureId);
   
-      requestFigureId.forEach( (figure) => {
+      offeringFigureId.forEach( (figure) => {
           figure = checkId(figure);
       })
   
@@ -58,7 +61,7 @@ router
           comment = checkId(comment);
       })
   
-      tradeRequestsId.forEach( (tradeRequests) => {
+      tradeRequestsIds.forEach( (tradeRequests) => {
           tradeRequests = checkId(tradeRequests);
       })
   
@@ -73,12 +76,12 @@ router
       const newListing = await createListing(
         userId,
         collectionId,
-        offerFigureId,
-        requestFigureId,
+        listingFigureId,
+        offeringFigureId,
         description,
         condition,
         commentIds,
-        tradeRequestsId,
+        tradeRequestsIds,
         status);      
     } catch(e) {
       return res
@@ -88,7 +91,7 @@ router
   });
 
 router
-  .route('/:listingId')
+  .route('/getListing/:listingId')
   .get(async (req, res) => {
     let{listingId} = req.params;
 
@@ -97,27 +100,56 @@ router
     } catch(e) {
       return res
         .status(400)
-        .render(`listing/${listingId}`, {error: e.message})
-    }
+        .render(`getListing`, {error: e.message})
+    } 
+
+
 
     try{
       const listing = await getListingById(listingId);
-      return res.render(`listing/${listingId}`, {
+      const username = await getUserById(listingId.userId);
+      console.log('g');
+      console.log(listing);
+      /*const collection = await getCollectionById(listing.collectionId);
+      const listingFigure = await getFigureById(listing.listingFigureId);
+        */
+      const offeringFigureList = [];
+       /*
+      listing.offeringFigureId.forEach( async (figureId) => {
+        const figure = await getFigureById(figureId);
+        offeringFigureList.push(figure);
+      });
+         */
+
+      const commentIdsList = [];
+      /*
+      listing.commentIds.forEach( async (commentId) => {
+        const comment = await getCommentById(commentId);
+        comment[username] = await getUserById(comment.userId);
+        commentIdsList.push(comment);
+      });
+      */
+
+      return res.render(`getListing`, {
         title: `${listing.listingName}`,
-        userId: listing.userId,
-        collectionId: listing.collectionId,
-        offerFigureId: listing.offerFigureId,
-        requestFigureId: listing.requestFigureId,
+        username: /*username*/ 'I',
+        collectionName: /*collection.collectionName*/ 'happy',
+        collectionId: /*collection._id */ '1231413131q',
+        listingFigureName: /*listingFigure.figureName*/'Boo',
+        listingFigureImageUrl: /*listingFigure.figureImageUrl*/'https://t.ly/6DQk3',
+        listingFigureId: /*listingFigure._id */ '1231413131q',
+        offeringFigure: /*offeringFigureList*/ [],
         description: listing.description,
         condition: listing.condition,
-        commentIds: listing.commentIds,
-        tradeRequestsId: listing.tradeRequestsId,
+        comment: commentIdsList,
+        tradeRequestsIds: /*listing.tradeRequestsIds*/ [],
         status: listing.status
       });
     } catch(e) {
+      console.log(e);
       return res
         .status(500)
-        .render(`listing/${listingId}`, {error: e.message})
+        .render(`getListing`, {error: e.message})
     }
   })
   .put(async (req,res) => {
@@ -127,14 +159,14 @@ router
     } catch(e) {
       return res
         .status(400)
-        .render(`listings/${listingId}/update`, {error: e.message})
+        .redirect(`/getListing/${listingId}`, {error: e.message})
     }
 
     const updatedData = req.body;
     if (!updatedData || Object.keys(updatedData).length === 0) {
       return res
       .status(400)
-      .render(`listings/${listingId}/update`, {error: "No request body"})
+      .redirect(`/getListing/${listingId}`, {error: "No request body"})
     }
 
     const updatedDataKeys = Object.keys(objectData)
@@ -152,12 +184,12 @@ router
           updatedData.collectionId = checkId(updatedData.collectionId);
       }
 
-      if (updatedDataKeys.includes('offerFigureId')) {
-          updatedData.offerFigureId = checkId(updatedData.offerFigureId);
+      if (updatedDataKeys.includes('listingFigureId')) {
+          updatedData.listingFigureId = checkId(updatedData.listingFigureId);
       }
 
-      if (updatedDataKeys.includes('requestFigureId')) {
-          updatedData.requestFigureId.forEach( (figure) => {
+      if (updatedDataKeys.includes('offeringFigureId')) {
+          updatedData.offeringFigureId.forEach( (figure) => {
               figure = checkId(figure);
           })
       }
@@ -176,8 +208,8 @@ router
           })
       }
 
-      if (updatedDataKeys.includes('tradeRequestsId')) {
-          updatedData.tradeRequestsId.forEach( (tradeRequests) => {
+      if (updatedDataKeys.includes('tradeRequestsIds')) {
+          updatedData.tradeRequestsIds.forEach( (tradeRequests) => {
               tradeRequests = checkId(tradeRequests);
           })
       }
@@ -188,16 +220,16 @@ router
     } catch(e) {
       return res
         .status(400)
-        .render(`listings/${listingId}/update`, {error: e.message})
+        .redirect(`/getListing/${listingId}`, {error: e.message})
     } 
 
     try {
       const updatedList = await updateListing(listingId, updatedData);
-      res.redirect(`listings/${listingId}`)
+      res.redirect(`/getListing/${listingId}`)
     } catch(e) {
       return res
         .status(500)
-        .render(`listings/${listingId}/update`, {error: e.message})
+        .redirect(`/getListing/${listingId}`, {error: e.message})
     }
   })
   .delete(async (req, res) => {
@@ -207,16 +239,16 @@ router
     } catch(e) {
       return res
         .status(400)
-        .render(`listings/${listingId}/delete`, {error: e.message})
+        .redirect(`/getListing/${listingId}`, {error: e.message})
     }
 
     try{
-      let deletedListing = await deletedListing(listingId);
+      let deletedListing = await removeListing(listingId);
       res.redirect('/listings')
     } catch(e) {
       return res
         .status(400)
-        .render(`listings/${listingId}/delete`, {error: e.message})
+        .redirect(`/getListing/${listingId}`, {error: e.message})
     }
   })
 

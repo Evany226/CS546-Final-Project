@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { checkId, checkString } from "../helper.js";
+import { checkId, checkString } from "../helpers.js";
 import { collections } from "../config/mongoCollections.js";
 import { getCollectionById, updateCollection } from "./collections.js";
 

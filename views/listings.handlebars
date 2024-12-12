@@ -2,11 +2,12 @@
 <main>
   <h1>Listing Page</h1>
       <ol>
-        <p>Evan Dumb</p>
         {{#each listing}}
+            <div class = 'listing-wrapper'>
               <li class = 'listing-item'> 
-                <a class = 'listing-link' href='/listing/{{this._id}}'>{{this.listingName}} <br> 
+                <a class = 'listing-link' href='/getListing/{{this._id}}'>{{this.listingName}} <br> 
               <li>
+            </div>
         {{/each}}
     </ol>
 </main>

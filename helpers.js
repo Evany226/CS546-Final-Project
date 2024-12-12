@@ -34,13 +34,22 @@ export function checkCondition(condition) {
   return condition
 }
 
-export function checkStatus(status) {
-  status = checkString(status);
-  status =  status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
-  if (status !== "Open" && status !== "Pending" && status !== "Closed") 
-      throw new Error("status must either be Open, Pending, or Closed");
+export function checkListingStatus(listingStatus) {
+  listingStatus = checkString(listingStatus);
+  listingStatus =  listingStatus.charAt(0).toUpperCase() + listingStatus.slice(1).toLowerCase();
+  if (listingStatus !== "Open" && listingStatus !== "Pending" && listingStatus !== "Closed") 
+      throw new Error("listingStatus must either be Open, Pending, or Closed");
   
-  return status;
+  return listingStatus;
+}
+
+export function checkTransactionStatus(transactionStatus) {
+  transactionStatus = checkString(transactionStatus);
+  transactionStatus =  transactionStatus.charAt(0).toUpperCase() + transactionStatus.slice(1).toLowerCase();
+  if (transactionStatus !== "Open" && transactionStatus !== "Pending" && transactionStatus !== "Closed") 
+      throw new Error("transactionStatus must either be Pending, Accepted, or Declined");
+  
+  return transactionStatus;
 }
 
 export function checkId(id) {
@@ -60,6 +69,22 @@ export function checkId(id) {
 
   return id;
 }
+
+export function checkDate(date) {
+  if (!date) throw `You must provide a ${varName}`
+  date = checkString(date, 'date');
+
+  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+  if (!regex.test(date)) throw 'Date must be in MM/DD/YYYY format'
+
+  let dateArr = element.split('/');
+  let monthCheck = new Date(date);
+  monthCheck = monthCheck.getMonth()+1;
+
+  if (Number(dateArr[0]) != monthCheck) throw 'Date must be a real valid date'
+
+  return date
+};
 
 export function parameterExists(param, varName) {
   if (param == undefined) {

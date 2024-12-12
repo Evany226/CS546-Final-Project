@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { checkString, checkId, checkObject, checkCondition, checkStatus } from "../helpers.js";
+import { checkString, checkId, checkObject, checkCondition, checkListingStatus } from "../helpers.js";
 import { listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 
@@ -11,20 +11,20 @@ const createListing = async (
     listingName,
     userId,
     collectionId,
+    listingFigureId,
     offerFigureId,
-    requestFigureId,
     description,
     condition,
     commentIds,
-    tradeRequestsId,
-    status
+    tradeRequestsIds,
+    listingStatus
 ) => {
     listingName = checkString(listingName, 'listingName');
     userId = checkId(userId);
     collectionId = checkId(collectionId);
-    offerFigureId = checkId(offerFigureId);
+    listingFigureId = checkId(listingFigureId);
 
-    requestFigureId.forEach( (figure) => {
+    offerFigureId.forEach( (figure) => {
         figure = checkId(figure);
     })
 
@@ -36,23 +36,23 @@ const createListing = async (
         comment = checkId(comment);
     })
 
-    tradeRequestsId.forEach( (tradeRequests) => {
+    tradeRequestsIds.forEach( (tradeRequests) => {
         tradeRequests = checkId(tradeRequests);
     })
 
-    status = checkStatus(status);
+    listingStatus = checkListingStatus(listingStatus);
 
     let newListing = {
         listingName,
         userId,
         collectionId,
+        listingFigureId,
         offerFigureId,
-        requestFigureId,
         description,
         condition,
         commentIds,
-        tradeRequestsId,
-        status
+        tradeRequestsIds,
+        listingStatus
     };
 
     const listingCollection = await listings();
@@ -73,7 +73,7 @@ const getAllListings = async () =>{
     return listingList;
 };
 
-const getListingById = async(listingId) =>{
+const getListingById = async (listingId) =>{
     listingId = checkId(listingId);
 
     const listingCollection = await listings();
@@ -84,18 +84,29 @@ const getListingById = async(listingId) =>{
     return listingById;
 };
 
+const getListingsByUser = async (userId) =>{
+    userId = checkId(userId);
+    const userById = await getUserById(userId);
+
+    let listingsByUser = userById['listingIds']
+    listingsByUser.forEach( async (listing) => {
+        listing = await getListingById(listing);
+    }); 
+
+    if (!listingsByUser) throw new Error(`Could not get all listing from user ${userById.username}`);
+
+    return listingsByUser;
+};
+
 const updateListing = async (listingId, updateObject) =>{
     listingId = checkId(listingId);
     updateObject = checkObject(updateObject, 'updateObject');
     const updateObjectKeys = Object.keys(updateObject);
     const updatedListing = await getListingById(listingId);
 
-    console.log(updateObject);
-
     if (updateObjectKeys.includes('listingName')) {
         updateObject.listingName = checkString(updateObject.listingName,'listingName');
-        updateListing.listingName = updateObject.listingName;
-        console.log(updateListing)
+        updatedListing.listingName = updateObject.listingName;
     }
 
     if (updateObjectKeys.includes('userId')) {
@@ -109,18 +120,18 @@ const updateListing = async (listingId, updateObject) =>{
         updatedListing.collectionId = updateObject.collectionId;
     }
 
-    if (updateObjectKeys.includes('offerFigureId')) {
-        updateObject.offerFigureId = checkId(updateObject.offerFigureId);
+    if (updateObjectKeys.includes('listingFigureId')) {
+        updateObject.listingFigureId = checkId(updateObject.listingFigureId);
 
-        updatedListing.offerFigureId = updateObject.offerFigureId;
+        updatedListing.listingFigureId = updateObject.listingFigureId;
     }
 
-    if (updateObjectKeys.includes('requestFigureId')) {
-        updateObject.requestFigureId.forEach( (figure) => {
+    if (updateObjectKeys.includes('offerFigureId')) {
+        updateObject.offerFigureId.forEach( (figure) => {
             figure = checkId(figure);
         })
 
-        updatedListing.requestFigureId = updateObject.requestFigureId;
+        updatedListing.offerFigureId = updateObject.offerFigureId;
     }
 
     if (updateObjectKeys.includes('description')) {
@@ -143,18 +154,18 @@ const updateListing = async (listingId, updateObject) =>{
         updatedListing.commentIds = updateObject.commentIds;
     }
 
-    if (updateObjectKeys.includes('tradeRequestsId')) {
-        updateObject.tradeRequestsId.forEach( (tradeRequests) => {
+    if (updateObjectKeys.includes('tradeRequestsIds')) {
+        updateObject.tradeRequestsIds.forEach( (tradeRequests) => {
             tradeRequests = checkId(tradeRequests);
         })
 
-        updatedListing.tradeRequestsId = updateObject.tradeRequestsId;
+        updatedListing.tradeRequestsIds = updateObject.tradeRequestsIds;
     }
 
-    if (updateObjectKeys.includes('status')) {
-        updateObject.status = checkStatus(updateObject.status);
+    if (updateObjectKeys.includes('listingStatus')) {
+        updateObject.listingStatus = checklistingStatus(updateObject.listingStatus);
 
-        updatedListing.status= updateObject.status;
+        updatedListing.listingStatus= updateObject.listingStatus;
     }
     
     const listingCollection = await listings();
@@ -164,7 +175,7 @@ const updateListing = async (listingId, updateObject) =>{
         {returnDocument: "after"}
     );
     console.log(updatedInfo);
-    if (updatedInfo) throw new Error(`Could not update listing with id of ${listingId} successfully`);
+    if (!updatedInfo) throw new Error(`Could not update listing with id of ${listingId} successfully`);
 
     return updatedInfo;
 };
