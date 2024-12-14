@@ -18,3 +18,5 @@ export const collections = getCollectionFn("collections");
 export const users = getCollectionFn("users");
 export const conversations = getCollectionFn("conversations");
 export const listings = getCollectionFn("listings");
+export const comments = getCollectionFn("comments");
+export const tradeRequests = getCollectionFn("tradeRequests");
