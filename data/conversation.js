@@ -96,8 +96,6 @@ const getAllConversations = async (currentUserId) => {
     })
   );
 
-  console.log(conversationResult);
-
   return conversationResult;
 };
 

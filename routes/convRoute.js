@@ -85,17 +85,14 @@ router
 
     const messages = await getMessages(id, user._id);
 
-    console.log(conversations);
-
     const currConv = conversations.find((conversation) => {
       return conversation._id === id;
     });
 
-    console.log(currConv);
-
     const otherUsername = currConv.otherUsername;
 
     return res.render("conversation", {
+      title: "Messages",
       conversations: conversations,
       currConvId: id,
       messages: messages,

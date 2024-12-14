@@ -19,36 +19,58 @@ export function checkString(str, varName) {
 }
 
 export function checkObject(object, varName) {
-  if (!object) throw new Error(`${varName} is undefined`)
-  if (Array.isArray(object) || typeof(object) !== "object")
+  if (!object) throw new Error(`${varName} is undefined`);
+  if (Array.isArray(object) || typeof object !== "object")
     throw new Error(`${varName} is not an object`);
   return object;
 }
 
 export function checkCondition(condition) {
-  condition = checkString(condition, 'condition');
-  condition =  condition.charAt(0).toUpperCase() + condition.slice(1).toLowerCase();
-  if (condition !== "New" && condition !== "Used" && condition !== "Minimal Wear" && condition !== "Well Worn") 
-      throw new Error("status must either be New, Minimal Wear, Used, or Well Worn");
+  condition = checkString(condition, "condition");
+  condition =
+    condition.charAt(0).toUpperCase() + condition.slice(1).toLowerCase();
+  if (
+    condition !== "New" &&
+    condition !== "Used" &&
+    condition !== "Minimal Wear" &&
+    condition !== "Well Worn"
+  )
+    throw new Error(
+      "status must either be New, Minimal Wear, Used, or Well Worn"
+    );
 
-  return condition
+  return condition;
 }
 
 export function checkListingStatus(listingStatus) {
   listingStatus = checkString(listingStatus);
-  listingStatus =  listingStatus.charAt(0).toUpperCase() + listingStatus.slice(1).toLowerCase();
-  if (listingStatus !== "Open" && listingStatus !== "Pending" && listingStatus !== "Closed") 
-      throw new Error("listingStatus must either be Open, Pending, or Closed");
-  
+  listingStatus =
+    listingStatus.charAt(0).toUpperCase() +
+    listingStatus.slice(1).toLowerCase();
+  if (
+    listingStatus !== "Open" &&
+    listingStatus !== "Pending" &&
+    listingStatus !== "Closed"
+  )
+    throw new Error("listingStatus must either be Open, Pending, or Closed");
+
   return listingStatus;
 }
 
 export function checkTransactionStatus(transactionStatus) {
   transactionStatus = checkString(transactionStatus);
-  transactionStatus =  transactionStatus.charAt(0).toUpperCase() + transactionStatus.slice(1).toLowerCase();
-  if (transactionStatus !== "Open" && transactionStatus !== "Pending" && transactionStatus !== "Closed") 
-      throw new Error("transactionStatus must either be Pending, Accepted, or Declined");
-  
+  transactionStatus =
+    transactionStatus.charAt(0).toUpperCase() +
+    transactionStatus.slice(1).toLowerCase();
+  if (
+    transactionStatus !== "Open" &&
+    transactionStatus !== "Pending" &&
+    transactionStatus !== "Closed"
+  )
+    throw new Error(
+      "transactionStatus must either be Pending, Accepted, or Declined"
+    );
+
   return transactionStatus;
 }
 
@@ -71,20 +93,20 @@ export function checkId(id) {
 }
 
 export function checkDate(date) {
-  if (!date) throw `You must provide a ${varName}`
-  date = checkString(date, 'date');
+  if (!date) throw `You must provide a ${varName}`;
+  date = checkString(date, "date");
 
   const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
-  if (!regex.test(date)) throw 'Date must be in MM/DD/YYYY format'
+  if (!regex.test(date)) throw "Date must be in MM/DD/YYYY format";
 
-  let dateArr = element.split('/');
+  let dateArr = element.split("/");
   let monthCheck = new Date(date);
-  monthCheck = monthCheck.getMonth()+1;
+  monthCheck = monthCheck.getMonth() + 1;
 
-  if (Number(dateArr[0]) != monthCheck) throw 'Date must be a real valid date'
+  if (Number(dateArr[0]) != monthCheck) throw "Date must be a real valid date";
 
-  return date
-};
+  return date;
+}
 
 export function parameterExists(param, varName) {
   if (param == undefined) {
@@ -204,5 +226,11 @@ export function checkIfValidState(state) {
 
   if (!isState) {
     throw new Error("State must be a valid state abbreviation.");
+  }
+}
+
+export function isUserProfile(sessionUser, id) {
+  if (sessionUser._id !== id) {
+    throw new Error("You are not authorized to view this page");
   }
 }
