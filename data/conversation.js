@@ -102,7 +102,10 @@ const getAllConversations = async (currentUserId) => {
 const getMessages = async (conversationId, currUserId) => {
   helper.parameterExists(conversationId, "conversationId");
 
-  helper.checkId(conversationId);
+  console.log("Before: ", conversationId);
+  conversationId = helper.checkId(conversationId);
+
+  console.log("After: ", conversationId);
 
   const convCollection = await conversations();
 
@@ -111,7 +114,7 @@ const getMessages = async (conversationId, currUserId) => {
   });
 
   if (!conversation) {
-    throw new Error("Could not find conversation");
+    throw new Error("Can't find conversation");
   }
 
   const messages = conversation.messages.map((message) => {

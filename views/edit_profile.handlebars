@@ -1,3 +1,19 @@
 <main class="edit-profile-container">
-  <p>Edit Profile</p>
+  <h1 class="edit-profile-title">Edit Profile</h1>
+    {{#if error}}
+      <p class="error-alert">{{error}}</p>
+    {{/if}}
+  <form class="edit-profile-form" action="/profile/edit" method="post">
+    <label for="name" class="edit-label">Update Username</label>
+    <input type="text" id="username" name="username" value="{{name}}" class="edit-input">
+    <label for="city" class="edit-label">Update City</label>
+    <input type="text" id="city" name="city" value="{{city}}" class="edit-input">
+    <label for="state" class="edit-label">Update State</label>
+    <input type="text" id="state" name="state" value="{{state}}" class="edit-input">
+    <label for="description" class="edit-label">Update Description</label>
+    <textarea type="text" id="description" name="description" value="{{description}}" class="edit-input"></textarea>
+    <button type="submit" class="confirm-edit-btn">Save</button>
+  </form>
 </main>
+
+{{> (lookup . 'partial') }}

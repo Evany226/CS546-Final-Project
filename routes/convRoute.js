@@ -44,7 +44,7 @@ router
 
       helper.parameterExists(otherUsername, "otherUsername");
 
-      helper.checkUsername(otherUsername);
+      otherUsername = helper.checkUsername(otherUsername);
 
       otherUsername = otherUsername.toLowerCase();
 
@@ -66,7 +66,7 @@ router
 router
   .route("/:id")
   .get(checkAuthenticated, async (req, res) => {
-    const { id } = req.params;
+    let { id } = req.params;
     const user = req.session.user;
 
     const isConversation = helper.checkId(id);
@@ -110,12 +110,12 @@ router
         throw new Error("No body provided");
       }
 
-      const { message } = body;
+      let { message } = body;
 
       helper.parameterExists(conversationId, "conversationId");
       helper.parameterExists(message, "message");
-      helper.checkString(message, "message");
-      helper.checkId(conversationId);
+      message = helper.checkString(message, "message");
+      conversationId = helper.checkId(conversationId);
 
       const user = req.session.user;
 

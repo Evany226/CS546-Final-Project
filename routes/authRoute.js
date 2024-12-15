@@ -75,7 +75,7 @@ router
       helper.parameterExists(username, "Username");
       helper.parameterExists(password, "Password");
 
-      helper.checkUsername(username);
+      username = helper.checkUsername(username);
 
       username = username.toLowerCase();
 
@@ -118,17 +118,17 @@ router
       helper.parameterExists(state, "State");
       helper.parameterExists(description, "Description");
 
-      helper.checkUsername(username);
+      username = helper.checkUsername(username);
 
       username = username.toLowerCase();
 
-      helper.checkPassword(password);
+      password = helper.checkPassword(password);
 
-      helper.checkCity(city);
+      city = helper.checkCity(city);
 
-      helper.checkIfValidState(state);
+      state = helper.checkIfValidState(state);
 
-      helper.checkDescription(description);
+      description = helper.checkDescription(description);
 
       const newUser = await signUpUser(
         username,
