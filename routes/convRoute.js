@@ -44,7 +44,7 @@ router
 
       helper.parameterExists(otherUsername, "otherUsername");
 
-      helper.checkUsername(otherUsername);
+      otherUsername = helper.checkUsername(otherUsername);
 
       otherUsername = otherUsername.toLowerCase();
 
@@ -66,7 +66,7 @@ router
 router
   .route("/:id")
   .get(checkAuthenticated, async (req, res) => {
-    const { id } = req.params;
+    let { id } = req.params;
     const user = req.session.user;
 
     const isConversation = helper.checkId(id);
@@ -85,17 +85,14 @@ router
 
     const messages = await getMessages(id, user._id);
 
-    console.log(conversations);
-
     const currConv = conversations.find((conversation) => {
       return conversation._id === id;
     });
 
-    console.log(currConv);
-
     const otherUsername = currConv.otherUsername;
 
     return res.render("conversation", {
+      title: "Messages",
       conversations: conversations,
       currConvId: id,
       messages: messages,
@@ -105,7 +102,7 @@ router
     });
   })
   .post(checkAuthenticated, async (req, res) => {
-    const { id: conversationId } = req.params;
+    let { id: conversationId } = req.params;
     const body = req.body;
 
     try {
@@ -113,12 +110,12 @@ router
         throw new Error("No body provided");
       }
 
-      const { message } = body;
+      let { message } = body;
 
       helper.parameterExists(conversationId, "conversationId");
       helper.parameterExists(message, "message");
-      helper.checkString(message, "message");
-      helper.checkId(conversationId);
+      message = helper.checkString(message, "message");
+      conversationId = helper.checkId(conversationId);
 
       const user = req.session.user;
 
