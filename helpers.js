@@ -18,6 +18,47 @@ export function checkString(str, varName) {
   return str.trim();
 }
 
+export function checkNumber(number, varName) {
+  if (!number) throw new Error(`${varName} is undefined`)
+    if (typeof(number) !== 'number' || isNaN(number)) 
+      throw `${varName} must be a number`; 
+    return number;
+}
+
+export function checkObject(object, varName) {
+  if (!object) throw new Error(`${varName} is undefined`)
+  if (Array.isArray(object) || typeof(object) !== "object")
+    throw new Error(`${varName} is not an object`);
+  return object;
+}
+
+export function checkCondition(condition) {
+  condition = checkString(condition, 'condition');
+  condition =  condition.charAt(0).toUpperCase() + condition.slice(1).toLowerCase();
+  if (condition !== "New" && condition !== "Used" && condition !== "Minimal Wear" && condition !== "Well Worn") 
+      throw new Error("status must either be New, Minimal Wear, Used, or Well Worn");
+
+  return condition
+}
+
+export function checkListingStatus(listingStatus) {
+  listingStatus = checkString(listingStatus);
+  listingStatus =  listingStatus.charAt(0).toUpperCase() + listingStatus.slice(1).toLowerCase();
+  if (listingStatus !== "Open" && listingStatus !== "Pending" && listingStatus !== "Closed") 
+      throw new Error("listingStatus must either be Open, Pending, or Closed");
+  
+  return listingStatus;
+}
+
+export function checkTransactionStatus(transactionStatus) {
+  transactionStatus = checkString(transactionStatus);
+  transactionStatus =  transactionStatus.charAt(0).toUpperCase() + transactionStatus.slice(1).toLowerCase();
+  if (transactionStatus !== "Open" && transactionStatus !== "Pending" && transactionStatus !== "Closed") 
+      throw new Error("transactionStatus must either be Pending, Accepted, or Declined");
+  
+  return transactionStatus;
+}
+
 export function checkId(id) {
   if (!ObjectId.isValid(id)) {
     throw new Error("Id is not a valid object Id");
@@ -35,6 +76,22 @@ export function checkId(id) {
 
   return id;
 }
+
+export function checkDate(date) {
+  if (!date) throw `You must provide a ${varName}`
+  date = checkString(date, 'date');
+
+  const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+  if (!regex.test(date)) throw 'Date must be in MM/DD/YYYY format'
+
+  let dateArr = date.split('/');
+  let monthCheck = new Date(date);
+  monthCheck = monthCheck.getMonth()+1;
+
+  if (Number(dateArr[0]) != monthCheck) throw 'Date must be a real valid date'
+
+  return date
+};
 
 export function parameterExists(param, varName) {
   if (param == undefined) {

@@ -1,3 +1,11 @@
-<div>
-  <h1>Listing Page</h1>
-</div>
+
+<main class="listing-containers">
+  <h1 class="listing-head">Listing Page</h1>
+    <ul class="listing-wrapper">
+      {{#each listing}}
+            <li class='listing-item'>
+              <a href='/getListing/{{this._id}}'>{{this.listingName}}</a> 
+            <li>
+      {{/each}}
+    </ul>
+</main>

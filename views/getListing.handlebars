@@ -1,0 +1,52 @@
+<article class="listing">
+  <h1 class="listing-title">{{title}} ({{this.status}})</h1>
+
+  <div class="image-wrapper">
+    <img
+      class="listingFigure-image"
+      alt="{{listingFigureName}}"
+      src="{{listingFigureImageUrl}}"
+    />
+    <div class="lister-info">
+      <h2 class="figure-name">Figure: {{listingFigureName}}</h2>
+      <div class="user-wrapper">
+        <p class="user-info">Posted by </p>
+        <a class="user-link" href="/getUser/{{this.userId}}">{{username}}</a>
+      </div>
+      <p class="description-description">Description: {{this.description}}</p>
+      <p class="description-condition">Condition: {{this.condition}}</p>
+    </div>
+    {{!-- <p class="status-info">{{this.status}}</p> --}}
+  </div>
+
+  <section>
+    <h4>Trading For:</h4>
+    <table class="trading_table">
+      {{#each offeringFigure}}
+        <tr>
+          <th class="table-source">{{this.figureName}}</th>
+          <th><img
+              class="offeringFigure-image"
+              alt="{{this.figureName}}"
+              src="{{this.figureImageUrl}}"
+            />
+          </th>
+        </tr>
+      {{/each}}
+    </table>
+  </section>
+
+  <section>
+    <h4>Ratings and Comments:</h4>
+    {{#each comment}}
+      <h5 class="comment-rating">Rating: {{this.rating}}</h5>
+      <p class="comment-content">{{this.content}}</p>
+      <p class="comment-username">Post by
+        <a
+          class="user-link"
+          href="/getUser/{{this.userId}}"
+        >{{this.username}}</a></p>
+    {{/each}}
+  </section>
+
+</article>

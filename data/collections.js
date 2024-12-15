@@ -1,6 +1,6 @@
 import {ObjectId, ReturnDocument} from "mongodb";
 import { collections } from "../config/mongoCollections.js";
-import { checkId, checkString } from "../helper.js";
+import { checkId, checkString } from "../helpers.js";
 
 /**
  * This is the Collections document to create a category for the figures
