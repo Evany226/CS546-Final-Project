@@ -3,6 +3,7 @@ import listingsRoute from "./listingsRoute.js";
 import profileRoute from "./profileRoute.js";
 import convRoute from "./convRoute.js";
 import collectionRoute from "./collectionRoute.js"
+import adminRoute from "./admin.js"
 
 const constructorMethod = (app) => {
   app.use("/", collectionRoute)
@@ -13,6 +14,8 @@ const constructorMethod = (app) => {
   app.use("/profile", profileRoute);
 
   app.use("/conversations", convRoute);
+
+  app.use("/admin", adminRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);

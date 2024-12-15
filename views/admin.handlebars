@@ -1,0 +1,18 @@
+<!-- admin suite page -->
+<main>
+    <h1>Admin Dashboard</h1>
+    <h2>Collection Adding</h2>
+    <form class = "admin-add-collection-form" method="POST" action="/add-collection">
+        <label for="collection-name">Collection name:</label>
+        <input type="text" name="collection-name"/>
+        <br>
+        <label>Figures:</label>
+        <div id="form-container">
+            <input type="json" name="figure-1">
+        </div>
+        <button type="button" id="add-figure-btn">Add Figure</button>
+        <button type="submit">Submit</button>
+    </form>
+</main>
+
+{{> (lookup . 'partial') }}

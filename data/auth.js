@@ -27,15 +27,16 @@ const signInUser = async (username, password) => {
   if (!passwordMatch) {
     throw new Error("Either the username or password is invalid.");
   }
-
-  const userObject = {
+  let userObject = {
     _id: user._id,
     username: user.username,
     city: user.city,
     state: user.state,
     description: user.description,
   };
-
+  if (user.role) {
+    userObject.role = user.role;
+  }
   return userObject;
 };
 
@@ -91,4 +92,42 @@ const signOutUser = async (req, res) => {
   res.redirect("/");
 };
 
-export { signInUser, signUpUser, signOutUser };
+const signUpAdmin = async (username, password) => {
+  helper.parameterExists(username, "Username");
+  helper.parameterExists(password, "Password");
+
+  username = helper.checkUsername(username);
+
+  username = username.toLowerCase();
+
+  const userCollection = await users();
+
+  const existingUsername = await userCollection.findOne({ username: username });
+
+  if (existingUsername) {
+    throw new Error("Username already exists");
+  }
+
+  password = helper.checkPassword(password);
+
+  const hashedPassword = await bcrypt.hash(password, 16);
+
+  const newUser = {
+    username: username,
+    password: hashedPassword,
+    city: "ADMIN",
+    state: "ADMIN",
+    description: "admin account for management.",
+    role: "admin"
+  };
+
+  const insertedUser = await userCollection.insertOne(newUser);
+
+  if (!insertedUser.insertedId) {
+    throw new Error("Error creating user");
+  }
+
+  return { registrationCompleted: true };
+};
+
+export { signInUser, signUpUser, signOutUser, signUpAdmin };

@@ -459,6 +459,18 @@
   align-items: center;
 }
 
+.tracker-btn {
+  border: none;
+  padding: 0.25rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: lightcoral;
+  color: white;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
 .follow-btn,
 .edit-profile-btn {
   border: none;
