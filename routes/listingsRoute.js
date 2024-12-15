@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 const router = Router();
-import { checkString, checkId, checkObject, checkCondition, checkStatus } from "../helpers.js";
+import { checkString, checkId, checkObject, checkCondition, checkListingStatus } from "../helpers.js";
 import {createListing, getAllListings, getListingById, updateListing, removeListing} from "../data/listings.js";
 import { getCollectionById } from "../data/collections.js";
 import { getFigureById } from "../data/figures.js";
@@ -65,7 +65,7 @@ router
           tradeRequests = checkId(tradeRequests);
       })
   
-      status = checkStatus(status);
+      status = checkListingStatus(status);
     } catch(e) {
       return res
         .status(400)
@@ -107,7 +107,7 @@ router
 
     try{
       const listing = await getListingById(listingId);
-      const username = await getUserById(listingId.userId);
+      //const username = await getUserById(listingId.userId);
       console.log('g');
       console.log(listing);
       /*const collection = await getCollectionById(listing.collectionId);
@@ -136,7 +136,7 @@ router
         collectionName: /*collection.collectionName*/ 'happy',
         collectionId: /*collection._id */ '1231413131q',
         listingFigureName: /*listingFigure.figureName*/'Boo',
-        listingFigureImageUrl: /*listingFigure.figureImageUrl*/'https://t.ly/6DQk3',
+        listingFigureImageUrl: /*listingFigure.figureImageUrl*/"https://via.placeholder.com/150",
         listingFigureId: /*listingFigure._id */ '1231413131q',
         offeringFigure: /*offeringFigureList*/ [],
         description: listing.description,
@@ -215,7 +215,7 @@ router
       }
 
       if (updatedDataKeys.includes('status')) {
-          updatedData.status = checkStatus(updatedData.status);
+          updatedData.status = checkListingStatus(updatedData.status);
       }      
     } catch(e) {
       return res

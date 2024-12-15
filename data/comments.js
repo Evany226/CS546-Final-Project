@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb";
-import { checkString, checkId, checkObject, checkCondition, checkStatus, checkNumber } from "../helpers.js";
+import { checkString, checkId, checkObject, checkDate, checkNumber } from "../helpers.js";
 import { comments } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
+import { getUserById } from "./users.js";
 
 
 const createComment = async (
@@ -13,7 +14,7 @@ const createComment = async (
 ) => {
     userId = checkId(userId);
 
-    review = checkNumber(review);
+    review = checkNumber(review, 'review');
     if (review < 1 || review > 5) throw new Error('Review must be a number between 1 and 5');
 
     content = checkString(content, 'content');
@@ -69,13 +70,15 @@ const getCommentsByListing = async (listingId) =>{
 
     if (!commentsByListing) throw new Error(`Could not get all comments from listing ${listingById.listingName}`);
 
+    
+
     return commentsByListing;
 };
 
 const getCommentsByUser = async (userId) =>{
 
     let userById = checkId(userId);
-    userById = await getuserById(userId);
+    userById = await getUserById(userId);
     
     let commentsByUser = userById['commentIds']
     commentsByUser.forEach( async (comment) => {
@@ -99,7 +102,7 @@ const updateComment = async (commentId, updateObject) =>{
     }
 
     if (updateObjectKeys.includes('review')) {
-        updateObject.review = checkNumber(updateObject.review);
+        updateObject.review = checkNumber(updateObject.review, 'review');
         if (updateObject.review  < 1 || updateObject.review > 5) throw new Error('Review must be a number between 1 and 5');
 
         updatedComment.review = updateObject.review;

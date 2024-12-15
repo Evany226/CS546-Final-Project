@@ -18,6 +18,13 @@ export function checkString(str, varName) {
   return str.trim();
 }
 
+export function checkNumber(number, varName) {
+  if (!number) throw new Error(`${varName} is undefined`)
+    if (typeof(number) !== 'number' || isNaN(number)) 
+      throw `${varName} must be a number`; 
+    return number;
+}
+
 export function checkObject(object, varName) {
   if (!object) throw new Error(`${varName} is undefined`)
   if (Array.isArray(object) || typeof(object) !== "object")
@@ -77,7 +84,7 @@ export function checkDate(date) {
   const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
   if (!regex.test(date)) throw 'Date must be in MM/DD/YYYY format'
 
-  let dateArr = element.split('/');
+  let dateArr = date.split('/');
   let monthCheck = new Date(date);
   monthCheck = monthCheck.getMonth()+1;
 

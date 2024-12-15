@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { checkString, checkId, checkObject, checkCondition, checkStatus, checkNumber, checkTransactionStatus } from "../helpers.js";
-import { tradeRequests } from "../config/mongoCollections.js";
+import { checkString, checkId, checkObject, checkDate, checkNumber, checkTransactionStatus } from "../helpers.js";
+import { tradeRequests, listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
 
@@ -37,9 +37,18 @@ const createTradeRequest = async (
         date
     };
 
+
+    const listingCollection = await listings();
     const tradeRequestCollection = await tradeRequests();
     const insertInfo = await tradeRequestCollection.insertOne(newTradeRequest);
     if (!insertInfo.insertedId) throw new Error('Could not add trade request');
+
+    const tradeRequestsId = insertInfo.insertedId.toString();
+    const updateListing = await listingCollection.updateOne({_id: new ObjectId(listingId)},{$push: {tradeRequestsId}});
+
+
+
+
 
     return insertInfo;
 }
@@ -134,7 +143,7 @@ const updateTradeRequest = async (tradeRequestId, updateObject) =>{
     }
 
     if (updateObjectKeys.includes('completionStatus')) {
-        if (typeof(completionStatus) !== 'boolean') throw new Error('completionStatus must be type boolean');
+        if (typeof(updateObject.completionStatus) !== 'boolean') throw new Error('completionStatus must be type boolean');
 
         updatedTradeRequest.completionStatus = updateObject.completionStatus;
     }
