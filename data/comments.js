@@ -1,14 +1,16 @@
 import { ObjectId } from "mongodb";
+
 import {
   checkString,
   checkId,
   checkObject,
-  checkCondition,
+  checkDate,
   checkNumber,
 } from "../helpers.js";
 import { comments } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
+import { getUserById } from "./users.js";
 
 const createComment = async (userId, review, content, date) => {
   userId = checkId(userId);
@@ -27,10 +29,13 @@ const createComment = async (userId, review, content, date) => {
     date,
   };
 
+  review = checkNumber(review, "review");
+  if (review < 1 || review > 5)
+    throw new Error("Review must be a number between 1 and 5");
+
   const commentCollection = await comments();
   const insertInfo = await commentCollection.insertOne(newComment);
   if (!insertInfo.insertedId) throw new Error("Could not add listing");
-
   return insertInfo;
 };
 
@@ -77,7 +82,7 @@ const getCommentsByListing = async (listingId) => {
 
 const getCommentsByUser = async (userId) => {
   let userById = checkId(userId);
-  userById = await getuserById(userId);
+  userById = await getUserById(userId);
 
   let commentsByUser = userById["commentIds"];
   commentsByUser.forEach(async (comment) => {

@@ -110,7 +110,7 @@ router
 
     try {
       const listing = await getListingById(listingId);
-      const username = await getUserById(listingId.userId);
+      //const username = await getUserById(listingId.userId);
       console.log("g");
       console.log(listing);
       /*const collection = await getCollectionById(listing.collectionId);
@@ -140,7 +140,7 @@ router
         collectionId: /*collection._id */ "1231413131q",
         listingFigureName: /*listingFigure.figureName*/ "Boo",
         listingFigureImageUrl:
-          /*listingFigure.figureImageUrl*/ "https://t.ly/6DQk3",
+          /*listingFigure.figureImageUrl*/ "https://via.placeholder.com/150",
         listingFigureId: /*listingFigure._id */ "1231413131q",
         offeringFigure: /*offeringFigureList*/ [],
         description: listing.description,
@@ -213,12 +213,6 @@ router
       if (updatedDataKeys.includes("commentIds")) {
         updatedData.commentIds.forEach((comment) => {
           comment = checkId(comment);
-        });
-      }
-
-      if (updatedDataKeys.includes("tradeRequestsIds")) {
-        updatedData.tradeRequestsIds.forEach((tradeRequests) => {
-          tradeRequests = checkId(tradeRequests);
         });
       }
 

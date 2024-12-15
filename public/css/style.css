@@ -611,4 +611,95 @@
   border-radius: 0.25rem;
   cursor: pointer;
   padding: 0.5rem 1rem;
+/* Listing Page*/
+.listing-head {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+}
+
+.listing-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: center;
+  list-style-type: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.listing-item {
+  width: 200px;
+  height: 200px;
+  list-style-type: none;
+  padding: 0.25rem 1rem;
+  margin: 1rem;
+  background-color: blanchedalmond;
+}
+
+/* Get Listing */
+.listing-title {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  font-size: 1.7rem;
+}
+
+.figure-name {
+  width: 100%;
+  padding: 0.25rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.listingFigure-image {
+  width: 550px;
+  height: 500px;
+  padding: 1rem 1rem;
+}
+
+.image-wrapper {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  padding: 1rem;
+}
+
+.figure-name {
+  padding: 0rem;
+  margin: 1rem;
+  margin-bottom: 0rem;
+}
+
+.lister-info {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-left: 0rem;
+}
+
+.user-wrapper {
+  display: flex;
+  padding-left: 0rem;
+  margin-left: 1rem;
+}
+
+.user-info {
+  margin-left: 0rem;
+}
+
+.user-link {
+  margin-left: 0.35rem;
+}
+
+.description-condition {
+  margin-bottom: 0rem;
+  margin-left: 1rem;
+  margin-top: 0.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.description-description {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
 }

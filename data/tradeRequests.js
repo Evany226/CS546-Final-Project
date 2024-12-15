@@ -3,11 +3,11 @@ import {
   checkString,
   checkId,
   checkObject,
-  checkCondition,
+  checkDate,
   checkNumber,
   checkTransactionStatus,
 } from "../helpers.js";
-import { tradeRequests } from "../config/mongoCollections.js";
+import { tradeRequests, listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
 
@@ -30,7 +30,6 @@ const createTradeRequest = async (
   transactionStatus = checkTransactionStatus(transactionStatus);
   if (typeof completionStatus !== "boolean")
     throw new Error("completionStatus must be type boolean");
-
   date = checkDate(date);
 
   let newTradeRequest = {
@@ -44,9 +43,16 @@ const createTradeRequest = async (
     date,
   };
 
+  const listingCollection = await listings();
   const tradeRequestCollection = await tradeRequests();
   const insertInfo = await tradeRequestCollection.insertOne(newTradeRequest);
   if (!insertInfo.insertedId) throw new Error("Could not add trade request");
+
+  const tradeRequestsId = insertInfo.insertedId.toString();
+  const updateListing = await listingCollection.updateOne(
+    { _id: new ObjectId(listingId) },
+    { $push: { tradeRequestsId } }
+  );
 
   return insertInfo;
 };
@@ -83,12 +89,20 @@ const getTradeRequestsByListing = async (listingId) => {
     tradeRequest = await getTradeRequestById(tradeRequest);
   });
 
-  if (!tradeRequestByListing)
+  let userById = checkId(userId);
+  userById = await getuserById(userId);
+
+  let tradeRequestByUser = userById["tradeRequestIds"];
+  tradeRequestByUser.forEach(async (tradeRequest) => {
+    tradeRequest = await getTradeRequestById(tradeRequest);
+  });
+
+  if (!tradeRequestByUser)
     throw new Error(
-      `Could not get all trade requests from listing ${listingById.listingName}`
+      `Could not get all trade requests from user ${userById.username}`
     );
 
-  return tradeRequestByListing;
+  return tradeRequestByUser;
 };
 
 const getTradeRequestsByUser = async (userId) => {
