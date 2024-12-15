@@ -18,8 +18,8 @@ const createCollection = async (
     collectionImageUrl
 ) => {
 
-    collectionName = checkString(collectionName);
-    collectionImageUrl = checkString(collectionImageUrl);
+    collectionName = checkString(collectionName, "collectionName");
+    collectionImageUrl = checkString(collectionImageUrl, "collectionImageUrl");
 
     let newCollection = {
         collectionName: collectionName,
@@ -40,11 +40,13 @@ const createCollection = async (
     return figColl;
 };
 
+
+// Returns collection and figure data
 const getAllCollections = async () => {
     const figureCollections = await collections();
     let collectionList = await figureCollections
         .find({})
-        .project({_id:1, collectionName:1})
+        .project({_id:1, collectionName:1, collectionImageUrl:1, figures:1})
         .toArray();
 
     if (!collectionList){
@@ -52,7 +54,7 @@ const getAllCollections = async () => {
     }
 
     collectionList = collectionList.map((col) =>{
-        col._id = team._id.toString();
+        col._id = col._id.toString();
         return col;
     });
 
@@ -61,8 +63,8 @@ const getAllCollections = async () => {
 
 const getCollectionById = async (collectionId) => {
     
-    collectionId = checkString(collectionId);
-    checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+    collectionId = checkId(collectionId);
 
     const figureCollections = await collections();
     const figColl = await figureCollections.findOne(
@@ -78,8 +80,8 @@ const getCollectionById = async (collectionId) => {
 
 // Only Updating the Name or ImageUrl 
 const updateCollection = async(collectionId, updateObject) =>{
-    collectionId = checkString(collectionId);
-    checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+    collectionId = checkId(collectionId);
 
     if (updateObject == undefined) {
 		throw new Error("updateObject is undefined");
@@ -91,12 +93,12 @@ const updateCollection = async(collectionId, updateObject) =>{
     
 
     if(updateObject.collectionName){
-        updateObject.collectionName = checkString(updateObject.collectionName);
+        updateObject.collectionName = checkString(updateObject.collectionName, "collectionName");
 
     }
 
     if(updateObject.collectionImageUrl){
-        updateObject.collectionImageUrl = checkString(updateObject.collectionImageUrl);
+        updateObject.collectionImageUrl = checkString(updateObject.collectionImageUrl, "collectionImageUrl");
     }
 
 
@@ -116,8 +118,8 @@ const updateCollection = async(collectionId, updateObject) =>{
 };
 
 const removeCollection = async(collectionId) =>{
-    collectionId = checkString(collectionId);
-    checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+    collectionId = checkId(collectionId);
 
 	const figureCollections = await collections();
 	const deletionInfo = await figureCollections.findOneAndDelete({

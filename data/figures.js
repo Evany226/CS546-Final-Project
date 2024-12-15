@@ -11,8 +11,8 @@ const createFigureList = async (collectionId, figureList) =>{
     if(!Array.isArray(figureList)){
         throw new Error("figureList is not an array");
     }
-    collectionId = checkString(collectionId);
-    checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+    collectionId = checkId(collectionId);
 
     figureList.forEach(figureObj => {
         if(typeof figureObj !== "object"){
@@ -22,8 +22,8 @@ const createFigureList = async (collectionId, figureList) =>{
             throw new Error("One of the figures is missing data")
         }
         
-        figureObj.figureName = checkString(figureObj.figureName);
-        figureObj.figureImageUrl = checkString(figureObj.figureImageUrl);
+        figureObj.figureName = checkString(figureObj.figureName, "figureName");
+        figureObj.figureImageUrl = checkString(figureObj.figureImageUrl, "figureImageUrl");
         figureObj._id = new ObjectId();
     });
 
@@ -46,8 +46,8 @@ const createFigureList = async (collectionId, figureList) =>{
 
 const addFigure = async (collectionId, figureObj) =>{
    
-    collectionId = checkString(collectionId);
-    checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+    collectionId = checkId(collectionId);
 
     if(typeof figureObj !== "object"){
         throw new Error("figureList contains an element that is not an object");
@@ -56,8 +56,8 @@ const addFigure = async (collectionId, figureObj) =>{
         throw new Error("One of the figures is missing data")
     }
     
-    figureObj.figureName = checkString(figureObj.figureName);
-    figureObj.figureImageUrl = checkString(figureObj.figureImageUrl);
+    figureObj.figureName = checkString(figureObj.figureName, "figureName");
+    figureObj.figureImageUrl = checkString(figureObj.figureImageUrl, "figureImageUrl");
     figureObj._id = new ObjectId();
 
     const figureCol = await collections();
@@ -78,8 +78,8 @@ const addFigure = async (collectionId, figureObj) =>{
 };
 
 const getAllFigures = async (collectionId) =>{
-    collectionId = checkString(collectionId);
-	checkId(collectionId);
+    collectionId = checkString(collectionId, "collectionId");
+	collectionId = checkId(collectionId);
 
 	const figCollection = await getCollectionById(collectionId);
 
@@ -91,8 +91,8 @@ const getAllFigures = async (collectionId) =>{
 };
 
 const getFigureById = async(figureId) =>{
-    figureId = checkString(figureId);
-    checkId(figureId);
+    figureId = checkString(figureId, "figureId");
+    figureId = checkId(figureId);
 
     const figCollection = await collections();
 
@@ -107,8 +107,8 @@ const getFigureById = async(figureId) =>{
 };
 
 const updateFigure = async (figureId, updateObject) =>{
-    figureId = checkString(figureId);
-    checkId(figureId);
+    figureId = checkString(figureId, "figureId");
+    figureId = checkId(figureId);
 
     if (updateObject == undefined) {
 		throw new Error("updateObject is undefined");
@@ -121,12 +121,12 @@ const updateFigure = async (figureId, updateObject) =>{
     let originFig = await getFigureById(figureId);
 
     if(updateObject.figureName){
-        updateObject.figureName = checkString(updateObject.figureName);
+        updateObject.figureName = checkString(updateObject.figureName, "figureName");
         originFig.figureName = updateObject.figureName;
     }
 
     if(updateObject.figureImageUrl){
-        updateObject.figureImageUrl = checkString(updateObject.figureImageUrl);
+        updateObject.figureImageUrl = checkString(updateObject.figureImageUrl, "figureName");
         originFig.figureImageUrl = updateObject.figureImageUrl;
     }
 
@@ -147,8 +147,8 @@ const updateFigure = async (figureId, updateObject) =>{
 };
 
 const removeFigure = async (figureId) =>{
-    figureId = checkString(figureId);
-    checkId(figureId);
+    figureId = checkString(figureId, "figureId");
+    figureId = checkId(figureId);
 
     const figureCollection = await collections();
     let updateInfo = await figureCollection.findOneAndUpdate(

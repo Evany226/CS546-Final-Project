@@ -473,3 +473,20 @@
   margin-top: 0.5rem;
   margin-left: 1rem;
 }
+
+.collection-img{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  padding: 1rem;
+}
+
+.figure-img{
+  width:10%;
+}
+.figure-display{
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+} 

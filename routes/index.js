@@ -2,8 +2,10 @@ import authRoute from "./authRoute.js";
 import listingsRoute from "./listingsRoute.js";
 import profileRoute from "./profileRoute.js";
 import convRoute from "./convRoute.js";
+import collectionRoute from "./collectionRoute.js"
 
 const constructorMethod = (app) => {
+  app.use("/", collectionRoute)
   app.use("/", listingsRoute);
 
   app.use("/", authRoute);
