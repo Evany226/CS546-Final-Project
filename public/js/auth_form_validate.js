@@ -5,7 +5,7 @@ import {
   checkDescription,
   checkIfValidState,
   checkPassword,
-} from "./helpers";
+} from "./helpers.js";
 
 console.log("linked");
 
@@ -31,13 +31,6 @@ if (signUpForm) {
     const descriptionVal = description.value;
     const cityVal = city.value;
     const stateVal = state.value;
-
-    checkParameter(usernameVal, "Username");
-    checkParameter(passwordVal, "Password");
-    checkParameter(confirmPasswordVal, "Confirm Password");
-    checkParameter(descriptionVal, "Description");
-    checkParameter(cityVal, "City");
-    checkParameter(stateVal, "State");
 
     try {
       usernameVal = checkUsername(usernameVal);
@@ -100,9 +93,6 @@ if (signInForm) {
 
     const usernameVal = signInUsername.value;
     const passwordVal = signInPassword.value;
-
-    checkParameter(usernameVal, "Username");
-    checkParameter(passwordVal, "Password");
 
     try {
       checkUsername(usernameVal);

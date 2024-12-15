@@ -13,6 +13,7 @@
   align-items: center;
   padding: 1rem 2rem;
   background-color: lightcoral;
+  position: relative;
 }
 
 .nav-title {
@@ -22,8 +23,12 @@
 }
 
 .nav-link-list {
+  position: absolute;
   display: flex;
   list-style: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .nav-link {
@@ -133,7 +138,7 @@
 }
 
 .alert-text {
-  color: red;
+  color: blue;
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -197,14 +202,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.error-alert {
-  color: red;
-  font-size: 0.8rem;
-  font-weight: 400;
-  margin-top: 0.5rem;
-  margin-left: 0.25rem;
 }
 
 .create-conv-input {
@@ -557,7 +554,7 @@
   border-bottom: 1px solid black;
 }
 
-.edit-profile-form {
+#edit-profile-form {
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
@@ -569,22 +566,31 @@
   font-weight: 700;
 }
 
+.edit-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
 .edit-input {
   padding: 0.5rem 0.3rem;
   border-radius: 0.25rem;
-  margin-top: 0.25rem;
   border: 1px solid black;
 }
 
 .edit-label {
   font-weight: 500;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
+}
+
+.edit-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .confirm-edit-btn {
   border: none;
-  width: 100%;
   font-size: 0.9rem;
   font-weight: 600;
   background-color: lightcoral;
@@ -592,5 +598,17 @@
   border-radius: 0.25rem;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.cancel-edit-btn {
+  text-decoration: none;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #e5e7eb;
+  color: black;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
 }

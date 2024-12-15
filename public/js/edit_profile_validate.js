@@ -5,7 +5,7 @@ import {
   checkDescription,
   checkIfValidState,
   checkPassword,
-} from "./helpers";
+} from "./helpers.js";
 
 console.log("profile linked");
 
@@ -14,6 +14,9 @@ const username = document.getElementById("username");
 const city = document.getElementById("city");
 const state = document.getElementById("state");
 const description = document.getElementById("description");
+const errorDiv = document.querySelector(".error-div");
+
+let errorArr = [];
 
 if (editProfileForm) {
   editProfileForm.addEventListener("submit", async (event) => {
@@ -22,49 +25,43 @@ if (editProfileForm) {
     const stateVal = state.value;
     const descriptionVal = description.value;
 
-    let errorArr = [];
-
-    checkParameter(usernameVal, "Username");
-    checkParameter(cityVal, "City");
-    checkParameter(stateVal, "State");
-    checkParameter(descriptionVal, "Description");
+    errorArr = [];
 
     try {
-      usernameVal = checkUsername(usernameVal);
+      checkUsername(usernameVal);
     } catch (error) {
       errorArr.push(error.message);
     }
 
     try {
-      cityVal = checkCity(cityVal);
+      checkCity(cityVal);
     } catch (error) {
       errorArr.push(error.message);
     }
 
     try {
-      stateVal = checkIfValidState(stateVal);
+      checkIfValidState(stateVal);
     } catch (error) {
       errorArr.push(error.message);
     }
 
     try {
-      descriptionVal = checkDescription(descriptionVal);
+      checkDescription(descriptionVal);
     } catch (error) {
       errorArr.push(error.message);
     }
 
     if (errorArr.length > 0) {
       event.preventDefault();
-      errorArr.forEach((error) => {
-        const errorDiv = document.createElement("div");
-        errorDiv.classList.add("error");
-        errorDiv.innerText = error;
-        editProfileForm.appendChild(errorDiv);
-      });
-    } else {
-      editProfileForm.submit();
-    }
 
-    return;
+      errorDiv.innerHTML = "";
+      errorDiv.hidden = false;
+      errorArr.forEach((error) => {
+        const errorItem = document.createElement("p");
+        errorItem.classList.add("error-item");
+        errorItem.innerHTML = error;
+        errorDiv.appendChild(errorItem);
+      });
+    }
   });
 }
