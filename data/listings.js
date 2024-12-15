@@ -107,6 +107,24 @@ const getListingsByUser = async (userId) => {
   return listingsByUser;
 };
 
+const getListingsByCollection = async (collectionId) => {
+  collectionId = checkId(collectionId);
+  const listingCollection = await listings();
+
+  let listingsByCollection = listingCollection
+    .find({
+      collectionId: collectionId,
+    })
+    .toArray();
+
+  if (!listingsByCollection)
+    throw new Error(
+      `Could not get all listing from collection with id of ${collectionId}`
+    );
+
+  return listingsByCollection;
+};
+
 const updateListing = async (listingId, updateObject) => {
   listingId = checkId(listingId);
   updateObject = checkObject(updateObject, "updateObject");
@@ -218,4 +236,6 @@ export {
   getListingById,
   updateListing,
   removeListing,
+  getListingsByUser,
+  getListingsByCollection,
 };
