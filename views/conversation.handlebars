@@ -1,4 +1,4 @@
-<div class="temp"></div>
+
 <main class="conv-container">
   <section class="user-panel">
     <div class="user-panel-header">
@@ -22,8 +22,9 @@
           />
           <button class="create-conv-btn" type="submit">Create</button>
         </form>
+        <div class="error-div" hidden></div>
         {{#if error}}
-          <p class="error-alert">{{error}}</p>
+          <p class="alert-text">{{error}}</p>
         {{/if}}
       </div>
       <ul class="user-panel-list">

@@ -1,0 +1,37 @@
+<main class="edit-profile-container">
+  <h1 class="edit-profile-title">Edit Profile</h1>
+    {{#if error}}
+      <p class="alert-text">{{error}}</p>
+    {{/if}}
+  <form id="edit-profile-form" action="/profile/edit" method="post">
+    <div class="error-div" hidden></div>
+    <div class="edit-input-wrapper">
+      <label for="name" class="edit-label">Update Username</label>
+      <input type="text" id="username" name="username" value="{{userData.username}}" class="edit-input">
+    </div>
+        <div class="edit-input-wrapper">
+    <label for="city" class="edit-label">Update City</label>
+    <input type="text" id="city" name="city" value="{{userData.city}}" class="edit-input">
+    </div>
+      <div class="edit-input-wrapper">
+        <label for="state" class="auth-label">State</label>
+        <select name="state" id="state">
+          {{#each states}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+    <div class="edit-input-wrapper">
+      <label for="description" class="edit-label">Update Description</label>
+      <textarea id="description" name="description" class="edit-input">{{userData.description}}</textarea>
+    </div>
+    
+    <div class="edit-btn-wrapper">
+      <a class="cancel-edit-btn" href="/profile/{{userData._id}}">Cancel</a>
+      <button type="submit" class="confirm-edit-btn">Save</button>
+    </div>
+
+  </form>
+</main>
+
+{{> (lookup . 'partial') }}

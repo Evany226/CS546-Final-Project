@@ -1,3 +1,71 @@
-<div>
-  <h1>Profile page</>
-</div>
+<main class="profile-container">
+  <section class="profile-header">
+    <div class="profile-avatar">
+      <img
+        class="profile-img"
+        src="https://via.placeholder.com/150"
+        alt="avatar"
+      />
+    </div>
+    <div class="profile-info">
+      <div class="title-wrapper">
+        <h1 class="profile-title">{{userData.username}}</h1>
+        {{#if isProfileOwner}}
+          <a href="/profile/edit" class="edit-profile-btn">Edit Profile</a>
+
+        {{else}}
+
+        <button class="follow-btn">
+          <p class="follow-btn-text">Follow</p>
+        </button>
+
+        <a class="message-btn" href="/conversations">
+          Message
+        </a>
+
+        {{/if}}
+
+      </div>
+      <div class="stats-wrapper">
+         <p class="stats-text">
+          <span class="stats-number">60</span>
+          <span class="stats-title">Figurines</span>
+
+         </p>
+
+          <p class="stats-text">
+            <span class="stats-number">2</span>
+            <span class="stats-title">Followers</span>
+          </p>
+
+          <p class="stats-text">
+            <span class="stats-number">3</span>
+            <span class="stats-title">Following</span>
+          </p>
+      </div>
+
+      <p class="location-text">
+        <span>Location:</span>
+        {{userData.city}}
+        {{userData.state}}
+      </p>
+
+      <p class="profile-subtitle">{{userData.description}}</p>
+      </p>
+    </div>
+  </section>
+  <section class="profile-collection">
+    <div class="collection-wrapper">
+      {{#each placeholder}}
+        <div class="collection-item">
+          <img
+            class="collection-img"
+            src="https://via.placeholder.com/200"
+            alt="figurine"
+          />
+        </div>
+      {{/each}}
+    </div>
+
+  </section>
+</main>

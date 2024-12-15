@@ -6,9 +6,11 @@ const signInUser = async (username, password) => {
   helper.parameterExists(username, "Username");
   helper.parameterExists(password, "Password");
 
-  helper.checkUsername(username);
+  username = helper.checkUsername(username);
 
   username = username.toLowerCase();
+
+  password = helper.checkPassword(password);
 
   const userCollection = await users();
 
@@ -44,7 +46,7 @@ const signUpUser = async (username, password, city, state, description) => {
   helper.parameterExists(state, "State");
   helper.parameterExists(description, "Description");
 
-  helper.checkUsername(username);
+  username = helper.checkUsername(username);
 
   username = username.toLowerCase();
 
@@ -56,13 +58,13 @@ const signUpUser = async (username, password, city, state, description) => {
     throw new Error("Username already exists");
   }
 
-  helper.checkPassword(password);
+  password = helper.checkPassword(password);
 
-  helper.checkCity(city);
+  city = helper.checkCity(city);
 
-  helper.checkIfValidState(state);
+  state = helper.checkIfValidState(state);
 
-  helper.checkDescription(description);
+  description = helper.checkDescription(description);
 
   const hashedPassword = await bcrypt.hash(password, 16);
 
