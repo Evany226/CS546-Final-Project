@@ -2,6 +2,7 @@ import { Router } from "express";
 import { checkId } from "../helpers.js";
 import { users } from "../config/mongoCollections.js";
 import { getUserById } from "../data/users.js";
+import { getAllCollections } from "../data/collections.js";
 import { checkAuthenticated } from "../middleware.js";
 import { ObjectId } from "mongodb";
 import {
@@ -129,20 +130,28 @@ router
     } catch (error) {
       return res.status(400).render("edit_profile", {
         error: error,
-        userData: body,
-        partial: "profile_script",
+        partial: "profile_script"
       });
     }
   });
 
-// This route is for viewing a user's profile
+
+router.get("/tracker", checkAuthenticated, async(req, res) => {
+  let collections = await getAllCollections();
+  res.render("tracker", {collections: collections});
+});
+
 router.get("/:id", checkAuthenticated, async (req, res) => {
   const user = req.session.user;
   let { id } = req.params;
 
   const isProfileOwner = user._id === id;
 
-  id = checkId(id);
+  try {
+    id = checkId(id);
+  } catch(e) {
+    return res.redirect("/profile");
+  }
 
   const userData = await getUserById(id);
 

@@ -1,0 +1,36 @@
+<main class="auth-container">
+  <form id="login-form" method="POST" action="/login">
+    <h1>Log In</h1>
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
+    <div class="input-wrapper">
+      <label for="username" class="auth-label">Username</label>
+      <input
+        type="text"
+        id="login-username"
+        name="username"
+        class="auth-input"
+        placeholder="Enter username..."
+      />
+    </div>
+    <div class="input-wrapper">
+      <label for="password" class="auth-label">Password</label>
+      <input
+        type="password"
+        id="login-password"
+        name="password"
+        class="auth-input"
+        placeholder="Enter password..."
+      />
+    </div>
+    <button type="submit" class="auth-button">
+      <p class="auth-button-text">Log in</p>
+    </button>
+  </form>
+</main>
+
+{{> (lookup . 'partial') }}

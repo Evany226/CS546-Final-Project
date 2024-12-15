@@ -19,6 +19,22 @@ const createUser = async () => {};
 
 const getAllUsers = async () => {};
 
+const getUserByUsername = async (username) => {
+  const userCollection = await users();
+
+  username = checkString(username);
+  const user = await userCollection.findOne({
+    username: username
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user._id = user._id.toString();
+  return user;
+}
+
 const getUserById = async (userId) => {
   const userCollection = await users();
 
@@ -87,4 +103,4 @@ const updateUser = async (userId, updateObject) => {
 
 const removeUser = async (userId) => {};
 
-export { createUser, getAllUsers, getUserById, updateUser, removeUser };
+export { createUser, getAllUsers, getUserById, updateUser, removeUser, getUserByUsername };

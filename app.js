@@ -3,6 +3,9 @@ const app = express();
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
+import "dotenv/config";
+import { getUserByUsername } from "./data/users.js";
+import { signUpAdmin } from "./data/auth.js";
 
 const staticDir = express.static("public");
 
@@ -33,7 +36,31 @@ app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
 configRoutes(app);
 
-app.listen(3000, () => {
-  console.log("We've now got a server!");
-  console.log("Your routes will be running on http://localhost:3000");
-});
+async function startServer() {
+  // create admin account if it doesn't exist in the database
+  // taken from .env (for now)
+  if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
+    console.log("create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
+    return;
+  }
+  try {
+    let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);
+    console.log(`Admin user ${process.env.ADMIN_USERNAME} found. Initializing server...`);
+  } catch(e) {
+    console.log("Admin user missing but configuration found. Creating user now...");
+    try {
+      await signUpAdmin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
+      
+      console.log("Admin created.");
+    } catch(e) {
+      console.log(`Admin creation error: \n${e}`);
+      return;
+    }
+  }
+  app.listen(3000, async () => {
+    console.log("We've now got a server!");
+    console.log("Your routes will be running on http://localhost:3000");
+  });
+}
+
+startServer();
