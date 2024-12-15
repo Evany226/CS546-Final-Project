@@ -102,7 +102,7 @@ router
     });
   })
   .post(checkAuthenticated, async (req, res) => {
-    const { id: conversationId } = req.params;
+    let { id: conversationId } = req.params;
     const body = req.body;
 
     try {

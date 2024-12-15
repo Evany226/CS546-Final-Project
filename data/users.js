@@ -6,6 +6,7 @@ import {
   checkIfValidState,
   checkCity,
   checkDescription,
+  checkObject,
 } from "../helpers.js";
 import { users } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
@@ -48,6 +49,13 @@ const updateUser = async (userId, updateObject) => {
 
   if (updateObject.username) {
     updateObject.username = checkUsername(updateObject.username);
+    const existingUsername = await userCollection.findOne({
+      username: username,
+    });
+
+    if (existingUsername) {
+      throw new Error("Username already exists");
+    }
   }
 
   if (updateObject.city) {
