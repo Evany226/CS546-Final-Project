@@ -130,6 +130,7 @@ router
     } catch (error) {
       return res.status(400).render("edit_profile", {
         error: error,
+        userData: body,
         partial: "profile_script"
       });
     }
