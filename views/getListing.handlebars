@@ -1,17 +1,18 @@
-<article class="listing">
-  <h1 class="listing-title">{{title}} ({{this.status}})</h1>
-
-  <div class="image-wrapper">
-    <img
-      class="listingFigure-image"
-      alt="{{listingFigureName}}"
-      src="{{listingFigureImageUrl}}"
-    />
+<article class="listing-page">
+  <div class="listing-section">
+    <div class="image-wrapper">
+      <img
+        class="listingFigure-image"
+        alt="{{listingFigureName}}"
+        src="{{listingFigureImageUrl}}"
+      />
+    </div>
     <div class="lister-info">
+      <h1 class="listing-title">{{listingName}}</h1>
       <h2 class="figure-name">Figure: {{listingFigureName}}</h2>
       <div class="user-wrapper">
-        <p class="user-info">Posted by </p>
-        <a class="user-link" href="/getUser/{{this.userId}}">{{username}}</a>
+        <p class="user-info">Posted by: </p>
+        <a class="user-link" href="/profile/{{this.userId}}">{{username}}</a>
       </div>
       <p class="description-description">Description: {{this.description}}</p>
       <p class="description-condition">Condition: {{this.condition}}</p>
@@ -19,24 +20,25 @@
     {{!-- <p class="status-info">{{this.status}}</p> --}}
   </div>
 
-  <section>
+  <section class="offering-section">
     <h4>Trading For:</h4>
-    <table class="trading_table">
+    <ul class="offering-table">
       {{#each offeringFigure}}
-        <tr>
-          <th class="table-source">{{this.figureName}}</th>
-          <th><img
-              class="offeringFigure-image"
+        <li class="offering-item">
+          <p class="table-source">{{this.figureName}}</p>
+          <div class="offering-image-wrapper">
+            <img
+              class="offering-image"
               alt="{{this.figureName}}"
               src="{{this.figureImageUrl}}"
             />
-          </th>
-        </tr>
+          </div>
+        </li>
       {{/each}}
-    </table>
+    </ul>
   </section>
 
-  <section>
+  <section class="comment-section">
     <h4>Ratings and Comments:</h4>
     {{#each comment}}
       <h5 class="comment-rating">Rating: {{this.rating}}</h5>

@@ -1,8 +1,8 @@
-import { Router } from 'express';
+import { Router } from "express";
 const router = Router();
-import { collectionData, figureData } from '../data/index.js';
-import { checkString,checkId } from '../helpers.js';
-import { Collection } from 'mongodb';
+import { collectionData, figureData } from "../data/index.js";
+import { checkString, checkId } from "../helpers.js";
+import { Collection } from "mongodb";
 
 
 router
@@ -15,10 +15,9 @@ router
                 collection: collectionList
             });
         }catch(e){ 
-            console.log(e)
+            // console.log(e)
             res.status(400).render("collections")
         }
     });
-    
 
 export default router;

@@ -24,6 +24,7 @@ router
   .get(async (req, res) => {
     try {
       const listingList = await getAllListings();
+
       console.log(listingList);
       res.render("listings", {
         title: "Listings",
@@ -110,43 +111,41 @@ router
 
     try {
       const listing = await getListingById(listingId);
-      //const username = await getUserById(listingId.userId);
+      console.log(listing);
+      const user = await getUserById(listing.userId);
       console.log("g");
       console.log(listing);
-      /*const collection = await getCollectionById(listing.collectionId);
+      const collection = await getCollectionById(listing.collectionId);
       const listingFigure = await getFigureById(listing.listingFigureId);
-        */
-      const offeringFigureList = [];
-      /*
-      listing.offeringFigureId.forEach( async (figureId) => {
+
+      const offerFigureList = [];
+
+      listing.offerFigureId.forEach(async (figureId) => {
         const figure = await getFigureById(figureId);
-        offeringFigureList.push(figure);
+        offerFigureList.push(figure);
       });
-         */
 
       const commentIdsList = [];
-      /*
-      listing.commentIds.forEach( async (commentId) => {
+
+      listing.commentIds.forEach(async (commentId) => {
         const comment = await getCommentById(commentId);
         comment[username] = await getUserById(comment.userId);
         commentIdsList.push(comment);
       });
-      */
 
       return res.render(`getListing`, {
-        title: `${listing.listingName}`,
-        username: /*username*/ "I",
-        collectionName: /*collection.collectionName*/ "happy",
-        collectionId: /*collection._id */ "1231413131q",
-        listingFigureName: /*listingFigure.figureName*/ "Boo",
-        listingFigureImageUrl:
-          /*listingFigure.figureImageUrl*/ "https://via.placeholder.com/150",
-        listingFigureId: /*listingFigure._id */ "1231413131q",
-        offeringFigure: /*offeringFigureList*/ [],
+        listingName: listing.listingName,
+        username: user.username,
+        collectionName: collection.collectionName,
+        collectionId: collection._id,
+        listingFigureName: listingFigure.figureName,
+        listingFigureImageUrl: listingFigure.figureImageUrl,
+        listingFigureId: listingFigure._id,
+        offeringFigure: offerFigureList,
         description: listing.description,
         condition: listing.condition,
         comment: commentIdsList,
-        tradeRequestsIds: /*listing.tradeRequestsIds*/ [],
+        tradeRequestsIds: listing.tradeRequestsIds,
         status: listing.status,
       });
     } catch (e) {

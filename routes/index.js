@@ -2,11 +2,12 @@ import authRoute from "./authRoute.js";
 import listingsRoute from "./listingsRoute.js";
 import profileRoute from "./profileRoute.js";
 import convRoute from "./convRoute.js";
-import collectionRoute from "./collectionRoute.js"
-import adminRoute from "./admin.js"
+import collectionRoute from "./collectionRoute.js";
+import adminRoute from "./admin.js";
+import tradeReqRoute from "./trade-requests.js";
 
 const constructorMethod = (app) => {
-  app.use("/", collectionRoute)
+  app.use("/", collectionRoute);
   app.use("/", listingsRoute);
 
   app.use("/", authRoute);
@@ -16,6 +17,8 @@ const constructorMethod = (app) => {
   app.use("/conversations", convRoute);
 
   app.use("/admin", adminRoute);
+
+  app.use("/trade-requests", tradeReqRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);
