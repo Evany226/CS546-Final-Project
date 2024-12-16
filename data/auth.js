@@ -118,7 +118,7 @@ const signUpAdmin = async (username, password) => {
     city: "ADMIN",
     state: "ADMIN",
     description: "admin account for management.",
-    role: "admin"
+    role: "admin",
   };
 
   const insertedUser = await userCollection.insertOne(newUser);

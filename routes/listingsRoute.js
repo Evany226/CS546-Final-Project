@@ -18,6 +18,7 @@ import {
 import { getCollectionById } from "../data/collections.js";
 import { getFigureById } from "../data/figures.js";
 import { getUserById } from "../data/users.js";
+import { getAllCollections } from "../data/collections.js";
 
 router
   .route("/")
@@ -25,16 +26,21 @@ router
     try {
       const listingList = await getAllListings();
 
-      console.log(listingList);
+      const collections = await getAllCollections();
+
+      console.log(collections);
+
       res.render("listings", {
         title: "Listings",
         listing: listingList,
+        collections: collections,
       });
     } catch (e) {
       return res.status(400).render("listings", { error: e.message });
     }
   })
   .post(async (req, res) => {
+    let userId = req.session.user._id;
     const listingData = req.body;
 
     if (!listingData || Object.keys(listingData).length === 0) {
@@ -42,7 +48,6 @@ router
     }
 
     let {
-      userId,
       collectionId,
       listingFigureId,
       offeringFigureId,
@@ -111,10 +116,9 @@ router
 
     try {
       const listing = await getListingById(listingId);
-      console.log(listing);
+
       const user = await getUserById(listing.userId);
-      console.log("g");
-      console.log(listing);
+
       const collection = await getCollectionById(listing.collectionId);
       const listingFigure = await getFigureById(listing.listingFigureId);
 

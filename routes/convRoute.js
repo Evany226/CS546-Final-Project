@@ -10,58 +10,55 @@ import * as helper from "../helpers.js";
 
 const router = Router();
 
-router
-  .route("/")
-  .get(checkAuthenticated, async (req, res) => {
-    const user = req.session.user;
+router.route("/").get(checkAuthenticated, async (req, res) => {
+  const user = req.session.user;
+
+  helper.checkId(user._id);
+
+  const conversations = await getAllConversations(user._id);
+
+  if (!conversations || conversations.length === 0) {
+    return res.render("conversation", {
+      conversations: conversations,
+      partial: "conv_script",
+      isIndividual: false,
+    });
+  }
+
+  return res.redirect(`/conversations/${conversations[0]._id}`);
+});
+
+router.post("/", checkAuthenticated, async (req, res) => {
+  const body = req.body;
+  const user = req.session.user;
+
+  const conversations = await getAllConversations(user._id);
+
+  try {
+    if (!body || Object.keys(body).length === 0) {
+      throw new Error("No body provided");
+    }
+
+    let { username: otherUsername } = body;
+
+    helper.parameterExists(otherUsername, "otherUsername");
+
+    otherUsername = helper.checkUsername(otherUsername);
+
+    otherUsername = otherUsername.toLowerCase();
 
     helper.checkId(user._id);
 
-    const conversations = await getAllConversations(user._id);
+    const newConv = await createConversation(user._id, otherUsername);
 
-    if (!conversations || conversations.length === 0) {
-      return res.render("conversation", {
-        conversations: conversations,
-        partial: "conv_script",
-        isIndividual: false,
-      });
-    }
+    console.log(newConv);
 
-    return res.redirect(`/conversations/${conversations[0]._id}`);
-  })
-  .post(checkAuthenticated, async (req, res) => {
-    const body = req.body;
-    const user = req.session.user;
-
-    const conversations = await getAllConversations(user._id);
-
-    try {
-      if (!body || Object.keys(body).length === 0) {
-        throw new Error("No body provided");
-      }
-
-      let { username: otherUsername } = body;
-
-      helper.parameterExists(otherUsername, "otherUsername");
-
-      otherUsername = helper.checkUsername(otherUsername);
-
-      otherUsername = otherUsername.toLowerCase();
-
-      helper.checkId(user._id);
-
-      await createConversation(user._id, otherUsername);
-
-      return res.redirect("/conversations");
-    } catch (error) {
-      console.log(error);
-      return res.status(400).render("conversation", {
-        error: error,
-        conversations: conversations,
-        partial: "conv_script",
-      });
-    }
-  });
+    return res.status(200).json(newConv);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error: error.message });
+  }
+});
 
 router
   .route("/:id")

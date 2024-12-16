@@ -198,13 +198,13 @@
   padding-bottom: 0;
 }
 
-.create-conv-form {
+#create-conv-form {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.create-conv-input {
+#create-conv-input {
   width: 100%;
   outline: none;
   border: 1px solid black;
@@ -221,7 +221,7 @@
   cursor: pointer;
 }
 
-.conv-panel-list {
+#conv-panel-list {
   margin-top: 1rem;
 }
 
@@ -348,7 +348,7 @@
   color: gray;
 }
 
-.chat-form {
+#chat-form {
   padding: 1.1rem;
   display: flex;
   align-items: center;
@@ -365,7 +365,7 @@
   padding: 0.4rem 0.5rem;
 }
 
-.chat-input {
+#chat-input {
   width: 100%;
   outline: none;
   border: none;

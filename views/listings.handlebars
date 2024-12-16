@@ -1,6 +1,22 @@
 
 <main class="listing-container">
   <h1 class="listing-head">Listing Page</h1>
+    <form id="create-listing-form" action="/" method="POST">
+      <label for="listingName">Listing name:</label>
+      <input type="text" name="listingName" id="listingName" placeholder="Listing Name"></form>
+      <label for="collections">Collections:</label>
+      <select name="collectionId" id="collectionId">
+        {{#each collections}}
+          <option value="{{this._id}}">{{this.collectionName}}</option>
+        {{/each}}
+      </select>
+
+      <select >
+        
+      </select>
+       
+
+    </form>
     <ul class="listing-wrapper">
       {{#each listing}}
             <li class="listing-item">
@@ -12,3 +28,5 @@
       {{/each}}
     </ul>
 </main>
+
+<script src="/public/js/listing.js"></script>
