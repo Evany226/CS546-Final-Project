@@ -1,0 +1,21 @@
+<main>
+    <h1>Edit Collection</h1>
+
+    <form class = "admin-edit-collection-form" method="POST" action="/admin/edit-collection/">
+        <label for="collectionId">Colleciton Id:</label>
+        <input type="text" name="collectionId" id="collectionId" readonly="True" value="{{id}}"/>
+        <br>
+        <label for="collectionName">New Collection Name:</label>
+        <input type="text" name="collectionName" id="collectionName" value="{{name}}"/>
+        <br>
+        <label for="collectionImageUrl">New Collection Image URL:</label>
+        <input type="text" name="collectionImageUrl" id = "collectionImageUrl"/>
+        <button type="submit">Submit</button>
+    </form>
+
+    <form class="remove-collection-form" method="post" action="/admin/remove-collection">
+        <input type="text" hidden="true" name="collectionId" id="collectionId" value="{{id}}">
+        <input type="submit" name="removeCollection" id="removeCollection" value="Delete Collection">
+    </form>
+
+</main>

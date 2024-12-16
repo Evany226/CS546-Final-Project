@@ -1,0 +1,17 @@
+<main>
+    <h1>Add Figure</h1>
+    <form class = "admin-add-figure-form" method="POST" action="/admin/add-figure/">
+        <label for="collectionId">Collection Id:</label>
+        <input type="text" name="collectionId" id="collectionId" readonly="True" value="{{id}}"/>
+        <br>
+        <label for="figureName">New Figure Name:</label>
+        <input type="text" name="figureName" id="figureName"/>
+        <br>
+        <label for="figureImageUrl">New Figure Image URL:</label>
+        <input type="text" name="figureImageUrl" id = "figureImageUrl"/>
+        <button type="submit">Submit</button>
+    </form>
+
+</main>
+
+{{> (lookup . 'partial') }}

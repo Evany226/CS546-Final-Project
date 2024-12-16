@@ -55,6 +55,10 @@ const getAllCollections = async () => {
 
     collectionList = collectionList.map((col) =>{
         col._id = col._id.toString();
+        col.figures.map((fig =>{
+            fig._id = fig._id.toString();
+            return fig;
+        }))
         return col;
     });
 
