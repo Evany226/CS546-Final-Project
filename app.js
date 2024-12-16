@@ -6,6 +6,7 @@ import session from "express-session";
 import "dotenv/config";
 import { getUserByUsername } from "./data/users.js";
 import { signUpAdmin } from "./data/auth.js";
+import { seedDB } from "./config/seed.js";
 
 const staticDir = express.static("public");
 
@@ -45,18 +46,26 @@ async function startServer() {
   }
   try {
     let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);
-    console.log(`Admin user ${process.env.ADMIN_USERNAME} found. Initializing server...`);
-  } catch(e) {
-    console.log("Admin user missing but configuration found. Creating user now...");
+    console.log(
+      `Admin user ${process.env.ADMIN_USERNAME} found. Initializing server...`
+    );
+  } catch (e) {
+    console.log(
+      "Admin user missing but configuration found. Creating user now..."
+    );
     try {
       await signUpAdmin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
-      
+
       console.log("Admin created.");
-    } catch(e) {
+    } catch (e) {
       console.log(`Admin creation error: \n${e}`);
       return;
     }
   }
+
+  //seed database
+  // await seedDB();
+
   app.listen(3000, async () => {
     console.log("We've now got a server!");
     console.log("Your routes will be running on http://localhost:3000");

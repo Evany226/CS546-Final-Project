@@ -25,12 +25,12 @@ if (signUpForm) {
   signUpForm.addEventListener("submit", (event) => {
     errorArr = [];
 
-    const usernameVal = username.value;
-    const passwordVal = password.value;
-    const confirmPasswordVal = confirmPassword.value;
-    const descriptionVal = description.value;
-    const cityVal = city.value;
-    const stateVal = state.value;
+    let usernameVal = username.value;
+    let passwordVal = password.value;
+    let confirmPasswordVal = confirmPassword.value;
+    let descriptionVal = description.value;
+    let cityVal = city.value;
+    let stateVal = state.value;
 
     try {
       usernameVal = checkUsername(usernameVal);

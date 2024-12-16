@@ -8,6 +8,7 @@ import {
 } from "../helpers.js";
 import { listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
+import { getFigureById } from "./figures.js";
 
 /**
  * Listings
@@ -73,10 +74,19 @@ const getAllListings = async () => {
   let listingList = await listingCollection.find({}).toArray();
 
   if (!listingList) throw new Error("Could not get all listings");
-
   console.log(listingList);
 
-  return listingList;
+  const promises = await listingList.map(async (listing) => {
+    const figureImg = await getFigureById(listing.listingFigureId);
+
+    listing.listingFigureImageUrl = figureImg.figureImageUrl;
+
+    return listing;
+  });
+
+  const listingRes = await Promise.all(promises);
+
+  return listingRes;
 };
 
 const getListingById = async (listingId) => {

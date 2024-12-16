@@ -1,10 +1,13 @@
 
-<main class="listing-containers">
+<main class="listing-container">
   <h1 class="listing-head">Listing Page</h1>
     <ul class="listing-wrapper">
       {{#each listing}}
-            <li class='listing-item'>
-              <a href='/getListing/{{this._id}}'>{{this.listingName}}</a> 
+            <li class="listing-item">
+              <div class="listing-img-wrapper">
+                <img src="{{this.listingFigureImageUrl}}" alt="listing image" class="listing-img">
+              </div>
+              <a href="/getListing/{{this._id}}" class="listing-link">{{this.listingName}}</a>
             <li>
       {{/each}}
     </ul>
