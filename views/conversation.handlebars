@@ -27,20 +27,19 @@
           <p class="alert-text">{{error}}</p>
         {{/if}}
       </div>
-      <ul class="user-panel-list">
+      <ul class="conv-panel-list">
         {{#each conversations}}
-          <li class="user-panel-list-item">
-            <a class="user-panel-link" href="/conversations/{{this._id}}">
-              <div class="user-pfp">
+          <li class="conv-panel-list-item">
+            <a class="conv-panel-link" href="/conversations/{{this._id}}">
+              <div class="conv-pfp">
               <img
-                class="user-pfp-img"
+                class="conv-pfp-img"
                 src="https://via.placeholder.com/150"
                 alt="User Profile Picture"
               />
             </div>
-            <div class="user-info">
-              <h3 class="user-name">{{this.otherUsername}}</h3>
-              <p class="user-message">Hey, how are you?</p>
+            <div class="conv-user-info">
+              <h3 class="conv-name">{{this.otherUsername}}</h3>
             </div>
             </a>
           </li>
