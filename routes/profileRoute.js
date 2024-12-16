@@ -3,6 +3,7 @@ import { checkId } from "../helpers.js";
 import { users } from "../config/mongoCollections.js";
 import { getUserById } from "../data/users.js";
 import { getAllCollections } from "../data/collections.js";
+import { getTrackersByUserId } from "../data/tracker.js";
 import { checkAuthenticated } from "../middleware.js";
 import { ObjectId } from "mongodb";
 import {
@@ -135,12 +136,6 @@ router
       });
     }
   });
-
-
-router.get("/tracker", checkAuthenticated, async(req, res) => {
-  let collections = await getAllCollections();
-  res.render("tracker", {collections: collections});
-});
 
 router.get("/:id", checkAuthenticated, async (req, res) => {
   const user = req.session.user;

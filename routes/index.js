@@ -5,6 +5,7 @@ import convRoute from "./convRoute.js";
 import collectionRoute from "./collectionRoute.js";
 import adminRoute from "./admin.js";
 import tradeReqRoute from "./trade-requests.js";
+import trackerRoute from "./tracker.js";
 
 const constructorMethod = (app) => {
   app.use("/", collectionRoute);
@@ -19,6 +20,8 @@ const constructorMethod = (app) => {
   app.use("/admin", adminRoute);
 
   app.use("/trade-requests", tradeReqRoute);
+  
+  app.use("/tracker", trackerRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);

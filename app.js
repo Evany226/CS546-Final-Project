@@ -29,6 +29,7 @@ const handlebarsInstance = exphbs.create({
   defaultLayout: "main",
   helpers: {
     partialsDir: ["views/partials/"],
+    json: (context) => JSON.stringify(context),
   },
 });
 
