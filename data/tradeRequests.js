@@ -10,6 +10,7 @@ import {
 import { tradeRequests, listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
+import { getUserById } from "./users.js";
 
 const createTradeRequest = async (
   listingId,
@@ -18,8 +19,7 @@ const createTradeRequest = async (
   toUserId,
   fromUserId,
   transactionStatus,
-  completionStatus,
-  date
+  completionStatus
 ) => {
   listingId = checkId(listingId);
   listingFigureId = checkId(listingFigureId);
@@ -30,7 +30,7 @@ const createTradeRequest = async (
   transactionStatus = checkTransactionStatus(transactionStatus);
   if (typeof completionStatus !== "boolean")
     throw new Error("completionStatus must be type boolean");
-  date = checkDate(date);
+  const date = new Date();
 
   let newTradeRequest = {
     listingId,
@@ -89,27 +89,23 @@ const getTradeRequestsByListing = async (listingId) => {
     tradeRequest = await getTradeRequestById(tradeRequest);
   });
 
-  let userById = checkId(userId);
-  userById = await getuserById(userId);
-
-  let tradeRequestByUser = userById["tradeRequestIds"];
-  tradeRequestByUser.forEach(async (tradeRequest) => {
-    tradeRequest = await getTradeRequestById(tradeRequest);
-  });
-
-  if (!tradeRequestByUser)
+  if (!tradeRequestByListing)
     throw new Error(
       `Could not get all trade requests from user ${userById.username}`
     );
 
-  return tradeRequestByUser;
+  return tradeRequestByListing;
 };
 
 const getTradeRequestsByUser = async (userId) => {
   let userById = checkId(userId);
-  userById = await getuserById(userId);
+  userById = await getUserById(userId);
 
-  let tradeRequestByUser = userById["tradeRequestIds"];
+  let tradeRequestByUser = userById.tradeRequestIds;
+
+  if (tradeRequestByUser.length === 0)
+    throw new Error("User has no trade requests");
+
   tradeRequestByUser.forEach(async (tradeRequest) => {
     tradeRequest = await getTradeRequestById(tradeRequest);
   });
@@ -180,7 +176,7 @@ const updateTradeRequest = async (tradeRequestId, updateObject) => {
     { $set: updatedTradeRequest },
     { returnDocument: "after" }
   );
-  console.log(updatedInfo);
+
   if (!updatedInfo)
     throw new Error(
       `Could not update trade request with id of ${tradeRequestId} successfully`

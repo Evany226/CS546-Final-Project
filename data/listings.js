@@ -74,7 +74,6 @@ const getAllListings = async () => {
   let listingList = await listingCollection.find({}).toArray();
 
   if (!listingList) throw new Error("Could not get all listings");
-  console.log(listingList);
 
   const promises = await listingList.map(async (listing) => {
     const figureImg = await getFigureById(listing.listingFigureId);
@@ -206,7 +205,7 @@ const updateListing = async (listingId, updateObject) => {
   }
 
   if (updateObjectKeys.includes("listingStatus")) {
-    updateObject.listingStatus = checklistingStatus(updateObject.listingStatus);
+    updateObject.listingStatus = checkListingStatus(updateObject.listingStatus);
 
     updatedListing.listingStatus = updateObject.listingStatus;
   }
@@ -217,7 +216,7 @@ const updateListing = async (listingId, updateObject) => {
     { $set: updatedListing },
     { returnDocument: "after" }
   );
-  console.log(updatedInfo);
+
   if (!updatedInfo)
     throw new Error(
       `Could not update listing with id of ${listingId} successfully`

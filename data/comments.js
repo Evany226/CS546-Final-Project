@@ -45,8 +45,6 @@ const getAllComments = async () => {
 
   if (!commentList) throw new Error("Could not get all comments");
 
-  console.log(commentList);
-
   return commentList;
 };
 
@@ -134,7 +132,7 @@ const updateComment = async (commentId, updateObject) => {
     { $set: updatedComment },
     { returnDocument: "after" }
   );
-  console.log(updatedInfo);
+
   if (!updatedInfo)
     throw new Error(
       `Could not update comment with id of ${commentId} successfully`

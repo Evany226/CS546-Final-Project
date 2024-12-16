@@ -8,7 +8,7 @@ import {
   checkDescription,
   checkObject,
 } from "../helpers.js";
-import { users } from "../config/mongoCollections.js";
+import { tradeRequests, users } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 
 /**
@@ -24,7 +24,7 @@ const getUserByUsername = async (username) => {
 
   username = checkString(username);
   const user = await userCollection.findOne({
-    username: username
+    username: username,
   });
 
   if (!user) {
@@ -33,7 +33,7 @@ const getUserByUsername = async (username) => {
 
   user._id = user._id.toString();
   return user;
-}
+};
 
 const getUserById = async (userId) => {
   const userCollection = await users();
@@ -86,11 +86,18 @@ const updateUser = async (userId, updateObject) => {
     updateObject.description = checkDescription(updateObject.description);
   }
 
+  if (updateObject.tradeRequestIds) {
+    updateObject.tradeRequestsIds.forEach((tradeRequests) => {
+      updateObject.tradeRequestsIds = checkId(tradeRequests);
+    });
+  }
+
   const updatedUser = {
     username: updateObject.username,
     city: updateObject.city,
     state: updateObject.state,
     description: updateObject.description,
+    tradeRequests: updateObject.tradeRequestIds,
   };
 
   await userCollection.updateOne(
@@ -103,4 +110,11 @@ const updateUser = async (userId, updateObject) => {
 
 const removeUser = async (userId) => {};
 
-export { createUser, getAllUsers, getUserById, updateUser, removeUser, getUserByUsername };
+export {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  removeUser,
+  getUserByUsername,
+};

@@ -817,4 +817,31 @@
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  align-items: center;
+}
+
+/* trade request page */
+
+.tradeRequest-container {
+  padding: 1rem;
+}
+
+.tradeRequest-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.tradeRequest-image-wrapper {
+  display: flex;
+}
+
+.listing-img {
+  width: 200px;
+  height: 200px;
+}
+
+.offering-img {
+  width: 200px;
+  height: 200px;
 }

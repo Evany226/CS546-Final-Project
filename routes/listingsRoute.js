@@ -25,7 +25,6 @@ router
     try {
       const listingList = await getAllListings();
 
-      console.log(listingList);
       res.render("listings", {
         title: "Listings",
         listing: listingList,
@@ -111,10 +110,7 @@ router
 
     try {
       const listing = await getListingById(listingId);
-      console.log(listing);
       const user = await getUserById(listing.userId);
-      console.log("g");
-      console.log(listing);
       const collection = await getCollectionById(listing.collectionId);
       const listingFigure = await getFigureById(listing.listingFigureId);
 
@@ -149,7 +145,6 @@ router
         status: listing.status,
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).render(`getListing`, { error: e.message });
     }
   })

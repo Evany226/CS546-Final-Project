@@ -18,7 +18,7 @@ const constructorMethod = (app) => {
 
   app.use("/admin", adminRoute);
 
-  app.use("/trade-requests", tradeReqRoute);
+  app.use("/tradeRequests", tradeReqRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);

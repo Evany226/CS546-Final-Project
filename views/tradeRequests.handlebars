@@ -1,0 +1,17 @@
+
+<main class="tradeRequest-container">
+  <h1 class="tradeRequest-head">Trade Requests</h1>
+    <ul class="tradeRequest-wrapper">
+      {{#each tradeRequest}}
+            <li class="tradeRequest-item">
+                <a href="/tradeRequests/getTradeRequest/{{this._id}}" class="tradeRequest-link">Trade Request From {{this.username}}</a>
+                <div class="tradeRequest-image-wrapper"></div>
+                  <img src="{{this.listingFigureImageUrl}}" alt="listing image" class="listing-img">
+                  <p>Trade For</p>
+                  <img src="{{this.offeringFigureImageUrl}}" alt="offering image" class="offering-img">
+                </div>
+                <p class="tradeRequest-time">{{this.date}}</p>
+            <li>
+      {{/each}}
+    </ul>
+</main>
