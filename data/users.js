@@ -101,6 +101,8 @@ const updateUser = async (userId, updateObject) => {
   return await getUserById(userId);
 };
 
-const removeUser = async (userId) => {};
+const removeUser = async (userId) => {
+  
+};
 
 export { createUser, getAllUsers, getUserById, updateUser, removeUser, getUserByUsername };

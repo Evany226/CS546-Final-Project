@@ -2,17 +2,55 @@
 <main>
     <h1>Admin Dashboard</h1>
     <h2>Collection Adding</h2>
-    <form class = "admin-add-collection-form" method="POST" action="/add-collection">
-        <label for="collection-name">Collection name:</label>
-        <input type="text" name="collection-name"/>
+
+    {{#if error}}
+        <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
+
+    <p>
+        Adding a new collection will give you a container starting with no figures. <br>
+        Use add figures below when it appears.
+    </p>
+
+    <form class = "admin-add-collection-form" method="POST" action="/admin/add-collection">
+        <label for="collectionName">Collection name:</label>
+        <input type="text" name="collectionName" id="collectionName"/>
         <br>
-        <label>Figures:</label>
-        <div id="form-container">
-            <input type="json" name="figure-1">
-        </div>
-        <button type="button" id="add-figure-btn">Add Figure</button>
+        <label for="collectionImageUrl">Collection Image URL:</label>
+        <input type="text" name="collectionImageUrl" id = "collectionImageUrl"/>
         <button type="submit">Submit</button>
     </form>
+
+
+    <h2>Edit Current Collections</h2>
+    <p>Click on any of the images to take you to an edit page for that collection or figure</p>
+
+    {{#each collection}}
+    <div class="collection-wrapper">
+        <div>
+            <h2 id="collection-name">{{this.collectionName}}</h2>
+            <a href="/admin/edit-collection/{{this._id}}">
+                <img class="collection-img" src="{{this.collectionImageUrl}}">
+            </a>
+            
+        </div>
+        
+        <div class="figure-display">
+        {{#each this.figures}}
+            <a href="/admin/edit-figure/{{this._id}}">
+                <img class="admin-figure-img" src="{{this.figureImageUrl}}" alt="{{this.figureName}}" >
+            </a>
+            
+        {{/each}}
+            <a id="addFigureButton" href="/admin/add-figure/{{this._id}}">Add Figure</a>
+        </div>
+        
+    </div>
+    {{/each}}       
+
+    
 </main>
 
 {{> (lookup . 'partial') }}

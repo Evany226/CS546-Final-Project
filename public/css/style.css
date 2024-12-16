@@ -623,6 +623,7 @@
   border-radius: 0.25rem;
   cursor: pointer;
   padding: 0.5rem 1rem;
+}
 /* Listing Page*/
 .listing-head {
   width: 100%;
@@ -716,19 +717,44 @@
   margin-left: 1rem;
 }
 
+
+
+/* Admin, Collection, and figures css */
+
 .collection-img{
-  display: flex;
+  display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
-  padding: 1rem;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.collection-img:hover{
+  opacity: .3;
+}
+
+
+.collection-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .figure-img{
-  width:10%;
+  width:100px;
+
 }
-.figure-display{
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
+div.figure-display {
+  text-align: center;
+  justify-content: center;
 } 
+
+.admin-figure-img:hover{
+    opacity: .3;
+} 
+
+.admin-figure-img{
+  width:100px;
+} 
+
+/* End */

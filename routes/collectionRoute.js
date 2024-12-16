@@ -6,7 +6,7 @@ import { Collection } from 'mongodb';
 
 
 router
-    .route('/collection')
+    .route('/collections')
     .get(async (req, res) =>{
         try{
             let collectionList = await collectionData.getAllCollections();

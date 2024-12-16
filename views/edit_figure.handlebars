@@ -1,0 +1,23 @@
+<main>
+    <h1>Edit Figure</h1>
+
+    <form class = "admin-edit-figure-form" method="POST" action="/admin/edit-figure/">
+        <label for="figureId">Figure Id:</label>
+        <input type="text" name="figureId" id="figureId" readonly="True" value="{{id}}"/>
+        <br>
+        <label for="figureName">New Figure Name:</label>
+        <input type="text" name="figureName" id="figureName" value="{{name}}"/>
+        <br>
+        <label for="figureImageUrl">New Figure Image URL:</label>
+        <input type="text" name="figureImageUrl" id = "figureImageUrl"/>
+        <button type="submit">Submit</button>
+    </form>
+
+        <form class="remove-figure-form" method="post" action="/admin/remove-figure">
+        <input type="text" hidden="true" name="figureId" id="figureId" value="{{id}}">
+        <input type="submit" name="removeFigure" id="removeFigure" value="Delete Figure">
+    </form>
+
+</main>
+
+{{> (lookup . 'partial') }}
