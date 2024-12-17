@@ -8,10 +8,10 @@ import tradeReqRoute from "./trade-requests.js";
 import trackerRoute from "./tracker.js";
 
 const constructorMethod = (app) => {
+  app.use("/", authRoute);
   app.use("/", collectionRoute);
   app.use("/", listingsRoute);
 
-  app.use("/", authRoute);
 
   app.use("/profile", profileRoute);
 

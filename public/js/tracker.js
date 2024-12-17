@@ -2,7 +2,7 @@ let trackers = [];
 let error_box;
 
 document.addEventListener("DOMContentLoaded", async (ev) => {
-    error_box = document.getElementById("tracker-errors")
+    error_box = document.getElementById("tracker-errors");
 
     // create a new tracker
     let create_tracker_button = document.getElementById("create-tracker-button");
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
             submitTrackerValues();
         });
     }
-
 });
 
 async function submitTrackerValues() {
@@ -74,6 +73,7 @@ async function submitTrackerValues() {
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
+    document.getElementById("tracker-status").innerHTML = "Updated collections!";
 }
 
 async function getAllTrackers() {

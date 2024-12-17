@@ -828,7 +828,8 @@
 /* The container */
 .tracker-figure-box {
   color: white;
-  display: inline-block;
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
   position: relative;
   cursor: pointer;
   font-size: 22px;
@@ -836,13 +837,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: rgb(41, 2, 41);
-  width: 25%;
+  background-color:rgb(156, 92, 92);
+  gap: 10px;
 }
 
 /* Hide the browser's default checkbox */
 .tracker-figure-box input {
-  position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
@@ -901,7 +901,7 @@
 }
 
 .tracker-figure-box label {
-  display: block;
+  position: relative;
   width: 100vw;
   border: 1px solid white;
 }
@@ -913,12 +913,10 @@
 
 #tracker-add {
   width: 20%;
-  background-color: goldenrod;
 }
 
 #tracker-list {
   width: 80%;
-  background-color: plum;
 }
 
 .tracker-owned {
