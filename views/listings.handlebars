@@ -50,9 +50,9 @@
       {{#each listing}}
             <li class="listing-item">
               <div class="listing-img-wrapper">
-                <img src="{{this.listingFigureImageUrl}}" alt="listing image" class="listing-img">
+                <img src="{{this.listingFigureImageUrl}}" alt="listing image" class="main-listing-img">
               </div>
-              <a href="/getListing/{{this._id}}" class="listing-link">{{this.listingName}}</a>
+              <a href="/listings/getListing/{{this._id}}" class="listing-link">{{this.listingName}}</a>
             <li>
       {{/each}}
     </ul>

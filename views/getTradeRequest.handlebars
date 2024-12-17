@@ -1,18 +1,18 @@
-<article class="listing-page">
-  <div class="listing-section">
+<article class="tradeRequest-page">
+  <div class="tradeRequest-section">
     <div class="image-wrapper">
       <img
-        class="listingFigure-image"
-        alt="{{listingFigureName}}"
-        src="{{listingFigureImageUrl}}"
+        class="tradeRequestFigure-image"
+        alt="{{tradeRequestFigureName}}"
+        src="{{tradeRequestFigureImageUrl}}"
       />
     </div>
     <div class="lister-info">
-      <h1 class="listing-title">{{listingName}}</h1>
-      <h2 class="figure-name">Figure: {{listingFigureName}}</h2>
+      <h1 class="tradeRequest-title">{{tradeRequestName}}</h1>
+      <h2 class="figure-name">Figure: {{tradeRequestFigureName}}</h2>
       <div class="user-wrapper">
         <p class="user-info">Posted by: </p>
-        <a class="user-link" href="/profile/{{username}}">{{username}}</a>
+        <a class="user-link" href="/profile/{{this.userId}}">{{username}}</a>
       </div>
       <p class="description-description">Description: {{this.description}}</p>
       <p class="description-condition">Condition: {{this.condition}}</p>
@@ -36,22 +36,7 @@
         </li>
       {{/each}}
     </ul>
-</section>
-
-{{!-- 
-//Make sure to change the action to the correct route
-  <section>
-    <form class="tradeRequestForm" method="POST" action="/trade-requests/create">
-      <label for="tradeRequest">Offering Figure</label>
-      <select name="offeredFigures">
-        {{#each offeringFigure}}
-          <option value="{{this._id}}">{{this.figureName}}</option>
-        {{/each}}
-      </select>
-      <input type="submit" value="Send Trade Request">
-
-    </form>
-  </section> --}}
+  </section>
 
   <section class="comment-section">
     <h4>Ratings and Comments:</h4>
@@ -61,7 +46,7 @@
       <p class="comment-username">Post by
         <a
           class="user-link"
-          href="/getUser/{{this.username}}"
+          href="/getUser/{{this.userId}}"
         >{{this.username}}</a></p>
     {{/each}}
   </section>

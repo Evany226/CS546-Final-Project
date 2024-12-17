@@ -24,7 +24,7 @@ const getUserByUsername = async (username) => {
 
   username = checkString(username);
   const user = await userCollection.findOne({
-    username: username
+    username: username,
   });
 
   if (!user) {
@@ -33,7 +33,7 @@ const getUserByUsername = async (username) => {
 
   user._id = user._id.toString();
   return user;
-}
+};
 
 const getUserById = async (userId) => {
   const userCollection = await users();
@@ -86,11 +86,18 @@ const updateUser = async (userId, updateObject) => {
     updateObject.description = checkDescription(updateObject.description);
   }
 
+  if (updateObject.tradeRequestIds) {
+    updateObject.tradeRequestsIds.forEach((tradeRequests) => {
+      updateObject.tradeRequestsIds = checkId(tradeRequests);
+    });
+  }
+
   const updatedUser = {
     username: updateObject.username,
     city: updateObject.city,
     state: updateObject.state,
     description: updateObject.description,
+    tradeRequests: updateObject.tradeRequestIds,
   };
 
   await userCollection.updateOne(
@@ -105,16 +112,23 @@ const removeUser = async (userId) => {
   userId = checkString(userId, "userId");
   userId = checkId(userId);
 
-	const userCollection = await users();
-	const deletionInfo = await userCollection.findOneAndDelete({
-		_id: ObjectId.createFromHexString(userId)
-	})
+  const userCollection = await users();
+  const deletionInfo = await userCollection.findOneAndDelete({
+    _id: ObjectId.createFromHexString(userId),
+  });
 
-	if (!deletionInfo) {
-		throw `Could not delete collection with id of ${userId}`;
-	}
+  if (!deletionInfo) {
+    throw `Could not delete collection with id of ${userId}`;
+  }
 
-	return {_id: userId, deleted: true};
+  return { _id: userId, deleted: true };
 };
 
-export { createUser, getAllUsers, getUserById, updateUser, removeUser, getUserByUsername };
+export {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  removeUser,
+  getUserByUsername,
+};

@@ -29,7 +29,7 @@ app.use(
 const handlebarsInstance = exphbs.create({
   defaultLayout: "main",
   helpers: {
-    partialsDir: ["views/partials/"]
+    partialsDir: ["views/partials/"],
   },
 });
 
@@ -75,8 +75,6 @@ async function startServer() {
       }
     }
   }
-
- 
 
   app.listen(3000, async () => {
     console.log("We've now got a server!");
