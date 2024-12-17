@@ -154,7 +154,7 @@ router
   });
 
 router.route("/sign-out").get(async (req, res) => {
-  res.session.destroy();
+  req.session.destroy();
   res.render("signout");
 });
 
