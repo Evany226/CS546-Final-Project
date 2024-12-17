@@ -86,12 +86,6 @@ const signUpUser = async (username, password, city, state, description) => {
   return { registrationCompleted: true };
 };
 
-const signOutUser = async (req, res) => {
-  req.session.destroy();
-
-  res.redirect("/");
-};
-
 const signUpAdmin = async (username, password) => {
   helper.parameterExists(username, "Username");
   helper.parameterExists(password, "Password");
@@ -130,4 +124,4 @@ const signUpAdmin = async (username, password) => {
   return { registrationCompleted: true };
 };
 
-export { signInUser, signUpUser, signOutUser, signUpAdmin };
+export { signInUser, signUpUser, signUpAdmin };

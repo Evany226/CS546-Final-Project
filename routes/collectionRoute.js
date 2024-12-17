@@ -17,4 +17,16 @@ router.route("/collections").get(async (req, res) => {
   }
 });
 
+router
+    .route('/all-collections')
+    .get(async (req, res) => {
+        try {
+            let collectionList = await collectionData.getAllCollections();
+            res.json(collectionList);
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
+    });
+    
+
 export default router;

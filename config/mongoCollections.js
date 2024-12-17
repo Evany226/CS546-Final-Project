@@ -20,3 +20,4 @@ export const conversations = getCollectionFn("conversations");
 export const listings = getCollectionFn("listings");
 export const comments = getCollectionFn("comments");
 export const tradeRequests = getCollectionFn("tradeRequests");
+export const trackers = getCollectionFn("trackers");

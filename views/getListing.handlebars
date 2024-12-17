@@ -12,7 +12,7 @@
       <h2 class="figure-name">Figure: {{listingFigureName}}</h2>
       <div class="user-wrapper">
         <p class="user-info">Posted by: </p>
-        <a class="user-link" href="/profile/{{this.userId}}">{{username}}</a>
+        <a class="user-link" href="/profile/{{username}}">{{username}}</a>
       </div>
       <p class="description-description">Description: {{this.description}}</p>
       <p class="description-condition">Condition: {{this.condition}}</p>
@@ -61,7 +61,7 @@
       <p class="comment-username">Post by
         <a
           class="user-link"
-          href="/getUser/{{this.userId}}"
+          href="/getUser/{{this.username}}"
         >{{this.username}}</a></p>
     {{/each}}
   </section>
