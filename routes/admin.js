@@ -32,6 +32,12 @@ router.post("/add-collection", checkAdmin, async (req, res) => {
         */
         let collectionName = data.collectionName;
         let collectionImg = data.collectionImageUrl;
+
+        collectionName = checkString(collectionName, "collectionName");
+
+        if(collectionName.length > 20){
+            throw new Error("figureName name exceeds character limit, 20 characters max")
+        }
         const newCollection = await collectionData.createCollection(collectionName, collectionImg);
 
     
@@ -90,6 +96,9 @@ router.post("/edit-collection", checkAdmin, async (req, res) =>{
 
         if(data.collectionName){
             updateObj.collectionName = checkString(data.collectionName, "collectionName")
+            if(data.collectionName.length > 20){
+                throw new Error("collection name exceeds character limit, 20 characters max")
+            }
         }
 
         if(data.collectionImageUrl){
@@ -106,7 +115,12 @@ router.post("/edit-collection", checkAdmin, async (req, res) =>{
        res.redirect("/admin")
 
     } catch (error) {
-        res.status(400).json({error: error.toString()});
+        let collectionList = await collectionData.getAllCollections();
+        res.render("admin", {
+            error: error.toString(),
+            collection: collectionList,
+            partial: "admin_script"
+        });
     }
 });
 
@@ -181,7 +195,10 @@ router.post("/edit-figure", checkAdmin, async (req, res) =>{
 
 
         if(data.figureName){
-            updateObj.figureName = checkString(data.figureName, "figureName")
+            updateObj.figureName = checkString(data.figureName, "figureName");
+            if(data.figureName.length > 20){
+                throw new Error("figureName name exceeds character limit, 20 characters max")
+            }
         }
 
         if(data.figureImageUrl){
@@ -233,6 +250,9 @@ router.post("/add-figure", checkAdmin, async (req, res) =>{
 
         if(data.figureName){
             figureObj.figureName = checkString(data.figureName, "figureName")
+            if(data.figureName.length > 20){
+                throw new Error("figureName name exceeds character limit, 20 characters max")
+            }
         }
 
         if(data.figureImageUrl){
@@ -253,7 +273,8 @@ router.post("/add-figure", checkAdmin, async (req, res) =>{
         res.render("admin", {
             error: error.toString(),
             collection: collectionList,
-            partial: "admin_script"});
+            partial: "admin_script"
+        });
         
     }
 })

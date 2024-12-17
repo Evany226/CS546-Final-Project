@@ -1,8 +1,36 @@
-<main>
-    <select>
-        {{#each collections}}
-            <option value="{{this.collectionName}}">{{this.collectionName}}</option>
+<main id = "tracker-main">
+    <div id="tracker-add">
+        <h2>Add a Tracker!</h2>
+        <select id="tracker-selector">
+            {{#each collections}}
+                <option value="{{this._id}}">{{this.collectionName}}</option>
+            {{/each}}
+        </select>
+        <button id="create-tracker-button" type="submit">Create Tracker</button>
+        <button id="update-tracker-button" type="submit">Update Trackers</button>
+        <p>You can begin to track a collection by adding it to your list of trackers.</p>
+        <p>If the checkmark is populated on page load, that means you've marked it as owned!</p>
+        <p id="tracker-error" class="error-item"></p>
+    </div>
+    <div id="tracker-list">
+        <h2>Existing Trackers</h2>
+        {{#each trackers}}
+            <div id="{{this.collectionId}}">
+                <h3>{{this.collectionName}}</h3>
+                {{#each this.figureList}}
+                <label id="{{this._id}}" class="tracker-figure-box">
+                    {{this.figureName}}
+                    {{#if this.owned}}
+                        <input type="checkbox" checked="checked">
+                    {{else}}
+                        <input type="checkbox">
+                    {{/if}}
+                    <span class="checkmark" ></span>
+                    <img alt="{{this.figureName}}" src="{{this.figureImageUrl}}">
+                </label>
+                {{/each}}
+            </div>
         {{/each}}
-    </select>
-    <table></table>
+    </div>
+    {{> (lookup . 'partial')}}
 </main>

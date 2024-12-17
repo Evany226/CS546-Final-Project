@@ -28,7 +28,7 @@ app.use(
 const handlebarsInstance = exphbs.create({
   defaultLayout: "main",
   helpers: {
-    partialsDir: ["views/partials/"],
+    partialsDir: ["views/partials/"]
   },
 });
 
@@ -38,8 +38,14 @@ app.set("view engine", "handlebars");
 configRoutes(app);
 
 async function startServer() {
+  //seed database
+  // await seedDB();
   // create admin account if it doesn't exist in the database
   // taken from .env (for now)
+
+   //seed database
+  //  await seedDB();
+
   if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
     console.log("create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
     return;
@@ -63,8 +69,7 @@ async function startServer() {
     }
   }
 
-  //seed database
-  // await seedDB();
+ 
 
   app.listen(3000, async () => {
     console.log("We've now got a server!");

@@ -1,6 +1,13 @@
 <main>
     <h1>Add Figure</h1>
-    <form class = "admin-add-figure-form" method="POST" action="/admin/add-figure/">
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
+    
+    <form class = "admin-add-figure-form" method="POST" action="/admin/add-figure/" id = "admin-add-figure-form" >
         <label for="collectionId">Collection Id:</label>
         <input type="text" name="collectionId" id="collectionId" readonly="True" value="{{id}}"/>
         <br>

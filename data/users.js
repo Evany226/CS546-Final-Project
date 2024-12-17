@@ -8,7 +8,7 @@ import {
   checkDescription,
   checkObject,
 } from "../helpers.js";
-import { tradeRequests, users } from "../config/mongoCollections.js";
+import { users, collections } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 
 /**
@@ -112,16 +112,16 @@ const removeUser = async (userId) => {
   userId = checkString(userId, "userId");
   userId = checkId(userId);
 
-	const userCollection = await users();
-	const deletionInfo = await userCollection.findOneAndDelete({
-		_id: ObjectId.createFromHexString(userId)
-	})
+  const userCollection = await users();
+  const deletionInfo = await userCollection.findOneAndDelete({
+    _id: ObjectId.createFromHexString(userId),
+  });
 
-	if (!deletionInfo) {
-		throw `Could not delete collection with id of ${userId}`;
-	}
+  if (!deletionInfo) {
+    throw `Could not delete collection with id of ${userId}`;
+  }
 
-	return {_id: userId, deleted: true};
+  return { _id: userId, deleted: true };
 };
 
 export {
