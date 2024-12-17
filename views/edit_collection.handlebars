@@ -10,7 +10,7 @@
 
     <form class = "admin-edit-collection-form" method="POST" action="/admin/edit-collection/">
         <label for="collectionId">Colleciton Id:</label>
-        <input type="text" name="collectionId" id="collectionId" readonly="True" value="{{id}}"/>
+        <input type="text" name="collectionId" id="collectionId" readonly="readonly" value="{{id}}"/>
         <br>
         <label for="collectionName">New Collection Name:</label>
         <input type="text" name="collectionName" id="collectionName" value="{{name}}"/>
@@ -21,7 +21,7 @@
     </form>
 
     <form class="remove-collection-form" method="post" action="/admin/remove-collection">
-        <input type="text" hidden="true" name="collectionId" id="collectionId" value="{{id}}">
+        <input type="text" hidden name="collectionId" id="collectionIdDelete" value="{{id}}">
         <input type="submit" name="removeCollection" id="removeCollection" value="Delete Collection">
     </form>
 

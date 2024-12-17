@@ -10,7 +10,7 @@
 
     <form class = "admin-edit-figure-form" method="POST" action="/admin/edit-figure/">
         <label for="figureId">Figure Id:</label>
-        <input type="text" name="figureId" id="figureId" readonly="True" value="{{id}}"/>
+        <input type="text" name="figureId" id="figureId" readonly="readonly" value="{{id}}"/>
         <br>
         <label for="figureName">New Figure Name:</label>
         <input type="text" name="figureName" id="figureName" value="{{name}}"/>
@@ -21,7 +21,7 @@
     </form>
 
         <form class="remove-figure-form" method="post" action="/admin/remove-figure">
-        <input type="text" hidden="true" name="figureId" id="figureId" value="{{id}}">
+        <input type="text" hidden name="figureId" id="figureIdDelete" value="{{id}}">
         <input type="submit" name="removeFigure" id="removeFigure" value="Delete Figure">
     </form>
 

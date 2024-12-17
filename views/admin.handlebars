@@ -31,9 +31,9 @@
     {{#each collection}}
     <div class="collection-wrapper">
         <div>
-            <h2 id="collection-name">{{this.collectionName}}</h2>
+            <h2>{{this.collectionName}}</h2>
             <a href="/admin/edit-collection/{{this._id}}">
-                <img class="collection-img" src="{{this.collectionImageUrl}}">
+                <img class="collection-img" src="{{this.collectionImageUrl}}" alt="{{this.collectionName}}">
             </a>
             
         </div>
@@ -45,7 +45,7 @@
             </a>
             
         {{/each}}
-            <a id="addFigureButton" href="/admin/add-figure/{{this._id}}">Add Figure</a>
+            <a href="/admin/add-figure/{{this._id}}">Add Figure</a>
         </div>
         
     </div>
