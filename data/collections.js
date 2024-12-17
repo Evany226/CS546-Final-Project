@@ -21,6 +21,10 @@ const createCollection = async (
     collectionName = checkString(collectionName, "collectionName");
     collectionImageUrl = checkString(collectionImageUrl, "collectionImageUrl");
 
+    if(collectionName.length > 20){
+        throw new Error("Collection name exceeds character limit, 20 characters max")
+    }
+
     let newCollection = {
         collectionName: collectionName,
         collectionImageUrl: collectionImageUrl,
@@ -97,6 +101,9 @@ const updateCollection = async(collectionId, updateObject) =>{
     
 
     if(updateObject.collectionName){
+        if(updateObject.collectionName.length > 20){
+            throw new Error("Collection name exceeds character limit, 20 characters max")
+        }
         updateObject.collectionName = checkString(updateObject.collectionName, "collectionName");
 
     }

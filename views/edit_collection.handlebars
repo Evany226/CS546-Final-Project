@@ -1,6 +1,13 @@
 <main>
     <h1>Edit Collection</h1>
 
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
+
     <form class = "admin-edit-collection-form" method="POST" action="/admin/edit-collection/">
         <label for="collectionId">Colleciton Id:</label>
         <input type="text" name="collectionId" id="collectionId" readonly="True" value="{{id}}"/>
@@ -19,3 +26,6 @@
     </form>
 
 </main>
+
+
+{{> (lookup . 'partial') }}
