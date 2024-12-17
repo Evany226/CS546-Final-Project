@@ -41,9 +41,9 @@ router
     }
   })
   .post(async (req, res) => {
-    let userId = "676067dbd55ebb0482a0a55d";
+    let userId = req.session.user._id;
     const listingData = req.body;
-
+    const user = req.session.user;
     if (!listingData || Object.keys(listingData).length === 0) {
       return res.status(400).render("listings", { error: "No request body" });
     }
@@ -62,7 +62,7 @@ router
     const offeringFigureIdList = [offeringFigureId];
 
     try {
-      userId = checkId(userId);
+      userId = user._id;
       collectionId = checkId(collectionId);
       listingFigureId = checkId(listingFigureId);
 
@@ -161,11 +161,61 @@ router
         status: listing.status,
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).render(`getListing`, { error: e.message });
     }
   })
+  .post(async (req, res) => {
+    const tradeRequestData = req.body;
+
+    if (!tradeRequestData || Object.keys(tradeRequestData).length === 0) {
+      return res
+        .status(400)
+        .render("tradeRequests", { error: "No request body" });
+    }
+
+    let {
+      listingId,
+      listingFigureId,
+      offeringFigureId,
+      toUserId,
+      fromUserId,
+      transactionStatus,
+      completionStatus,
+    } = tradeRequestData;
+
+    try {
+      listingId = checkId(listingFigureId);
+      listingFigureId = checkId(listingFigureId);
+      offeringFigureId = checkId(offeringFigureId);
+      toUserId = checkId(toUserId);
+      fromUserId = checkId(fromUserId);
+      transactionStatus = checkTransactionStatus(transactionStatus);
+      if (typeof completionStatus !== "boolean")
+        throw new Error("completionStatus must be type boolean");
+      date = checkDate(date);
+    } catch (e) {
+      return res.status(400).render("tradeRequests", { error: e.message });
+    }
+
+    try {
+      const newtradeRequest = await createTradeRequest(
+        listingId,
+        listingFigureId,
+        offeringFigureId,
+        toUserId,
+        fromUserId,
+        transactionStatus,
+        completionStatus,
+        date
+      );
+    } catch (e) {
+      return res
+        .status(500)
+        .render("tradeRequests", { error: "Internal Server Error" });
+    }
+  })
   .put(async (req, res) => {
+    const user = req.session.user;
     let { listingId } = req.params;
     try {
       listingId = checkId(listingId);
