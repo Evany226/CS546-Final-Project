@@ -5,7 +5,7 @@
         class="profile-img"
         src="https://via.placeholder.com/150"
         alt="avatar"
-      />
+      >
     </div>
     <div class="profile-info">
       <div class="title-wrapper">
@@ -51,18 +51,18 @@
       </p>
 
       <p class="profile-subtitle">{{userData.description}}</p>
-      </p>
+      <a class="sign-out-btn" href="/sign-out">Sign out</a>
     </div>
   </section>
   <section class="profile-collection">
-    <div class="collection-wrapper">
+    <div class="profile-collection-wrapper">
       {{#each placeholder}}
         <div class="collection-item">
           <img
             class="profile-collection-img"
             src="https://via.placeholder.com/200"
             alt="figurine"
-          />
+          >
         </div>
       {{/each}}    
     </div>

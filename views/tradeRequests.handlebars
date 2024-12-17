@@ -1,0 +1,36 @@
+
+<main class="tradeRequest-container">
+  <h1 class="tradeRequest-head">Trade Requests</h1>
+    <ul class="tradeRequest-wrapper">
+      {{#each tradeRequest}}
+            <li class="tradeRequest-item" data-id="{{this._id}}">
+                <a href="/profile/{{this.fromUser}}" class="tradeRequest-link">Trade Request From {{this.fromUsername}}</a>
+                <div class="tradeRequest-image-wrapper">
+                  <div class="figure-wrapper">
+                    <p>{{this.listingFigure.figureName}}</p>
+                  <img src="{{this.listingFigure.figureImageUrl}}" alt="listing image" class="trade-img">
+                  </div>
+
+                  <p class="trade-for">Trade For</p>
+                  <div class="figure-wrapper">
+                  <p>{{this.offerFigure.figureName}}</p>
+                  <img src="{{this.offerFigure.figureImageUrl}}" alt="offering image" class="trade-img">
+                  </div>
+                </div>
+                
+
+              <div class="error-div" hidden></div>
+                <form id="accept-form" data-id={{this._id}}>
+                  <button id="accept-trade-button">
+                    <p class="accept-trade-text" type="submit">ACCEPT</p>
+                  </button>
+                </form>
+
+                <form id="reject-form" data-id={{this._id}}>
+                   <button id="reject-trade-button" type="submit">DELETE</button>
+                </form>
+            <li>
+      {{/each}}
+    </ul>
+</main>
+<script src="/public/js/tradeRequests.js"></script>

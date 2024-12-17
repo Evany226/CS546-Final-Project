@@ -1,19 +1,22 @@
 <main>
-    <h1>Welcome to BlindBox Trade!</h1>
+    <h1>Welcome to FigureX</h1>
 
+{{#if admin}}
+    <a href="/admin">Admin Access:Edit Collection</a>
+{{/if}}
 
 <div class="collection-wrapper">
     {{#each collection}}
 
     <div class="collection-banner">
-        <h2 id="collection-name">{{this.collectionName}}</h2>
+        <h2>{{this.collectionName}}</h2>
         <br>
-        <img class="collection-img" src="{{this.collectionImageUrl}}">
+        <img class="collection-img" src="{{this.collectionImageUrl}}" alt="{{this.collectionName}}">
     </div>
     <br>
     <div class="figure-display">
         {{#each this.figures}}
-            <img class="figure-img" src="{{this.figureImageUrl}}">
+            <img class="figure-img" src="{{this.figureImageUrl}}" alt="{{this.figureName}}">
         
         {{/each}}
     </div>

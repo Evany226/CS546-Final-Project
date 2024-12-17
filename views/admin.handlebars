@@ -17,10 +17,10 @@
 
     <form class = "admin-add-collection-form" method="POST" action="/admin/add-collection" id = "admin-add-collection-form">
         <label for="collectionName">Collection name:</label>
-        <input type="text" name="collectionName" id="collectionName"/>
+        <input type="text" name="collectionName" id="collectionName">
         <br>
         <label for="collectionImageUrl">Collection Image URL:</label>
-        <input type="text" name="collectionImageUrl" id = "collectionImageUrl"/>
+        <input type="text" name="collectionImageUrl" id = "collectionImageUrl">
         <button type="submit">Submit</button>
     </form>
 
@@ -31,9 +31,9 @@
     {{#each collection}}
     <div class="collection-wrapper">
         <div>
-            <h2 id="collection-name">{{this.collectionName}}</h2>
+            <h2>{{this.collectionName}}</h2>
             <a href="/admin/edit-collection/{{this._id}}">
-                <img class="collection-img" src="{{this.collectionImageUrl}}">
+                <img class="collection-img" src="{{this.collectionImageUrl}}" alt="{{this.collectionName}}">
             </a>
             
         </div>
@@ -45,7 +45,7 @@
             </a>
             
         {{/each}}
-            <a id="addFigureButton" href="/admin/add-figure/{{this._id}}">Add Figure</a>
+            <a href="/admin/add-figure/{{this._id}}">Add Figure</a>
         </div>
         
     </div>
