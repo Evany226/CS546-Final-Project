@@ -2,6 +2,8 @@ import { Router } from "express";
 import { checkId } from "../helpers.js";
 import { users } from "../config/mongoCollections.js";
 import { getUserById } from "../data/users.js";
+import { getAllFigures } from "../data/figures.js";
+import { removeFromWishlist } from "../data/wishlist.js";
 import { getAllCollections } from "../data/collections.js";
 import { checkAuthenticated } from "../middleware.js";
 import { ObjectId } from "mongodb";
@@ -137,6 +139,39 @@ router
   });
 
 
+router.route("/wishlist")
+.get(checkAuthenticated, async(req, res) => {
+  const user = req.session.user;
+  let userWishlist = await getUserById(user._id);
+  userWishlist = userWishlist.wishlist;
+  //let figures = await getAllFigures()
+  //userWishlist = userWishlist.map(async x => await getFigureById(x.figureId));
+  console.log(userWishlist);
+  return res.render("wishlist", {
+    title: "Wish List",
+    wishlist: userWishlist,
+  });
+})
+.delete(async (req, res) => {
+  let givenFigureId = req.body.figure;
+  try {
+    givenFigureId = checkId(givenFigureId);
+  } catch (e) {
+    return res
+      .status(400)
+      .redirect('/wishlist');
+  }
+
+  try {
+    let deletedWishlistItem = await removeFromWishlist(givenFigureId);
+    res.redirect("/wishlist");
+  } catch (e) {
+    return res
+      .status(400)
+      .redirect("/wishlist");
+  }
+});
+
 router.get("/tracker", checkAuthenticated, async(req, res) => {
   let collections = await getAllCollections();
   res.render("tracker", {collections: collections});
@@ -165,5 +200,7 @@ router.get("/:id", checkAuthenticated, async (req, res) => {
     placeholder: placeholder,
   });
 });
+
+
 
 export default router;

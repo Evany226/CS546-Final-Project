@@ -9,10 +9,12 @@
                 <img class="collection-img" src="{{this.collectionImageUrl}}">
                 
                 <div class="figure-display">
-                    {{#each this.figures}}
-                        <img class="figure-img" src="{{this.figureImageUrl}}">
-                    {{/each}}
-
+                    <form id="figure-display" method="POST">
+                        {{#each this.figures}}
+                            <img class="figure-img" src="{{this.figureImageUrl}}">
+                            <button name="figure" id="figure" for="figure-display" formmethod="POST" value="{{this._id}}">Add to Wish List</button>
+                        {{/each}}
+                    </form>
                 </div>
                 
             </li>

@@ -1,0 +1,16 @@
+<main>
+    <h1>Wish List</h1>
+    <ul class="collection-wrapper">
+        {{#each wishlist}}
+            <li>                
+                <div class="figure-display">
+                    <form id="figure-display" method="DELETE">
+                        <button name="figure" id="figure" for="figure-display" formmethod="DELETE"  value="{{this.figureId}}">Remove from Wish List</button>
+                        <p class="figure-img">{{this.figureId}}</label>
+                    </form>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</main>
+</script src="../public/js/wishlist.js"></script>

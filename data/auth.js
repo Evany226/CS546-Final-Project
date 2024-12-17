@@ -33,6 +33,7 @@ const signInUser = async (username, password) => {
     city: user.city,
     state: user.state,
     description: user.description,
+    wishlist: [],
   };
   if (user.role) {
     userObject.role = user.role;
@@ -75,6 +76,7 @@ const signUpUser = async (username, password, city, state, description) => {
     city: city,
     state: state,
     description: description,
+    wishlist: [],
   };
 
   const insertedUser = await userCollection.insertOne(newUser);
