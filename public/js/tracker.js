@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
                     let error = await response.json();
                     document.getElementById("tracker-error").innerHTML  = `${error.error}`;
                     return;
+                }else {
+                    // response was ok
+                    window.location.reload();
                 }
             }
         });

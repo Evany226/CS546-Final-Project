@@ -16,7 +16,6 @@ router.get("/", checkAuthenticated, async(req, res) => {
     } catch(e) {
         res.json({error: `${e}`});
     }
-    
 });
 
 router.get("/get", checkAuthenticated, async(req, res) => {
@@ -27,8 +26,6 @@ router.get("/get", checkAuthenticated, async(req, res) => {
       return res.json({error: `${e}`});
     }
 });
-
-
 
 router.post("/create/:id", checkAuthenticated, async(req, res) => {
     try {

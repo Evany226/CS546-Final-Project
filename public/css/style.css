@@ -823,7 +823,6 @@
   align-items: center;
 }
 
-<<<<<<< HEAD
 /* tracker page css */
 
 /* The container */
@@ -929,7 +928,6 @@
 .tracker-not-owned {
   background-color: red;
 }
-=======
 .figure-img{
   width:100px;
 
@@ -948,4 +946,3 @@ div.figure-display {
 } 
 
 /* End */
->>>>>>> ca3548b8d131cb12fea183a13bea35a5898a0725
