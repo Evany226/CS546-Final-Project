@@ -60,6 +60,10 @@ const addFigure = async (collectionId, figureObj) =>{
     figureObj.figureImageUrl = checkString(figureObj.figureImageUrl, "figureImageUrl");
     figureObj._id = new ObjectId();
 
+    if(figureObj.figureName.length > 20){
+        throw new Error("figureName name exceeds character limit, 20 characters max")
+    }
+
     const figureCol = await collections();
     const updateInfo = await figureCol.findOneAndUpdate(
         {_id: ObjectId.createFromHexString(collectionId)},
@@ -122,6 +126,9 @@ const updateFigure = async (figureId, updateObject) =>{
 
     if(updateObject.figureName){
         updateObject.figureName = checkString(updateObject.figureName, "figureName");
+        if(updateObject.figureName.length > 20){
+            throw new Error("figureName name exceeds character limit, 20 characters max")
+        }
         originFig.figureName = updateObject.figureName;
     }
 
