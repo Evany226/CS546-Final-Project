@@ -1,0 +1,54 @@
+<article class="tradeRequest-page">
+  <div class="tradeRequest-section">
+    <div class="image-wrapper">
+      <img
+        class="tradeRequestFigure-image"
+        alt="{{tradeRequestFigureName}}"
+        src="{{tradeRequestFigureImageUrl}}"
+      />
+    </div>
+    <div class="lister-info">
+      <h1 class="tradeRequest-title">{{tradeRequestName}}</h1>
+      <h2 class="figure-name">Figure: {{tradeRequestFigureName}}</h2>
+      <div class="user-wrapper">
+        <p class="user-info">Posted by: </p>
+        <a class="user-link" href="/profile/{{this.userId}}">{{username}}</a>
+      </div>
+      <p class="description-description">Description: {{this.description}}</p>
+      <p class="description-condition">Condition: {{this.condition}}</p>
+    </div>
+    {{!-- <p class="status-info">{{this.status}}</p> --}}
+  </div>
+
+  <section class="offering-section">
+    <h4>Trading For:</h4>
+    <ul class="offering-table">
+      {{#each offeringFigure}}
+        <li class="offering-item">
+          <p class="table-source">{{this.figureName}}</p>
+          <div class="offering-image-wrapper">
+            <img
+              class="offering-image"
+              alt="{{this.figureName}}"
+              src="{{this.figureImageUrl}}"
+            />
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+  </section>
+
+  <section class="comment-section">
+    <h4>Ratings and Comments:</h4>
+    {{#each comment}}
+      <h5 class="comment-rating">Rating: {{this.rating}}</h5>
+      <p class="comment-content">{{this.content}}</p>
+      <p class="comment-username">Post by
+        <a
+          class="user-link"
+          href="/getUser/{{this.userId}}"
+        >{{this.username}}</a></p>
+    {{/each}}
+  </section>
+
+</article>

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { users } from "../config/mongoCollections.js";
+import { tradeRequests, users } from "../config/mongoCollections.js";
 import * as helper from "../helpers.js";
 
 const signInUser = async (username, password) => {
@@ -75,6 +75,7 @@ const signUpUser = async (username, password, city, state, description) => {
     city: city,
     state: state,
     description: description,
+    tradeRequestIds: [],
   };
 
   const insertedUser = await userCollection.insertOne(newUser);

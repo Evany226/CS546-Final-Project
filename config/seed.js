@@ -4,6 +4,7 @@ import { createCollection } from "../data/collections.js";
 import { createFigureList } from "../data/figures.js";
 import { createListing } from "../data/listings.js";
 import { getUserByUsername } from "../data/users.js";
+import { createTradeRequest } from "../data/tradeRequests.js";
 
 export const seedDB = async () => {
   const db = await dbConnection();
@@ -183,6 +184,42 @@ export const seedDB = async () => {
       [],
       [],
       "Open"
+    );
+
+    const tradeRequest1 = await createTradeRequest(
+      listing1._id.toString(),
+      insertedFigures1.figures[0]._id.toString(),
+      insertedFigures2.figures[0]._id.toString(),
+      user1._id,
+      user2._id,
+      "Pending"
+    );
+
+    const tradeRequest2 = await createTradeRequest(
+      listing2._id.toString(),
+      insertedFigures2.figures[0]._id.toString(),
+      insertedFigures1.figures[0]._id.toString(),
+      user1._id,
+      user2._id,
+      "Pending"
+    );
+
+    const tradeRequest3 = await createTradeRequest(
+      listing1._id.toString(),
+      insertedFigures1.figures[0]._id.toString(),
+      insertedFigures2.figures[0]._id.toString(),
+      user2._id,
+      user1._id,
+      "Pending"
+    );
+
+    const tradeRequest4 = await createTradeRequest(
+      listing2._id.toString(),
+      insertedFigures2.figures[0]._id.toString(),
+      insertedFigures1.figures[0]._id.toString(),
+      user1._id,
+      user2._id,
+      "Pending"
     );
   } catch (e) {
     console.log(e);
