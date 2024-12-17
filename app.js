@@ -53,8 +53,9 @@ async function startServer() {
     console.log("First time? We need to seed the database...");
     await seedDB();
     console.log("Next to create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
-    await getCredentials();
-    
+    let credentials = await getCredentials();
+    await signUpAdmin(credentials.username, credentials.password);
+    console.log("Admin created.");
   }else {
     try {
       let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);

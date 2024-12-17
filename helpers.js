@@ -292,6 +292,6 @@ export async function getCredentials() {
 
     // Attempt to write the credentials to the .env file
     await writeEnvFile(username, password);
-    break;
+    return {username: username, password: password}
   }
 }
