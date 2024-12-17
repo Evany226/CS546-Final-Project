@@ -25,16 +25,20 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
+      const user = req.session.user;
       const listingList = await getAllListings();
 
       const collections = await getAllCollections();
 
       console.log(collections);
 
+      const isSignedIn = user ? true : false;
+
       res.render("listings", {
         title: "Listings",
         listing: listingList,
         collections: collections,
+        isSignedIn: isSignedIn,
       });
     } catch (e) {
       return res.status(400).render("listings", { error: e.message });

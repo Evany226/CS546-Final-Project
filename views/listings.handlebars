@@ -1,5 +1,6 @@
 
 <main class="listing-container">
+  {{#if isSignedIn}}
     <form id="create-listing-form">
       <h1 class="form-title">Create a Listing</h1>
         <div class="error-div" hidden></div>
@@ -45,6 +46,7 @@
       </select>
       <button type="submit" id="create-listing-btn">Create Listing</button>
     </form>
+  {{/if}}
     
     <ul id="listing-wrapper">
       {{#each listing}}
