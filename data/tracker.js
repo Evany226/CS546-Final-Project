@@ -82,7 +82,26 @@ const createTracker = async (
     return tracker_id;
 }
 
+const getUserTrackerForCol = async (userId, collectionId) => {
+    userId = checkId(userId);
+    collectionId = checkId(collectionId);
+    let trackers_col = await trackers();
+    let result = await trackers_col.findOne({userId: userId, collectionId: collectionId});
+    return result;
+}
+
+const updateTracker = async (trackerId, tracker_obj) => {
+    trackerId = checkId(trackerId);
+    let trackers_col = await trackers();
+    await trackers_col.replaceOne({
+        _id : ObjectId.createFromHexString(trackerId),
+    },
+    tracker_obj);
+}
+
 export {
     getTrackersByUserId,
-    createTracker
+    createTracker,
+    getUserTrackerForCol,
+    updateTracker
 }

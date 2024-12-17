@@ -39,6 +39,8 @@ app.set("view engine", "handlebars");
 configRoutes(app);
 
 async function startServer() {
+  //seed database
+  // await seedDB();
   // create admin account if it doesn't exist in the database
   // taken from .env (for now)
   if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
@@ -63,9 +65,6 @@ async function startServer() {
       return;
     }
   }
-
-  //seed database
-  // await seedDB();
 
   app.listen(3000, async () => {
     console.log("We've now got a server!");

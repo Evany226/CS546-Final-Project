@@ -629,7 +629,6 @@
   padding: 0.5rem 1rem;
 }
 
-<<<<<<< Updated upstream
 /* Listing page */
 .listing-container {
   display: flex;
@@ -646,13 +645,7 @@
   width: 100%;
   font-size: 1.5rem;
   margin-left: 1rem;
-=======
-/* Listing Page*/
-.listing-head {
-  width: 100%;
   padding: 0.75rem 0.5rem;
-  
->>>>>>> Stashed changes
 }
 
 .listing-wrapper {
