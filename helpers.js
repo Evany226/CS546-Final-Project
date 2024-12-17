@@ -34,17 +34,19 @@ export function checkObject(object, varName) {
 
 export function checkCondition(condition) {
   condition = checkString(condition, "condition");
-  condition =
-    condition.charAt(0).toUpperCase() + condition.slice(1).toLowerCase();
+  condition = condition.toLowerCase();
+
   if (
-    condition !== "New" &&
-    condition !== "Used" &&
-    condition !== "Minimal Wear" &&
-    condition !== "Well Worn"
-  )
+    condition !== "new" &&
+    condition !== "used" &&
+    condition !== "minimal wear" &&
+    condition !== "well worn"
+  ) {
+    console.log(condition);
     throw new Error(
-      "status must either be New, Minimal Wear, Used, or Well Worn"
+      "condition must either be New, Minimal Wear, Used, or Well Worn"
     );
+  }
 
   return condition;
 }

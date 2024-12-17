@@ -131,15 +131,14 @@ router
       return res.status(400).render("edit_profile", {
         error: error,
         userData: body,
-        partial: "profile_script"
+        partial: "profile_script",
       });
     }
   });
 
-
-router.get("/tracker", checkAuthenticated, async(req, res) => {
+router.get("/tracker", checkAuthenticated, async (req, res) => {
   let collections = await getAllCollections();
-  res.render("tracker", {collections: collections});
+  res.render("tracker", { collections: collections });
 });
 
 router.get("/:id", checkAuthenticated, async (req, res) => {
@@ -150,7 +149,7 @@ router.get("/:id", checkAuthenticated, async (req, res) => {
 
   try {
     id = checkId(id);
-  } catch(e) {
+  } catch (e) {
     return res.redirect("/profile");
   }
 
