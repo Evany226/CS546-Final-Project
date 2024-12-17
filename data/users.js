@@ -101,6 +101,20 @@ const updateUser = async (userId, updateObject) => {
   return await getUserById(userId);
 };
 
-const removeUser = async (userId) => {};
+const removeUser = async (userId) => {
+  userId = checkString(userId, "userId");
+  userId = checkId(userId);
+
+	const userCollection = await users();
+	const deletionInfo = await userCollection.findOneAndDelete({
+		_id: ObjectId.createFromHexString(userId)
+	})
+
+	if (!deletionInfo) {
+		throw `Could not delete collection with id of ${userId}`;
+	}
+
+	return {_id: userId, deleted: true};
+};
 
 export { createUser, getAllUsers, getUserById, updateUser, removeUser, getUserByUsername };

@@ -4,19 +4,21 @@ import { collectionData, figureData } from "../data/index.js";
 import { checkString, checkId } from "../helpers.js";
 import { Collection } from "mongodb";
 
-router.route("/collection").get(async (req, res) => {
-  try {
-    let collectionList = await collectionData.getAllCollections();
-    console.log("collectionList", collectionList);
-    res.render("collections", {
-      title: "Collection",
-      collection: collectionList,
+
+router
+    .route('/collections')
+    .get(async (req, res) =>{
+        try{
+            let collectionList = await collectionData.getAllCollections();
+            res.render("collections", {
+                title: "Collection",
+                collection: collectionList
+            });
+        }catch(e){ 
+            // console.log(e)
+            res.status(400).render("collections")
+        }
     });
-  } catch (e) {
-    console.log(e);
-    res.status(400).render("collections");
-  }
-});
 
 router
     .route('/all-collections')

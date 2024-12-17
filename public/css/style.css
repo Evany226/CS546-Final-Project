@@ -801,25 +801,29 @@
   margin-top: 1rem;
 }
 
-/* Collection page */
+
+/* Admin, Collection, and figures css */
 
 .collection-img {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
-  padding: 1rem;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
-.figure-img {
-  width: 10%;
+.collection-img:hover{
+  opacity: .3;
 }
-.figure-display {
-  margin-left: auto;
-  margin-right: auto;
+
+
+.collection-wrapper{
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+<<<<<<< HEAD
 /* tracker page css */
 
 /* The container */
@@ -925,3 +929,23 @@
 .tracker-not-owned {
   background-color: red;
 }
+=======
+.figure-img{
+  width:100px;
+
+}
+div.figure-display {
+  text-align: center;
+  justify-content: center;
+} 
+
+.admin-figure-img:hover{
+    opacity: .3;
+} 
+
+.admin-figure-img{
+  width:100px;
+} 
+
+/* End */
+>>>>>>> ca3548b8d131cb12fea183a13bea35a5898a0725
