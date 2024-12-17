@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
 
     // create a new tracker
     let create_tracker_button = document.getElementById("create-tracker-button");
+    document.getElementById("tracker-error").innerHTML  = ``;
     if (create_tracker_button) {
         create_tracker_button.addEventListener("click", async (event) => {
             let selector = document.getElementById("tracker-selector");
@@ -16,10 +17,11 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
                     method: "POST"
                 });
                 if (!response.ok) {
-                    error_box.innerHTML = `HTTP error! status: ${response.status}`;
+                    let error = await response.json();
+                    document.getElementById("tracker-error").innerHTML  = `${error.error}`;
+                    return;
                 }
             }
-            window.location.reload();
         });
     }
 
@@ -39,6 +41,7 @@ async function submitTrackerValues() {
     let tracker_divs = document.getElementById("tracker-list").getElementsByTagName("div");
     if (tracker_divs.length === 0) {
         error_box.innerHTML = "No trackers to send!";
+        return;
     }
     if (tracker_divs.length !== trackers.length) {
         window.location.reload();

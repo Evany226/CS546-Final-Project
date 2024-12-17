@@ -58,7 +58,7 @@ router.post("/update", checkAuthenticated, async(req, res) => {
                 figure.owned = inc_figurelist.find(item => item._id === figure._id.toString()).owned;
             });
             await updateTracker(tracker._id.toString(), tracker);
-            console.log("here");
+            console.log(`Updating tracker for user ${user.username}`);
         });
     } catch (e) {
         return res.status(400).json({error: `${e}`});
