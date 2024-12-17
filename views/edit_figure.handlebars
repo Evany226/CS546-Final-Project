@@ -1,6 +1,13 @@
 <main>
     <h1>Edit Figure</h1>
 
+    <div class="error-div" hidden></div>
+    {{#if error}}
+      <div class="alert">
+        <p class="alert-text">{{error}}</p>
+      </div>
+    {{/if}}
+
     <form class = "admin-edit-figure-form" method="POST" action="/admin/edit-figure/">
         <label for="figureId">Figure Id:</label>
         <input type="text" name="figureId" id="figureId" readonly="True" value="{{id}}"/>

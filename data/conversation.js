@@ -52,7 +52,26 @@ const createConversation = async (currentUserId, otherUsername) => {
     throw new Error("Could not create conversation");
   }
 
-  return newConversation;
+  const conversationRes = await getConversationById(newConversation.insertedId);
+
+  conversationRes._id = conversationRes._id.toString();
+  conversationRes.otherUsername = otherUsername;
+
+  return conversationRes;
+};
+
+const getConversationById = async (conversationId) => {
+  const convCollection = await conversations();
+
+  const conversation = await convCollection.findOne({
+    _id: new ObjectId(conversationId),
+  });
+
+  if (!conversation) {
+    throw new Error("Could not find conversation");
+  }
+
+  return conversation;
 };
 
 const getAllConversations = async (currentUserId) => {
@@ -102,10 +121,7 @@ const getAllConversations = async (currentUserId) => {
 const getMessages = async (conversationId, currUserId) => {
   helper.parameterExists(conversationId, "conversationId");
 
-  console.log("Before: ", conversationId);
   conversationId = helper.checkId(conversationId);
-
-  console.log("After: ", conversationId);
 
   const convCollection = await conversations();
 

@@ -6,6 +6,7 @@ import collectionRoute from "./collectionRoute.js";
 import adminRoute from "./admin.js";
 import tradeReqRoute from "./trade-requests.js";
 import trackerRoute from "./tracker.js";
+import figuresRoute from "./figuresRoute.js";
 
 const constructorMethod = (app) => {
   app.use("/", authRoute);
@@ -18,6 +19,8 @@ const constructorMethod = (app) => {
   app.use("/conversations", convRoute);
 
   app.use("/admin", adminRoute);
+
+  app.use("/figures", figuresRoute);
 
   app.use("/trade-requests", tradeReqRoute);
   

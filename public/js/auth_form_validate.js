@@ -22,7 +22,7 @@ let state = document.getElementById("state");
 let errorArr = [];
 
 if (signUpForm) {
-  signUpForm.addEventListener("submit", (event) => {
+  signUpForm.addEventListener("submit", async (event) => {
     errorArr = [];
 
     let usernameVal = username.value;

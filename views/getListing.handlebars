@@ -36,7 +36,22 @@
         </li>
       {{/each}}
     </ul>
-  </section>
+</section>
+
+{{!-- 
+{{!-- Make sure to change the action to the correct route --}}
+  <section>
+    <form class="tradeRequestForm" method="POST" action="/trade-requests/create">
+      <label for="tradeRequest">Offering Figure</label>
+      <select name="offeredFigures">
+        {{#each offeringFigure}}
+          <option value="{{this._id}}">{{this.figureName}}</option>
+        {{/each}}
+      </select>
+      <input type="submit" value="Send Trade Request">
+
+    </form>
+  </section> --}}
 
   <section class="comment-section">
     <h4>Ratings and Comments:</h4>

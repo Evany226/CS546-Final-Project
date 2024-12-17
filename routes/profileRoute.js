@@ -132,10 +132,16 @@ router
       return res.status(400).render("edit_profile", {
         error: error,
         userData: body,
-        partial: "profile_script"
+        partial: "profile_script",
       });
     }
   });
+
+
+router.get("/tracker", checkAuthenticated, async (req, res) => {
+  let collections = await getAllCollections();
+  res.render("tracker", { collections: collections });
+});
 
 router.get("/:username", checkAuthenticated, async (req, res) => {
   const user = req.session.user;

@@ -153,9 +153,9 @@ router
     }
   });
 
-router.get("/sign-out", (req, res) => {
-    req.session.destroy();
-    res.redirect("/");
+router.route("/sign-out").get(async (req, res) => {
+  res.session.destroy();
+  res.render("signout");
 });
 
 export default router;
