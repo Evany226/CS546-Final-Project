@@ -11,7 +11,7 @@ import figuresRoute from "./figuresRoute.js";
 const constructorMethod = (app) => {
   app.use("/", authRoute);
   app.use("/", collectionRoute);
-  app.use("/", listingsRoute);
+  app.use("/listings", listingsRoute);
 
 
   app.use("/profile", profileRoute);
