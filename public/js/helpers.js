@@ -144,3 +144,22 @@ export function checkIfValidState(state) {
 
   return state;
 }
+
+export function checkCondition(condition) {
+  condition = checkString(condition, "Condition");
+  condition = condition.toLowerCase();
+
+  if (
+    condition !== "new" &&
+    condition !== "used" &&
+    condition !== "minimal wear" &&
+    condition !== "well worn"
+  ) {
+    console.log(condition);
+    throw new Error(
+      "Condition must either be New, Minimal Wear, Used, or Well Worn"
+    );
+  }
+
+  return condition;
+}

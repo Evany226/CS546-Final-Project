@@ -19,6 +19,7 @@ import { getCollectionById } from "../data/collections.js";
 import { getFigureById } from "../data/figures.js";
 import { getUserById } from "../data/users.js";
 import { getAllCollections } from "../data/collections.js";
+import { tradeRequests } from "../config/mongoCollections.js";
 
 router
   .route("/")
@@ -40,63 +41,70 @@ router
     }
   })
   .post(async (req, res) => {
-    let userId = req.session.user._id;
+    let userId = "676067dbd55ebb0482a0a55d";
     const listingData = req.body;
 
     if (!listingData || Object.keys(listingData).length === 0) {
       return res.status(400).render("listings", { error: "No request body" });
     }
 
+    console.log(listingData);
+
     let {
+      listingName,
       collectionId,
       listingFigureId,
       offeringFigureId,
       description,
       condition,
-      commentIds,
-      tradeRequestsIds,
-      status,
     } = listingData;
+
+    const offeringFigureIdList = [offeringFigureId];
 
     try {
       userId = checkId(userId);
       collectionId = checkId(collectionId);
       listingFigureId = checkId(listingFigureId);
 
-      offeringFigureId.forEach((figure) => {
+      offeringFigureIdList.forEach((figure) => {
         figure = checkId(figure);
       });
 
       description = checkString(description, "description");
 
+      condition = condition.toLowerCase();
       condition = checkCondition(condition);
-
-      commentIds.forEach((comment) => {
-        comment = checkId(comment);
-      });
-
-      tradeRequestsIds.forEach((tradeRequests) => {
-        tradeRequests = checkId(tradeRequests);
-      });
-
-      status = checkListingStatus(status);
     } catch (e) {
+      console.log(e);
       return res.status(400).render("listings", { error: e.message });
     }
 
     try {
+      console.log(userId);
+      console.log(collectionId);
+      console.log(listingFigureId);
+      console.log(offeringFigureIdList);
+      console.log(description);
+      console.log(condition);
+
       const newListing = await createListing(
+        listingName,
         userId,
         collectionId,
         listingFigureId,
-        offeringFigureId,
+        offeringFigureIdList,
         description,
         condition,
-        commentIds,
-        tradeRequestsIds,
-        status
+        [],
+        [],
+        "Open"
       );
+
+      console.log(newListing);
+
+      res.json(newListing);
     } catch (e) {
+      console.log(e);
       return res
         .status(500)
         .render("listings", { error: "Internal Server Error" });

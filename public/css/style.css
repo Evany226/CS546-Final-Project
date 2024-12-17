@@ -647,7 +647,7 @@
   margin-left: 1rem;
 }
 
-.listing-wrapper {
+#listing-wrapper {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -655,7 +655,14 @@
   margin-top: 1rem;
 }
 
+.form-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
 .listing-item {
+  margin: 1rem;
   width: 300px;
   list-style-type: none;
   padding: 0.25rem 1rem;
