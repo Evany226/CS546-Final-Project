@@ -4,7 +4,7 @@ import profileRoute from "./profileRoute.js";
 import convRoute from "./convRoute.js";
 import collectionRoute from "./collectionRoute.js";
 import adminRoute from "./admin.js";
-import tradeReqRoute from "./trade-requests.js";
+import tradeRoute from "./tradeRoute.js";
 import figuresRoute from "./figuresRoute.js";
 
 const constructorMethod = (app) => {
@@ -21,7 +21,7 @@ const constructorMethod = (app) => {
 
   app.use("/figures", figuresRoute);
 
-  app.use("/trade-requests", tradeReqRoute);
+  app.use("/trade-requests", tradeRoute);
 
   app.use("*", (req, res) => {
     return res.sendStatus(404);

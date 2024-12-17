@@ -11,6 +11,7 @@ import { tradeRequests, listings } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 import { getListingById } from "./listings.js";
 import { getUserById } from "./users.js";
+import { getFigureById } from "./figures.js";
 
 const createTradeRequest = async (
   listingId,
@@ -18,8 +19,7 @@ const createTradeRequest = async (
   offeringFigureId,
   toUserId,
   fromUserId,
-  transactionStatus,
-  completionStatus
+  transactionStatus
 ) => {
   listingId = checkId(listingId);
   listingFigureId = checkId(listingFigureId);
@@ -28,8 +28,6 @@ const createTradeRequest = async (
   fromUserId = checkId(fromUserId);
 
   transactionStatus = checkTransactionStatus(transactionStatus);
-  if (typeof completionStatus !== "boolean")
-    throw new Error("completionStatus must be type boolean");
   const date = new Date();
 
   let newTradeRequest = {
@@ -39,7 +37,6 @@ const createTradeRequest = async (
     toUserId,
     fromUserId,
     transactionStatus,
-    completionStatus,
     date,
   };
 
@@ -101,21 +98,73 @@ const getTradeRequestsByUser = async (userId) => {
   let userById = checkId(userId);
   userById = await getUserById(userId);
 
-  let tradeRequestByUser = userById.tradeRequestIds;
+  const tradeReqCollection = await tradeRequests();
 
-  if (tradeRequestByUser.length === 0)
-    throw new Error("User has no trade requests");
+  const tradeRequestsByUser = await tradeReqCollection
+    .find({
+      fromUserId: userById._id,
+    })
+    .toArray();
 
-  tradeRequestByUser.forEach(async (tradeRequest) => {
-    tradeRequest = await getTradeRequestById(tradeRequest);
-  });
-
-  if (!tradeRequestByUser)
+  if (!tradeRequestsByUser)
     throw new Error(
       `Could not get all trade requests from user ${userById.username}`
     );
 
-  return tradeRequestByUser;
+  const promise = tradeRequestsByUser.map(async (tradeRequest) => {
+    const offerFigure = await getFigureById(tradeRequest.offeringFigureId);
+
+    tradeRequest.offerFigureImg = offerFigure.figureImageUrl;
+
+    const listingFigure = await getFigureById(tradeRequest.listingFigureId);
+
+    tradeRequest.listingFigureImg = listingFigure.figureImageUrl;
+
+    return tradeRequest;
+  });
+
+  const res = await Promise.all(promise);
+
+  return res;
+};
+
+const getTradeRequestsToUser = async (userId) => {
+  let userById = checkId(userId);
+  userById = await getUserById(userId);
+
+  const tradeReqCollection = await tradeRequests();
+
+  const tradeRequestsToUser = await tradeReqCollection
+    .find({
+      toUserId: userById._id,
+      transactionStatus: "Pending",
+    })
+    .toArray();
+
+  if (!tradeRequestsToUser)
+    throw new Error(
+      `Could not get all trade requests to user ${userById.username}`
+    );
+
+  const promise = tradeRequestsToUser.map(async (tradeRequest) => {
+    const offerFigure = await getFigureById(tradeRequest.offeringFigureId);
+
+    tradeRequest.offerFigure = offerFigure;
+
+    const listingFigure = await getFigureById(tradeRequest.listingFigureId);
+
+    tradeRequest.listingFigure = listingFigure;
+
+    const fromUser = await getUserById(tradeRequest.fromUserId);
+
+    tradeRequest.fromUsername = fromUser.username;
+
+    return tradeRequest;
+  });
+
+  const res = await Promise.all(promise);
+
+  return res;
 };
 
 const updateTradeRequest = async (tradeRequestId, updateObject) => {
@@ -155,13 +204,6 @@ const updateTradeRequest = async (tradeRequestId, updateObject) => {
     );
 
     updatedTradeRequest.transactionStatus = updateObject.transactionStatus;
-  }
-
-  if (updateObjectKeys.includes("completionStatus")) {
-    if (typeof completionStatus !== "boolean")
-      throw new Error("completionStatus must be type boolean");
-
-    updatedTradeRequest.completionStatus = updateObject.completionStatus;
   }
 
   if (updateObjectKeys.includes("date")) {
@@ -208,4 +250,5 @@ export {
   getTradeRequestById,
   updateTradeRequest,
   removeTradeRequest,
+  getTradeRequestsToUser,
 };

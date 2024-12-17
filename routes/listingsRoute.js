@@ -41,7 +41,7 @@ router
     }
   })
   .post(async (req, res) => {
-    let userId = "676067dbd55ebb0482a0a55d";
+    let userId = req.session.user._id;
     const listingData = req.body;
     const user = req.session.user;
     if (!listingData || Object.keys(listingData).length === 0) {
