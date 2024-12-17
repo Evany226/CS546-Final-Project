@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as helper from "../helpers.js";
-import { signUpUser, signInUser, signOutUser } from "../data/auth.js";
+import { signUpUser, signInUser } from "../data/auth.js";
 
 const router = Router();
 

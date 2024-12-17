@@ -8,7 +8,7 @@ import {
   checkDescription,
   checkObject,
 } from "../helpers.js";
-import { users } from "../config/mongoCollections.js";
+import { users, collections } from "../config/mongoCollections.js";
 import { getCollectionById } from "./collections.js";
 
 /**
