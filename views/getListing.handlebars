@@ -1,4 +1,11 @@
 <article class="listing-page">
+  {{!-- {{#if checkUser}}
+    <p>hahah</p>
+    <form action="/getListing/{{listingId}}" method="DELETE">
+      <label for="listing-delete">DELETE</label>
+      <button type="submit">DELETE</button>
+    </form>
+  {{/if}} --}}
   <div class="listing-section">
     <div class="image-wrapper">
       <img
@@ -36,22 +43,24 @@
         </li>
       {{/each}}
     </ul>
-</section>
+  </section>
 
-{{!-- 
-//Make sure to change the action to the correct route
   <section>
-    <form class="tradeRequestForm" method="POST" action="/trade-requests/create">
+    <form
+      class="tradeRequestForm"
+      method="POST"
+      action="/getListing/{{listingId}}"
+    >
       <label for="tradeRequest">Offering Figure</label>
       <select name="offeredFigures">
         {{#each offeringFigure}}
           <option value="{{this._id}}">{{this.figureName}}</option>
         {{/each}}
       </select>
-      <input type="submit" value="Send Trade Request">
+      <input type="submit" value="Send Trade Request" />
 
     </form>
-  </section> --}}
+  </section>
 
   <section class="comment-section">
     <h4>Ratings and Comments:</h4>
