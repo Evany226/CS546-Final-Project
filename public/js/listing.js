@@ -125,7 +125,7 @@ if (createListingForm) {
     }
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/listings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -153,9 +153,9 @@ if (createListingForm) {
       const listingWrapper = document.getElementById("listing-wrapper");
       listingWrapper.innerHTML += `<li class="listing-item">
               <div class="listing-img-wrapper">
-                <img src="${data.listingFigureImageUrl}" alt="listing image" class="listing-img">
+                <img src="${data.listingFigureImageUrl}" alt="listing image" class="main-listing-img">
               </div>
-              <a href="/getListing/${data._id}" class="listing-link">${data.listingName}</a>
+              <a href="/listings/getListing/${data._id}" class="listing-link">${data.listingName}</a>
             <li>`;
     } catch (error) {
       console.log(error.message);
