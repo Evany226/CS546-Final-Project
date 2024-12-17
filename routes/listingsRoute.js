@@ -15,44 +15,37 @@ import {
   updateListing,
   removeListing,
 } from "../data/listings.js";
-import { getCollectionById } from "../data/collections.js";
+import { getCollectionById, getAllCollections } from "../data/collections.js";
 import { getFigureById } from "../data/figures.js";
 import { getUserById } from "../data/users.js";
-import { getAllCollections } from "../data/collections.js";
-import { tradeRequests } from "../config/mongoCollections.js";
+import { createTradeRequest } from "../data/tradeRequests.js";
+import { checkAuthenticated } from "../middleware.js";
 
 router
   .route("/")
   .get(async (req, res) => {
     try {
-      const user = req.session.user;
       const listingList = await getAllListings();
 
       const collections = await getAllCollections();
-
-      console.log(collections);
-
-      const isSignedIn = user ? true : false;
 
       res.render("listings", {
         title: "Listings",
         listing: listingList,
         collections: collections,
-        isSignedIn: isSignedIn,
       });
     } catch (e) {
       return res.status(400).render("listings", { error: e.message });
     }
   })
-  .post(async (req, res) => {
-    let userId = req.session.user._id;
+  .post(checkAuthenticated, async (req, res) => {
     const listingData = req.body;
     const user = req.session.user;
+    const userId = user._id;
+    const collections = await getAllCollections();
     if (!listingData || Object.keys(listingData).length === 0) {
       return res.status(400).render("listings", { error: "No request body" });
     }
-
-    console.log(listingData);
 
     let {
       listingName,
@@ -66,7 +59,6 @@ router
     const offeringFigureIdList = [offeringFigureId];
 
     try {
-      userId = user._id;
       collectionId = checkId(collectionId);
       listingFigureId = checkId(listingFigureId);
 
@@ -79,18 +71,10 @@ router
       condition = condition.toLowerCase();
       condition = checkCondition(condition);
     } catch (e) {
-      console.log(e);
       return res.status(400).render("listings", { error: e.message });
     }
 
     try {
-      console.log(userId);
-      console.log(collectionId);
-      console.log(listingFigureId);
-      console.log(offeringFigureIdList);
-      console.log(description);
-      console.log(condition);
-
       const newListing = await createListing(
         listingName,
         userId,
@@ -103,12 +87,7 @@ router
         [],
         "Open"
       );
-
-      console.log(newListing);
-
-      res.json(newListing);
     } catch (e) {
-      console.log(e);
       return res
         .status(500)
         .render("listings", { error: "Internal Server Error" });
@@ -119,17 +98,31 @@ router
   .route("/getListing/:listingId")
   .get(async (req, res) => {
     let { listingId } = req.params;
-
+    let currentUser = req.session.user;
+    if (currentUser) {
+      currentUser = currentUser._id;
+    }
     try {
       listingId = checkId(listingId);
     } catch (e) {
-      return res.status(400).render(`getListing`, { error: e.message });
+      return res
+        .status(400)
+        .redirect(`/getListing/${listingId}`, { error: e.message });
     }
 
     try {
       const listing = await getListingById(listingId);
 
       const user = await getUserById(listing.userId);
+
+      let userCheck;
+      if (!currentUser) {
+        userCheck = false;
+      } else if (listing.userId === currentUser) {
+        userCheck = true;
+      } else {
+        userCheck = false;
+      }
 
       const collection = await getCollectionById(listing.collectionId);
       const listingFigure = await getFigureById(listing.listingFigureId);
@@ -163,42 +156,47 @@ router
         comment: commentIdsList,
         tradeRequestsIds: listing.tradeRequestsIds,
         status: listing.status,
+        userCheck: userCheck,
       });
     } catch (e) {
-      return res.status(500).render(`getListing`, { error: e.message });
+      return res
+        .status(500)
+        .redirect(`/getListing/${listingId}`, { error: e.message });
     }
   })
-  .post(async (req, res) => {
-    const tradeRequestData = req.body;
+  .post(checkAuthenticated, async (req, res) => {
+    let { listingId } = req.params;
+    try {
+      listingId = checkId(listingId);
+    } catch (e) {
+      return res
+        .status(400)
+        .redirect(`/getListing/${listingId}`, { error: e.message });
+    }
+    console.log("working");
 
+    const tradeRequestData = req.body;
     if (!tradeRequestData || Object.keys(tradeRequestData).length === 0) {
       return res
         .status(400)
-        .render("tradeRequests", { error: "No request body" });
+        .redirect(`/getListing/${listingId}`, { error: e.message });
     }
 
-    let {
-      listingId,
-      listingFigureId,
-      offeringFigureId,
-      toUserId,
-      fromUserId,
-      transactionStatus,
-      completionStatus,
-    } = tradeRequestData;
-
+    let { offeringFigureId } = tradeRequestData;
+    const toUserId = await getUserById(listing.userId);
+    const fromUserId = req.session.user;
+    const listing = await getListingById(listingId);
+    const listingFigureId = listing.listingFigureId;
+    const transactionStatus = "pending";
+    const completionStatus = "false";
+    const date = new Date();
+    console.log("working2");
     try {
-      listingId = checkId(listingFigureId);
-      listingFigureId = checkId(listingFigureId);
       offeringFigureId = checkId(offeringFigureId);
-      toUserId = checkId(toUserId);
-      fromUserId = checkId(fromUserId);
-      transactionStatus = checkTransactionStatus(transactionStatus);
-      if (typeof completionStatus !== "boolean")
-        throw new Error("completionStatus must be type boolean");
-      date = checkDate(date);
     } catch (e) {
-      return res.status(400).render("tradeRequests", { error: e.message });
+      return res
+        .status(400)
+        .redirect(`/getListing/${listingId}`, { error: e.message });
     }
 
     try {
@@ -213,13 +211,12 @@ router
         date
       );
     } catch (e) {
-      return res
-        .status(500)
-        .render("tradeRequests", { error: "Internal Server Error" });
+      return res.status(500).redirect(`/getListing/${listingId}`, {
+        error: "Internal Server Error",
+      });
     }
   })
-  .put(async (req, res) => {
-    const user = req.session.user;
+  .put(checkAuthenticated, async (req, res) => {
     let { listingId } = req.params;
     try {
       listingId = checkId(listingId);
@@ -244,10 +241,6 @@ router
           updatedData.listingName,
           "listingName"
         );
-      }
-
-      if (updatedDataKeys.includes("userId")) {
-        updatedData.userId = checkId(updatedData.userId);
       }
 
       if (updatedDataKeys.includes("collectionId")) {
