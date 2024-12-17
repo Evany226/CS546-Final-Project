@@ -38,8 +38,11 @@ if (createConvForm) {
       errorDiv.innerHTML = "";
 
       const convList = document.getElementById("conv-panel-list");
+      const element = document.querySelector(`.conv-panel-list-item`);
+      const convId = element.getAttribute("data-id");
+
       convList.innerHTML += `<li class="conv-panel-list-item">
-            <a class="conv-panel-link" href="/conversations/{{">
+            <a class="conv-panel-link" href="/conversations/${convId}">
               <div class="conv-pfp">
               <img
                 class="conv-pfp-img"

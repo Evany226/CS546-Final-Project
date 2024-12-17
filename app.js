@@ -36,7 +36,7 @@ const handlebarsInstance = exphbs.create({
 app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
-app.use("/sign-in", (req, res, next)=> {
+app.use("/sign-in", (req, res, next) => {
   // signed in user should NEVER see sign in page
   if (req.session.user) {
     return res.redirect("/");
@@ -52,11 +52,13 @@ async function startServer() {
   if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
     console.log("First time? We need to seed the database...");
     await seedDB();
-    console.log("Next to create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
+    console.log(
+      "Next to create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD"
+    );
     let credentials = await getCredentials();
     await signUpAdmin(credentials.username, credentials.password);
     console.log("Admin created.");
-  }else {
+  } else {
     try {
       let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);
       console.log(
@@ -67,8 +69,11 @@ async function startServer() {
         "Admin user missing but configuration found. Creating user now..."
       );
       try {
-        await signUpAdmin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
-  
+        await signUpAdmin(
+          process.env.ADMIN_USERNAME,
+          process.env.ADMIN_PASSWORD
+        );
+
         console.log("Admin created.");
       } catch (e) {
         console.log(`Admin creation error: \n${e}`);
