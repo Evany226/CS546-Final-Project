@@ -473,6 +473,21 @@
   border-radius: 0.25rem;
   cursor: pointer;
   margin-left: 1rem;
+  text-decoration:none;
+}
+
+.sign-out-btn {
+  margin-top:10px;
+  text-decoration:none;
+  background-color: lightcoral;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  height: 30px;
+  line-height: 30px;
+  width: 20%;
+  text-align:center;
 }
 
 .follow-btn,
@@ -1037,6 +1052,11 @@
 
 .admin-figure-img {
   width: 100px;
+}
+
+#sign-in {
+  position:absolute;
+  right: 3;
 }
 
 /* End */

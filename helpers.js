@@ -1,4 +1,6 @@
 import { ObjectId } from "mongodb";
+import { writeFile } from 'fs/promises';
+import { createInterface } from "readline/promises";
 
 export function checkString(str, varName) {
   if (str == undefined) {
@@ -246,4 +248,50 @@ export function checkIfValidState(state) {
   }
 
   return state;
+}
+
+
+export async function promptUser(question) {
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const answer = await rl.question(question);
+  rl.close();
+  return answer;
+}
+
+export async function writeEnvFile(username, password) {
+  const envContent = `ADMIN_USERNAME=${username}\nADMIN_PASSWORD=${password}\n`;
+
+  try {
+    // Write the .env file with the username and password
+    await writeFile('.env', envContent, 'utf8');
+    console.log('.env file has been written successfully!');
+  } catch (err) {
+    console.error('Error writing to .env file:', err);
+  }
+}
+
+export async function getCredentials() {
+  let success = false;
+
+  // Keep prompting until writing the .env file is successful
+  while (!success) {
+    // Prompt the user for the username and password
+    let username = await promptUser('Enter admin username: ');
+    let password = await promptUser('Enter admin password: ');
+    try {
+      console.log(password);
+      password = checkPassword(password);
+    } catch(e) {
+      console.log("Password must be at least 8 chars long, one uppercase, and one special character.");
+      continue;
+    }
+
+    // Attempt to write the credentials to the .env file
+    await writeEnvFile(username, password);
+    break;
+  }
 }

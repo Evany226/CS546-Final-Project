@@ -7,6 +7,7 @@ import "dotenv/config";
 import { getUserByUsername } from "./data/users.js";
 import { signUpAdmin } from "./data/auth.js";
 import { seedDB } from "./config/seed.js";
+import { promptUser, getCredentials } from "./helpers.js";
 
 const staticDir = express.static("public");
 
@@ -35,37 +36,43 @@ const handlebarsInstance = exphbs.create({
 app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
+app.use("/sign-in", (req, res, next)=> {
+  // signed in user should NEVER see sign in page
+  if (req.session.user) {
+    return res.redirect("/");
+  }
+  next();
+});
 configRoutes(app);
 
 async function startServer() {
-  //seed database
-  // await seedDB();
   // create admin account if it doesn't exist in the database
   // taken from .env (for now)
 
-  //seed database
-  // await seedDB();
-
   if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
-    console.log("create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
-    return;
-  }
-  try {
-    let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);
-    console.log(
-      `Admin user ${process.env.ADMIN_USERNAME} found. Initializing server...`
-    );
-  } catch (e) {
-    console.log(
-      "Admin user missing but configuration found. Creating user now..."
-    );
+    console.log("First time? We need to seed the database...");
+    await seedDB();
+    console.log("Next to create a .env with the ADMIN_USERNAME and ADMIN_PASSWORD");
+    await getCredentials();
+    
+  }else {
     try {
-      await signUpAdmin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
-
-      console.log("Admin created.");
+      let superadmin = await getUserByUsername(process.env.ADMIN_USERNAME);
+      console.log(
+        `Admin user ${process.env.ADMIN_USERNAME} found. Initializing server...`
+      );
     } catch (e) {
-      console.log(`Admin creation error: \n${e}`);
-      return;
+      console.log(
+        "Admin user missing but configuration found. Creating user now..."
+      );
+      try {
+        await signUpAdmin(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
+  
+        console.log("Admin created.");
+      } catch (e) {
+        console.log(`Admin creation error: \n${e}`);
+        return;
+      }
     }
   }
 

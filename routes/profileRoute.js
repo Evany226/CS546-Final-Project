@@ -155,7 +155,14 @@ router.get("/:username", checkAuthenticated, async (req, res) => {
     return res.redirect("/profile");
   }
 
-  const userData = await getUserByUsername(username);
+  let userData
+  try {
+    userData = await getUserByUsername(username);
+  }catch(e) {
+    // something went wrong getting to username? just gonna route to /
+    return res.end();
+  }
+  
 
   const placeholder = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
