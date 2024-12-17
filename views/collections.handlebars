@@ -2,20 +2,27 @@
     <h1>Welcome to BlindBox Trade!</h1>
 
 
-    <ul class="collection-wrapper">
-        {{#each collection}}
-            <li>
-                <h2 id="collection-name">{{this.collectionName}}</h2>
-                <img class="collection-img" src="{{this.collectionImageUrl}}">
-                
-                <div class="figure-display">
-                    {{#each this.figures}}
-                        <img class="figure-img" src="{{this.figureImageUrl}}">
-                    {{/each}}
+<div class="collection-wrapper">
+    {{#each collection}}
 
-                </div>
-                
-            </li>
+    <div class="collection-banner">
+        <h2 id="collection-name">{{this.collectionName}}</h2>
+        <br>
+        <img class="collection-img" src="{{this.collectionImageUrl}}">
+    </div>
+    <br>
+    <div class="figure-display">
+        {{#each this.figures}}
+            <img class="figure-img" src="{{this.figureImageUrl}}">
+        
         {{/each}}
-    </ul>
+    </div>
+    {{/each}}  
+
+</div>
+
+    
+    
+          
+
 </main>
