@@ -13,10 +13,10 @@
     </div>
     <div class="user-panel-body">
       <div class="create-conv-wrapper">
-        <form class="create-conv-form" method="POST" action="/conversations">
+        <form id="create-conv-form" >
           <input
-            class="create-conv-input"
-            name="username"
+            id="create-conv-input"
+            name="username" 
             type="text"
             placeholder="Search for a user"
           />
@@ -27,7 +27,7 @@
           <p class="alert-text">{{error}}</p>
         {{/if}}
       </div>
-      <ul class="conv-panel-list">
+      <ul id="conv-panel-list">
         {{#each conversations}}
           <li class="conv-panel-list-item">
             <a class="conv-panel-link" href="/conversations/{{this._id}}">
@@ -84,13 +84,13 @@
           {{/if}}
     </ul>
     <form
-      class="chat-form"
+      id="chat-form"
       method="POST"
       action="/conversations/{{this.currConvId}}"
     >
         <div class="chat-input-wrapper">
           <input
-            class="chat-input"
+            id="chat-input"
             type="text"
             placeholder="Message {{this.otherUsername}}"
             name="message"

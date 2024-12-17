@@ -66,7 +66,15 @@ const createListing = async (
   const insertInfo = await listingCollection.insertOne(newListing);
   if (!insertInfo.insertedId) throw new Error("Could not add listing");
 
-  return insertInfo;
+  const returnListing = await getListingById(insertInfo.insertedId.toString());
+
+  const figureImg = await getFigureById(
+    returnListing.listingFigureId.toString()
+  );
+
+  returnListing.listingFigureImageUrl = figureImg.figureImageUrl;
+
+  return returnListing;
 };
 
 const getAllListings = async () => {
@@ -74,7 +82,6 @@ const getAllListings = async () => {
   let listingList = await listingCollection.find({}).toArray();
 
   if (!listingList) throw new Error("Could not get all listings");
-  console.log(listingList);
 
   const promises = await listingList.map(async (listing) => {
     const figureImg = await getFigureById(listing.listingFigureId);

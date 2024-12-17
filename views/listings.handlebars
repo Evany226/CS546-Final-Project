@@ -1,7 +1,52 @@
 
 <main class="listing-container">
-  <h1 class="listing-head">Listing Page</h1>
-    <ul class="listing-wrapper">
+    <form id="create-listing-form">
+      <h1 class="form-title">Create a Listing</h1>
+        <div class="error-div" hidden></div>
+      <label for="listingName">Listing name:</label>
+      <input type="text" name="listingName" id="listingName" placeholder="Listing Name">
+      <h1 class="form-subtitle">Looking for figure:</h1>
+      <label for="looking-select">Select a Collection:</label>
+      <select name="looking-select" id="looking-select">
+        <option value="">Select a Collection</option>
+        {{#each collections}}
+          <option value="{{this._id}}">{{this.collectionName}}</option>
+        {{/each}}
+      </select>
+      <label for="looking-figure-select">Select a Figure:</label>
+      <select name="looking-figure-select" id="looking-figure-select">
+        <option value="">Select a Figure</option>
+      </select>
+
+      <h1 class="form-subtitle">Offering figures:</h1>
+      <label for="offering-select">Select a Collection:</label>
+      <select name="offering-select" id="offering-select">
+        <option value="">Select a Collection</option>
+        {{#each collections}}
+          <option value="{{this._id}}">{{this.collectionName}}</option>
+        {{/each}}
+      </select>
+
+      <label for="offering-figure-select">Select a Figure:</label>
+      <select name="offering-figure-select" id="offering-figure-select">
+        <option value="">Select a Figure</option>
+      </select>
+
+      <label for="create-description">Listing Description:</label>
+      <textarea name="create-description" id="create-description" placeholder="Listing Description"></textarea>
+
+      <label for="condition-select">Condition:</label>
+      <select name="condition-select" id="condition-select">
+        <option value="">Select a Condition</option>
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Minimal Wear">Minimal Wear</option>
+        <option value="Well Worn">Well Worn</option>
+      </select>
+      <button type="submit" id="create-listing-btn">Create Listing</button>
+    </form>
+    
+    <ul id="listing-wrapper">
       {{#each listing}}
             <li class="listing-item">
               <div class="listing-img-wrapper">
@@ -12,3 +57,5 @@
       {{/each}}
     </ul>
 </main>
+
+<script src="/public/js/listing.js" type="module"></script>
