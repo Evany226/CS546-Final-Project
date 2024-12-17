@@ -148,6 +148,8 @@ if (createListingForm) {
         throw new Error(data.error);
       }
 
+      errorDiv.innerHTML = "";
+
       const listingWrapper = document.getElementById("listing-wrapper");
       listingWrapper.innerHTML += `<li class="listing-item">
               <div class="listing-img-wrapper">

@@ -35,6 +35,8 @@ if (createConvForm) {
         throw new Error(data.error);
       }
 
+      errorDiv.innerHTML = "";
+
       const convList = document.getElementById("conv-panel-list");
       convList.innerHTML += `<li class="conv-panel-list-item">
             <a class="conv-panel-link" href="/conversations/{{">
