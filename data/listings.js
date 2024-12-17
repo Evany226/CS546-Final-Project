@@ -66,7 +66,15 @@ const createListing = async (
   const insertInfo = await listingCollection.insertOne(newListing);
   if (!insertInfo.insertedId) throw new Error("Could not add listing");
 
-  return insertInfo;
+  const returnListing = await getListingById(insertInfo.insertedId.toString());
+
+  const figureImg = await getFigureById(
+    returnListing.listingFigureId.toString()
+  );
+
+  returnListing.listingFigureImageUrl = figureImg.figureImageUrl;
+
+  return returnListing;
 };
 
 const getAllListings = async () => {

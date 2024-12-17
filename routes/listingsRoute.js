@@ -18,6 +18,8 @@ import {
 import { getCollectionById } from "../data/collections.js";
 import { getFigureById } from "../data/figures.js";
 import { getUserById } from "../data/users.js";
+import { getAllCollections } from "../data/collections.js";
+import { tradeRequests } from "../config/mongoCollections.js";
 
 router
   .route("/")
@@ -25,72 +27,84 @@ router
     try {
       const listingList = await getAllListings();
 
+      const collections = await getAllCollections();
+
+      console.log(collections);
+
       res.render("listings", {
         title: "Listings",
         listing: listingList,
+        collections: collections,
       });
     } catch (e) {
       return res.status(400).render("listings", { error: e.message });
     }
   })
   .post(async (req, res) => {
+    let userId = "676067dbd55ebb0482a0a55d";
     const listingData = req.body;
     const user = req.session.user;
     if (!listingData || Object.keys(listingData).length === 0) {
       return res.status(400).render("listings", { error: "No request body" });
     }
 
+    console.log(listingData);
+
     let {
-      userId,
+      listingName,
       collectionId,
       listingFigureId,
       offeringFigureId,
       description,
       condition,
-      commentIds,
-      tradeRequestsIds,
-      status,
     } = listingData;
+
+    const offeringFigureIdList = [offeringFigureId];
 
     try {
       userId = user._id;
       collectionId = checkId(collectionId);
       listingFigureId = checkId(listingFigureId);
 
-      offeringFigureId.forEach((figure) => {
+      offeringFigureIdList.forEach((figure) => {
         figure = checkId(figure);
       });
 
       description = checkString(description, "description");
 
+      condition = condition.toLowerCase();
       condition = checkCondition(condition);
-
-      commentIds.forEach((comment) => {
-        comment = checkId(comment);
-      });
-
-      tradeRequestsIds.forEach((tradeRequests) => {
-        tradeRequests = checkId(tradeRequests);
-      });
-
-      status = checkListingStatus(status);
     } catch (e) {
+      console.log(e);
       return res.status(400).render("listings", { error: e.message });
     }
 
     try {
+      console.log(userId);
+      console.log(collectionId);
+      console.log(listingFigureId);
+      console.log(offeringFigureIdList);
+      console.log(description);
+      console.log(condition);
+
       const newListing = await createListing(
+        listingName,
         userId,
         collectionId,
         listingFigureId,
-        offeringFigureId,
+        offeringFigureIdList,
         description,
         condition,
-        commentIds,
-        tradeRequestsIds,
-        status
+        [],
+        [],
+        "Open"
       );
+
+      console.log(newListing);
+
+      res.json(newListing);
     } catch (e) {
+      console.log(e);
       return res
         .status(500)
         .render("listings", { error: "Internal Server Error" });
@@ -110,7 +124,9 @@ router
 
     try {
       const listing = await getListingById(listingId);
+
       const user = await getUserById(listing.userId);
+
       const collection = await getCollectionById(listing.collectionId);
       const listingFigure = await getFigureById(listing.listingFigureId);
 
