@@ -645,6 +645,7 @@
   width: 100%;
   font-size: 1.5rem;
   margin-left: 1rem;
+  text-align: center;
 }
 
 .listing-wrapper {
@@ -666,6 +667,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 .listing-img-wrapper {
@@ -823,25 +825,63 @@
 /* trade request page */
 
 .tradeRequest-container {
-  padding: 1rem;
-}
-
-.tradeRequest-item {
   display: flex;
   flex-direction: column;
   padding: 1rem;
 }
 
+.tradeRequest-wrapper {
+  list-style-type: none;
+}
+
+.tradeRequest-link {
+  font-weight: 600;
+  color: black;
+  display: flex;
+  align-items: center;
+  margin-top: 0rem;
+  text-align: center;
+}
+
+.tradeRequest-item {
+  width: 50%;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  padding: 1rem;
+}
+
 .tradeRequest-image-wrapper {
   display: flex;
+  width: 80%;
 }
 
 .listing-img {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
+  padding: 1rem;
+}
+
+.trade-for {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .offering-img {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
+  padding: 1rem;
+}
+
+.tradeRequest-time {
+  margin-top: 0rem;
+  font-size: 0.8rem;
 }

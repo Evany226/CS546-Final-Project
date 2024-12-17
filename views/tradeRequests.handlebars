@@ -4,13 +4,21 @@
     <ul class="tradeRequest-wrapper">
       {{#each tradeRequest}}
             <li class="tradeRequest-item">
-                <a href="/tradeRequests/getTradeRequest/{{this._id}}" class="tradeRequest-link">Trade Request From {{this.username}}</a>
-                <div class="tradeRequest-image-wrapper"></div>
+                <a href="/profile/{{this.fromUser}}" class="tradeRequest-link">Trade Request From {{this.username}}</a>
+                <div class="tradeRequest-image-wrapper">
                   <img src="{{this.listingFigureImageUrl}}" alt="listing image" class="listing-img">
-                  <p>Trade For</p>
+                  <p class="trade-for">Trade For</p>
                   <img src="{{this.offeringFigureImageUrl}}" alt="offering image" class="offering-img">
                 </div>
-                <p class="tradeRequest-time">{{this.date}}</p>
+
+                <p class="tradeRequest-time"> on {{this.date}}</p>
+
+                <form method="DELETE" id="trade-form" action="/tradeRequests/{{this._id}}">
+                  <button type="submit" >DELETE</button>
+                  <button class="accept-trade">
+                    <p class="accept-trade-text">ACCEPT</p>
+                  </button>
+                </form>
             <li>
       {{/each}}
     </ul>

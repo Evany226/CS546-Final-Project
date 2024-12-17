@@ -134,6 +134,22 @@ const getListingsByCollection = async (collectionId) => {
   return listingsByCollection;
 };
 
+const getListingByTradeRequest = async (tradeRequestId) => {
+  tradeRequestId = checkId(tradeRequestId);
+  const listingCollection = await listings();
+
+  let listingByTradeRequest = listingCollection.findOne({
+    tradeRequestsIds: tradeRequestId,
+  });
+
+  if (!listingByTradeRequest)
+    throw new Error(
+      `Could not get all listing from collection with id of ${tradeRequestId}`
+    );
+
+  return listingByTradeRequest;
+};
+
 const updateListing = async (listingId, updateObject) => {
   listingId = checkId(listingId);
   updateObject = checkObject(updateObject, "updateObject");
@@ -247,4 +263,5 @@ export {
   removeListing,
   getListingsByUser,
   getListingsByCollection,
+  getListingByTradeRequest,
 };

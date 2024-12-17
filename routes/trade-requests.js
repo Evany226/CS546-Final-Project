@@ -4,111 +4,61 @@ import {
   createTradeRequest,
   getTradeRequestById,
   getTradeRequestsByUser,
+  removeTradeRequest,
   updateTradeRequest,
 } from "../data/tradeRequests.js";
 import { getUserById } from "../data/users.js";
 import { getFigureById } from "../data/figures.js";
 import { checkAuthenticated } from "../middleware.js";
 import { tradeRequests } from "../config/mongoCollections.js";
+import { getListingByTradeRequest } from "../data/listings.js";
 
 const router = Router();
 
-router
-  .route("/")
-  .get(async (req, res) => {
-    try {
-      const user = req.session.user;
-      const tradeRequestIdList = await getTradeRequestsByUser(
-        /*user._id*/ "676085046167047f749f217e"
-      );
+router.route("/").get(async (req, res) => {
+  try {
+    const user = req.session.user;
+    const tradeRequestIdList = await getTradeRequestsByUser(
+      /*user._id*/ "676085046167047f749f217e"
+    );
 
-      const tradeRequestList = [];
+    const tradeRequestList = [];
 
-      tradeRequestIdList.forEach(async (tradeRequest) => {
-        try {
-          tradeRequest = await getTradeRequestById(tradeRequest);
+    tradeRequestIdList.forEach(async (tradeRequest) => {
+      try {
+        tradeRequest = await getTradeRequestById(tradeRequest);
 
-          const fromUser = await getUserById(
-            /*tradeRequest.fromUser*/ "676085046167047f749f217e"
-          );
-          tradeRequest.username = fromUser.username;
+        const fromUser = await getUserById(
+          /*tradeRequest.fromUser*/ "676085046167047f749f217e"
+        );
+        tradeRequest.username = fromUser.username;
 
-          const listingFigure = await getFigureById(
-            /*tradeRequest.listingFigureId*/ "6760851a6167047f749f218a"
-          );
+        const listingFigure = await getFigureById(
+          /*tradeRequest.listingFigureId*/ "6760851a6167047f749f218a"
+        );
 
-          const offeringFigure = await getFigureById(
-            /*tradeRequest.offeringFigureId*/ "6760851a6167047f749f218b"
-          );
+        const offeringFigure = await getFigureById(
+          /*tradeRequest.offeringFigureId*/ "6760851a6167047f749f218b"
+        );
 
-          tradeRequest.listingFigureImageUrl = listingFigure.figureImageUrl;
-          tradeRequest.offeringFigureImageUrl = offeringFigure.figureImageUrl;
+        tradeRequest.listingFigureImageUrl = listingFigure.figureImageUrl;
+        tradeRequest.offeringFigureImageUrl = offeringFigure.figureImageUrl;
 
-          tradeRequestList.push(tradeRequest);
-        } catch (error) {
-          return res.status(400).render("tradeRequests", { error: e.message });
-        }
-      });
+        tradeRequestList.push(tradeRequest);
+      } catch (error) {
+        return res.status(400).render("tradeRequests", { error: e.message });
+      }
+    });
 
-      return res.render("tradeRequests", {
-        title: "trade-requests",
-        tradeRequest: tradeRequestList,
-      });
-    } catch (e) {
-      console.log(e);
-      return res.status(400).render("tradeRequests", { error: e.message });
-    }
-  })
-  .post(async (req, res) => {
-    const tradeRequestData = req.body;
-
-    if (!tradeRequestData || Object.keys(tradeRequestData).length === 0) {
-      return res
-        .status(400)
-        .render("tradeRequests", { error: "No request body" });
-    }
-
-    let {
-      listingId,
-      listingFigureId,
-      offeringFigureId,
-      toUserId,
-      fromUserId,
-      transactionStatus,
-      completionStatus,
-    } = tradeRequestData;
-
-    try {
-      listingId = checkId(listingId);
-      listingFigureId = checkId(listingFigureId);
-      offeringFigureId = checkId(offeringFigureId);
-      toUserId = checkId(toUserId);
-      fromUserId = checkId(fromUserId);
-      transactionStatus = checkTransactionStatus(transactionStatus);
-      if (typeof completionStatus !== "boolean")
-        throw new Error("completionStatus must be type boolean");
-      date = checkDate(date);
-    } catch (e) {
-      return res.status(400).render("tradeRequests", { error: e.message });
-    }
-
-    try {
-      const newtradeRequest = await createTradeRequest(
-        listingId,
-        listingFigureId,
-        offeringFigureId,
-        toUserId,
-        fromUserId,
-        transactionStatus,
-        completionStatus,
-        date
-      );
-    } catch (e) {
-      return res
-        .status(500)
-        .render("tradeRequests", { error: "Internal Server Error" });
-    }
-  });
+    return res.render("tradeRequests", {
+      title: "trade-requests",
+      tradeRequest: tradeRequestList,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).render("tradeRequests", { error: e.message });
+  }
+});
 
 router
   .route("/:tradeRequestId")
@@ -227,22 +177,19 @@ router
   //   }
   // })
   .delete(async (req, res) => {
-    const { tradeRequestId } = req.params;
-    try {
-      tradeRequestId = checkId(tradeRequestId);
-    } catch (e) {
-      return res
-        .status(400)
-        .redirect(`/getTradeRequest/${tradeRequestId}`, { error: e.message });
-    }
+    return res.redirect("/profile");
+    // const { tradeRequestId } = req.params;
+    // try {
+    //   tradeRequestId = checkId(tradeRequestId);
+    // } catch (e) {
+    //   return res.status(400).render(`tradeRequests`, { error: e.message });
+    // }
 
-    try {
-      let deletedTradeRequest = await removeListing(tradeRequestId);
-      res.redirect("/tradeRequests");
-    } catch (e) {
-      return res
-        .status(400)
-        .redirect(`/getTradeRequest/${tradeRequestId}`, { error: e.message });
-    }
+    // try {
+    //   let deletedTradeRequest = await removeTradeRequest(tradeRequestId);
+    //   res.render("tradeRequests");
+    // } catch (e) {
+    //   return res.status(400).render(`tradeRequests`, { error: e.message });
+    // }
   });
 export default router;
