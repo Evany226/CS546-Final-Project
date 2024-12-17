@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { checkId } from "../helpers.js";
+import { checkString } from "../helpers.js";
 import { users } from "../config/mongoCollections.js";
-import { getUserById } from "../data/users.js";
+import { getUserById, getUserByUsername } from "../data/users.js";
 import { getAllCollections } from "../data/collections.js";
 import { getTrackersByUserId } from "../data/tracker.js";
 import { checkAuthenticated } from "../middleware.js";
@@ -71,7 +71,7 @@ const states = [
 router.get("/", checkAuthenticated, (req, res) => {
   const user = req.session.user;
 
-  return res.redirect(`/profile/${user._id}`);
+  return res.redirect(`/profile/${user.username}`);
 });
 
 // This route is for editing the user's profile
@@ -137,19 +137,19 @@ router
     }
   });
 
-router.get("/:id", checkAuthenticated, async (req, res) => {
+router.get("/:username", checkAuthenticated, async (req, res) => {
   const user = req.session.user;
-  let { id } = req.params;
+  let { username } = req.params;
 
-  const isProfileOwner = user._id === id;
+  const isProfileOwner = user.username === username;
 
   try {
-    id = checkId(id);
+    username = checkString(username);
   } catch(e) {
     return res.redirect("/profile");
   }
 
-  const userData = await getUserById(id);
+  const userData = await getUserByUsername(username);
 
   const placeholder = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
